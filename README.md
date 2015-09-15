@@ -1,0 +1,3 @@
+# bid4it
+School project.Web application like eBay.Java,jsf,hibernate.
+On production...
