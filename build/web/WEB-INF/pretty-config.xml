@@ -22,7 +22,6 @@
       <url-mapping >
           <pattern value="/searchSTR:#{searchSTR}_searchCAT:#{searchCAT}" />
           <view-id>/faces/index.xhtml</view-id> 
-      
       </url-mapping>
    
   
