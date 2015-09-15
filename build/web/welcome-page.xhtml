@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<script>
+window.onload = function() {
+  document.getElementById("wp-signup").focus();
+};
+window.onload = function() {
+  document.getElementById("remember_me").checked=true;
+};
+
+</script>
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Bid4It</title>
+<link rel="stylesheet" href="css/style.css" type="text/css"/>
+<style>
+   html { 
+    background: url(img/main-background.jpeg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+     -moz-background-size: cover;
+     -o-background-size: cover;
+     background-size: cover;
+   }
+ </style>
+</h:head>
+<h:body >
+<input type="hidden" a:id="refreshed" value="no"/>
+    
+<table width="1200"   height="607" align="center" style="max-width: 1200px; margin: 0px auto; margin-top: 5%;">              
+   <tr>
+     <td  height="483">
+     
+         <table width="100%">
+            <tr>
+               <td width="547" height="179">
+                   <h2>Welcome to Bid4It.</h2>
+                   <h3>Connect with your friends  and other fascinating people. Get in-the-moment updates on the things that interest you. And watch events unfold, in real time, from every angle.</h3>
+               </td>
+               <td align="center" width="633">
+                  <h:form id="login"  >
+                  <table width="47%" id="welcomepage-table">
+                      <tr>
+                        <td height="44" >
+                          <table width="290" >
+                              <tr>
+                                  <td align="center" height="27"><h:inputText  a:placeholder="Username"  a:id="wp-username" a:value="#{welcomepage.lg_username}"/></td>
+                              </tr>
+                          </table>
+                        </td>
+                      </tr>
+                
+                      <tr>
+                        <td>
+                          <table width="290" >
+                            <tr>
+                                <td width="174" height="34" align="right"><h:inputSecret a:placeholder="Password"  a:id ="wp-password"  a:value="#{welcomepage.lg_password}"/></td>
+                                <td align="left" width="104"><h:commandButton  a:id="lButton" value="Connect" action="#{welcomepage.login()}"/></td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                
+                      <tr>
+                        <td height="30">
+                          <table style="margin-top:-15px;" width="290" >
+                            <tr>
+                              <td  height="24">
+                                 <a>&#160;</a>
+                                 <input type="checkbox" name="remember_me" value="Remember_me" id="remember_me"/>
+                                 <label for="remember_me" id="rm">Remember me </label>
+                                 <span></span>
+                                 <a href ="forgot_password.php" id="forgot_password">Forget password?</a>
+                              </td>
+                            </tr>
+                          </table> 
+                        </td>
+                      </tr> 
+                   </table> 
+                   </h:form>
+               </td>
+            </tr>
+    
+            <tr>
+             <td height="213"></td>
+             <td align="center"> 
+               <table width="47%" height="174" id="welcomepage-table" style="margin-top:-70px;">
+                 <tr>
+                  <td height="54" > 
+                      <p  style="color:black; text-align: center;font-weight: bold; font-size: 14px; font-family:Lucida Sans Unicode, Lucida Grande, Verdana, Arial, Helvetica,sans-serif"> Not a user?
+                      <a style="font-style: italic;font-weight:normal;">Sign up now!</a></p>
+                  </td>
+                <h:form >
+                 <tr style="border-top:thin ">
+                     <td  align="center" ><h:inputText  a:placeholder="Username"   a:id="wp-signup-us" a:value="#{welcomepage.su_username}"/></td>
+                 </tr>
+                 <tr>
+                     <td  align="center" ><h:inputText  a:placeholder="Email"  a:id ="wp-signup-em"  a:value="#{welcomepage.su_email}"/></td>
+                 </tr>
+                 <tr>
+                     <td  align="center" ><h:inputSecret  a:placeholder="Password" a:id ="wp-signup-pass"  a:value="#{welcomepage.su_password}"/></td>
+                 </tr> 
+                 <tr>
+                    <td align="center" height="34" >
+                        <h:commandButton  a:id="sButton" value="Sign up" action="#{welcomepage.redirection_to_signup_form()}" />
+                    </td>
+                 </tr>
+                </h:form>
+                </tr>
+              </table>
+            </td>
+           </tr> 
+         </table>
+        </td>
+   </tr>
+   
+   <tr>
+     <td style="text-align: center;" height="112">
+        <h:form >
+         <h:commandButton a:id="gButton" value="Continue as Guest" action="index" />
+        </h:form >
+     </td>
+   </tr> 
+   
+</table>
+
+ <ui:include src="include/footer.xhtml"/>
+ <ui:include src="include/popups.xhtml"/>
+ 
+</h:body>
+</html>

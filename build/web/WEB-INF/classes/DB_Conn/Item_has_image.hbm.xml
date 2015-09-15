@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="bid4it" name="Beans.Item_has_imagebean" table="item_has_image">
+        <id column="iditem_has_image" name="iditem_has_image" type="java.lang.Integer">
+            <generator class="identity"/>
+        </id>
+        <property column="itemeid" name="itemeid" type="java.lang.Integer"/>
+        <property column="image" name="image" type="binary"/>
+    </class>
+</hibernate-mapping>

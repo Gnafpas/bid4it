@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Admin's Page</title>
+<link rel="stylesheet" href="css/style.css" type="text/css"/>
+</h:head>
+<f:event listener="#{admin.getAllActiveUsers()}" type="preRenderView" />
+<f:event listener="#{admin.getAllPendingUsers()}" type="preRenderView" />
+<h:body>
+    
+   <table align="center" style="text-align:center; color: #999;">
+      <tr>
+        <td height="37">
+          <h1>Pending Users</h1>
+        </td>
+     </tr>
+   </table>
+   <table border="1" width="75%"   height="332" align="center" style="max-width: 1000px; color: #999;">
+      <tr style="text-align:center; border: 1px solid;">
+         <td width="341" height="42"><p1> Users List</p1></td>
+        <td width="417" height="42"><p1> User Information</p1></td>
+     </tr>
+      <tr>
+        <td valign="top" width="341" height="282">
+          <div class="scrollable" >
+            <li style="list-style: none;">
+                <ui:repeat value="#{admin.allPendingUsers}" var="user">
+                    <h:form >
+                        <h:inputHidden value="#{user.username}"  binding="#{key}"  />
+                        <h:commandButton a:id="admin_user_list" value="#{user.username}" action="#{admin.getUser(key.value)}" />
+                    </h:form>
+                </ui:repeat>   
+            </li>
+            
+            
+          </div>
+         </td>
+         <td width="417" height="282">
+          <ul>
+                  <li>Username: <b><h:outputLabel a:value="#{admin.usr.username}"  /></b></li>
+                  <li>Password: <b><h:outputLabel a:value="#{admin.usr.password}"  /></b></li>
+                  <li>First Name: <b><h:outputLabel a:value="#{admin.usr.firstname}"  /></b></li>
+                  <li>Last Name: <b><h:outputLabel a:value="#{admin.usr.lastname}"  /></b></li>
+                  <li>Email: <b><h:outputLabel a:value="#{admin.usr.email}"  /></b></li>
+                  <li>Phone: <b><h:outputLabel a:value="#{admin.usr.phone}"  /></b></li>
+                  <li>Country,Region,Town,Post Code: <b><h:outputLabel a:value="#{admin.usr.address_info}"  /></b></li>
+                  <li>VAT Number: <b><h:outputLabel a:value="#{admin.usr.vatnumber}"  /></b></li>
+           </ul>
+          <table align="center">
+              <tr>
+                 <td width="404" height="20" style="text-align:center;">
+                    Email sent
+                </td>
+              </tr>
+              <tr>
+                 <td width="404" height="37" style="text-align:center;">
+                    <textarea name="email" aria-required="true" placeholder=" Email"   id="adminstext">Welcome to e-Auction!Your subscription completed.Thank you for join our comunity!</textarea>
+                </td>
+             </tr>
+             </table>
+             <table align="center">
+              <tr>
+                 <td width="200" height="23" style="text-align:right;" >
+                     <h:form ><h:commandButton value="Accept User" a:id="apButton" action="#{admin.acceptUser(admin.usr.username)}" /></h:form>
+                 </td>
+                 <td style="text-align:left;" width="204">
+                    <h:form ><h:commandButton value="Reject User" a:id="apButton" action="#{admin.deleteUser(admin.usr.username)}" /></h:form>
+                </td>
+              </tr>
+             </table>
+         </td>
+     </tr>
+   </table>
+   <table align="center" style="text-align:center; color: #999;">
+      <tr>
+        <td height="37">
+          <h1>All Users</h1>
+        </td>
+     </tr>
+   </table>
+    <table  border="1" width="75%"   height="332" align="center" style="max-width: 1000px; color: #999;">
+      <tr style="text-align:center;">
+         <td width="341" height="42"><p1> Users List</p1></td>
+        <td width="417" height="42"><p1> User Information</p1></td>
+     </tr>
+      <tr>
+         <td valign="top" width="341" height="282">
+           <div class="scrollable" >
+
+           <li style="list-style: none;">
+                <ui:repeat value="#{admin.allActiveUsers}" var="user">
+                    <h:form >
+                        <h:inputHidden value="#{user.username}"  binding="#{key}"  />
+                        <h:commandButton a:id="admin_user_list" value="#{user.username}" action="#{admin.getUser(key.value)}" />
+                    </h:form>
+                </ui:repeat>   
+            </li>  
+           </div>  
+         </td>
+         <td width="417" height="282">
+             <ul> 
+                 <li>Username: <b><h:outputLabel a:value="#{admin.usr2.username}"  /></b></li>
+                  <li>Password: <b><h:outputLabel a:value="#{admin.usr2.password}"  /></b></li>
+                  <li>First Name: <b><h:outputLabel a:value="#{admin.usr2.firstname}"  /></b></li>
+                  <li>Last Name: <b><h:outputLabel a:value="#{admin.usr2.lastname}"  /></b></li>
+                  <li>Email: <b><h:outputLabel a:value="#{admin.usr2.email}"  /></b></li>
+                  <li>Phone: <b><h:outputLabel a:value="#{admin.usr2.phone}"  /></b></li>
+                  <li>Country,Region,Town,Post Code: <b><h:outputLabel a:value="#{admin.usr2.address_info}"  /></b></li>
+                  <li>VAT Number: <b><h:outputLabel a:value="#{admin.usr2.vatnumber}"  /></b></li>
+             </ul> <h:form >
+              <table align="center">
+              <tr>
+                 <td width="404" height="20" style="text-align:center;">
+                    Email sent
+                </td>
+              </tr>
+                  
+              <tr>
+                 <td width="404" height="37" style="text-align:center;">
+                    <h:inputTextarea  a:value="#{admin.msg}" a:id="adminstext"   a:placeholder="Write a mail to send"  />
+                </td>
+             </tr>
+             </table >
+             <table align="center">
+              <tr>
+                 <td width="200" height="23" style="text-align:right;">
+                    <h:commandButton value="Delete User" a:id="apButton" action="#{admin.deleteUser(admin.usr2.username)}" />
+                 </td>
+                 <td style="text-align:left;" width="204">
+                    <h:commandButton value="Send email to User" a:id="apButton" action="#{admin.sendEmail(admin.usr2.email)}" />
+                </td>     
+              </tr>
+                
+             </table> </h:form>
+         </td>
+     </tr>
+   </table>
+<ui:include src="include/footer.xhtml"/> 
+<ui:include src="include/popups.xhtml"/>
+</h:body>
+</html>

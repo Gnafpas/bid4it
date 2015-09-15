@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class catalog="bid4it" name="Beans.Usersbean" table="users">
+    <id column="username" name="username" type="string"/>
+    <property column="password" name="password" type="string"/>
+    <property column="firstname" name="firstname" type="string"/>
+    <property column="lastname" name="lastname" type="string"/>
+    <property column="email" name="email" type="string"/>
+    <property column="phone" name="phone" type="string"/>
+    <property column="address_info" name="address_info" type="string"/>
+    <property column="postcode" name="postcode" type="string"/>
+    <property column="vatnumber" name="vatnumber" type="string"/>
+    <property column="pending_state" name="pending_state" type="boolean"/>
+    <property column="adm" name="adm" type="boolean"/>
+  </class>
+</hibernate-mapping>

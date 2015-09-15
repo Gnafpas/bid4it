@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class catalog="bid4it" name="Beans.Itemsbean" table="items">
+    <id column="itemId" name="itemId" type="java.lang.Integer">
+      <generator class="identity"/>
+    </id>
+    <property column="name" name="name" type="string"/>
+    <property column="seller" name="seller" type="string"/>
+    <property column="winner" name="winner" type="string"/>
+    <property column="currently" name="currently" type="java.lang.Integer"/>
+    <property column="first_bid" name="first_bid" type="java.lang.Integer"/>
+    <property column="number_of_bids" name="number_of_bids" type="java.lang.Integer"/>
+    <property column="country" name="country" type="string"/>
+    <property column="postcode" name="postcode" type="string"/>
+    <property column="latitude" name="latitude" type="string"/>
+    <property column="longtitude" name="longtitude" type="string"/>
+    <property name="started" type="java.util.Date">
+        <column name="started" sql-type="datetime" /> 
+    </property>
+    <property name="ends" type="java.util.Date">
+        <column name="ends" sql-type="datetime" /> 
+    </property>
+    <property column="description" name="description" type="string"/>
+    <property column="buy_price" name="buy_price" type="java.lang.Integer"/>
+  </class>
+</hibernate-mapping>

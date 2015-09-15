@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+ 
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+ <title>Main</title>
+ <link rel="stylesheet" href="css/style.css" type="text/css"/>
+ <style>
+   html { 
+    background-color:#F2F2F2
+   }
+ </style>
+	
+</h:head>
+    
+<f:metadata >
+    <f:viewParam name="searchSTR" value="#{index.searchSTR}"/>
+    <f:viewParam name="searchCAT" value="#{index.searchCAT}"/>
+</f:metadata>
+<f:event listener="#{index.searchItems()}" type="preRenderView" />
+<h:body>
+
+<ui:include src="include/header.xhtml"/>
+   <div style="width: 100%;min-width:1200px;position: absolute;text-align: center;">
+     <table id="index_ptable" align="center">
+      <tr>
+       <td >
+       </td>
+      </tr>
+      <tr>
+       <td>
+         
+         <table  align="center" id="index_table" cellspacing="0" cellpadding="0" >
+           <tr>
+             <td style="border-top: 1px solid  #ccc;" height="1px">
+             </td>
+             <td style="border-top: 1px solid  #ccc;" height="1px">
+             </td>
+           </tr>
+          <ui:repeat value="#{index.pageItems}" var="currentitem" >  
+           <tr>
+            <td width="235px" height="175px" style="border-bottom:  1px solid  #ccc;" align="left" >
+                <p:graphicImage class="autoResizeImage" value="search_images/#{currentitem.itemId}.jpg"/>
+            </td>
+            <td  style=" border-bottom:  1px solid  #ccc;">
+                <table height="155px" cellspacing="0" cellpadding="0" >
+                    <tr>
+                        <td align="left" height="40px" valign="top">
+                           <a id="clink_index" href="/e-auction-2015/items_itemid=#{currentitem.itemId}">#{currentitem.name}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table height="90%" cellspacing="0" cellpadding="0" >
+                               <tr>
+                                 <td align="left" width="250px" valign="top">
+                                    <ui:fragment rendered="#{currentitem.buy_price!=0}" >  
+                                     <h:outputLabel style="font-weight: bold; font-family:Tahoma, Geneva, sans-serif;font-size: 18px;" a:value="EUR #{currentitem.buy_price}"/> <br></br>
+                                     <a style="color:#999; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;">Buy it now</a><br></br><br></br>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{currentitem.currently!=0}" >  
+                                     <h:outputLabel style="font-weight: bold; font-family:Tahoma, Geneva, sans-serif;font-size: 18px;" a:value="EUR #{currentitem.currently}"/><br></br>
+                                     <h:outputLabel style="color:#999; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;" a:value="#{currentitem.number_of_bids} bids"/>
+                                    </ui:fragment> 
+                                 </td >
+                                 <td valign="top" align="left">
+                                     <h:outputLabel style="color:#999; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;" a:value="From #{currentitem.country}"/><br></br>
+                                 </td>
+                               </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>        
+           </tr>
+          </ui:repeat>
+           <tr>
+             <td style=" border-bottom: 1px solid  #999; " height="60px">
+             </td>
+             <td style=" border-bottom: 1px solid  #999;" height="60px">
+             </td>
+           </tr>
+         </table>
+         <table cellspacing="0" cellpadding="0" width="100%">
+             <tr>
+               <h:form >
+                 <td width="20px">
+                 </td>
+                 <td align="center">
+                   <table align="center">
+                       <tr>
+                            <td valign="center">
+                               <!--The paging buttons-->
+                               <ui:fragment rendered="#{index.firstRow != 0}"> 
+                                 <h:commandButton a:id="index_paging_arrow_btns" value="prev" action="#{index.pagePrevious}"  image="img/leftarrow.png"/>
+                               </ui:fragment>
+                               <ui:fragment rendered="#{index.firstRow == 0}"> 
+                                 <h:commandButton a:id="index_paging_arrow_btns" value="prev"  image="img/leftarrowdis.png"/>
+                               </ui:fragment>
+                            </td>
+                            <td>
+                               <!--The paging links-->
+                                <ui:repeat value="#{index.pages}" var="page">
+                                    <h:commandButton a:id="index_paging_num_btns" value="#{page}" actionListener="#{index.page}" rendered="#{page != index.currentPage}" />
+                                    <ui:fragment rendered="#{page == index.currentPage}">
+                                       <h:commandButton a:id="index_paging_num_btn_focus" value="#{page}"  />
+                                    </ui:fragment>
+                                </ui:repeat>
+                            </td>
+                            <td>
+                                <ui:fragment rendered="#{!(index.firstRow + index.rowsPerPage &gt;= index.totalRows)}"> 
+                                  <h:commandButton a:id="index_paging_arrow_btns" value="next" action="#{index.pageNext}"  image="img/rightarrow.png"/>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{index.firstRow + index.rowsPerPage &gt;= index.totalRows}"> 
+                                  <h:commandButton a:id="index_paging_arrow_btns" value="next"  image="img/rightarrowdis.png"/>
+                                </ui:fragment>
+                            </td> 
+                       </tr>
+                   </table>
+                 </td>
+                 <td width="160px" align="left">
+                     <h:outputLabel style="font-family:Tahoma, Geneva, sans-serif;font-size: 12px; color:#999 " value="Items per page:"/>
+                     <h:form>
+                         <h:selectOneMenu value="#{index.rowsPerPage}" valueChangeListener="#{index.pageFirst}" onchange="submit()">
+                                    <f:selectItem itemValue="1" itemLabel="1" />
+                                    <f:selectItem itemValue="2" itemLabel="2" />
+                                    <f:selectItem itemValue="4" itemLabel="4" />
+                                    <f:selectItem itemValue="20" itemLabel="20" />
+                                    <f:selectItem itemValue="30" itemLabel="30" />
+                                    <f:selectItem itemValue="40" itemLabel="40" />
+                        </h:selectOneMenu>
+                     </h:form>
+                 </td>
+               </h:form>
+             </tr>
+         </table>
+       </td>
+      </tr>
+     </table>
+    </div>
+<ui:include src="include/footer.xhtml"/> 
+<ui:include src="include/popups.xhtml"/>
+   
+</h:body>
+</html>

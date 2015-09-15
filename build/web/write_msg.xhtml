@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Messages</title>
+        <link rel="stylesheet" href="css/style.css" type="text/css"/>
+        <style>
+           html {background-color:#F2F2F2}
+        </style>
+    </h:head>
+    
+    <h:body>
+        
+
+
+        
+        
+        <ui:include src="include/header.xhtml"/>
+        <div id="messages_div" >
+         <table  id="messages_table" align="center" >
+         <tr>
+           <td valign="bottom">
+              <h style="font-size:18px;font-family:tahoma, arial, sans-serif;" >&#160;&#160;Inbox</h>
+           </td>
+           <td>
+             <table width="100%">
+              <tr> 
+               <td >
+                 <h style="font-size:25px; color:darkgrey; font-family:tahoma, arial, sans-serif;" >New Message</h>
+               </td>
+               <td style="text-align:right;" >
+                 <h:form>
+                     <h:commandButton  a:id="newmsg_btn" value="New message" action="#{messages.setNew_message(true)}" />
+                 </h:form>
+               </td>
+              </tr>
+             </table>
+           </td>
+         </tr>
+         <tr>
+         <td width="215px" valign="top">
+             <table border="0" cellspacing="0" cellpadding="0" style="margin-top:1px;" >
+                 <h:form>
+                 <tr height="15px">
+                     <td>
+                         <ui:fragment rendered="#{messages.all_messages==false}" >
+                             <h:commandButton  a:id="menu_btn" value="All messages"  action="#{messages.setAll_messages(true)}" />
+                         </ui:fragment>
+                         <ui:fragment rendered="#{messages.all_messages}" >
+                             <h:commandButton  a:id="menu_btn" value="All messages" style="color: #07a3ff;background:#333333;" action="#{messages.setAll_messages(true)}" />
+                         </ui:fragment>
+                     </td>
+                 </tr>
+                 <tr height="15px" >
+                     <td>
+                         <ui:fragment rendered="#{messages.unread_messages==false}" >
+                         <h:commandButton  a:id="menu_btn" value="Unread messages" action="#{messages.setUnread_messages(true)}" />
+                         </ui:fragment>
+                         <ui:fragment rendered="#{messages.unread_messages}" >
+                             <h:commandButton  a:id="menu_btn" value="Unread messages"  style="color: #07a3ff;background:#333333;"  action="#{messages.setUnread_messages(true)}" />
+                         </ui:fragment>
+                     </td>
+                 </tr>
+                 <tr height="15px" >
+                   <td>
+                     <table style="border-top: 1px solid #ccc;" width="100%" >
+                      <tr>
+                         <td>
+                             <ui:fragment rendered="#{messages.sent_messages==false}">
+                                 <h:commandButton  a:id="menu_sent_btn" value="Sent" action="#{messages.setSent_messages(true)}" />
+                            </ui:fragment>
+                            <ui:fragment rendered="#{messages.sent_messages}">
+                                <h:commandButton  a:id="menu_sent_btn" value="Sent" style="color: #07a3ff;background:#333333;" action="#{messages.setSent_messages(true)}" />
+                            </ui:fragment>
+                         </td>
+                      </tr>
+                     </table>
+                   </td>
+                 </tr>
+                 </h:form>
+             </table>
+         </td>
+             
+         <td>
+             <h:form> 
+                 <table border="0" cellspacing="0" cellpadding="0" name="email" aria-required="true" placeholder=" Messages"   id="msg_table">
+                     <tr  >
+                       
+                       <td  align="center">
+                           To:<h:inputText style="width:120px;height:20px;border:1px solid #ccc; text-decoration: none;"  a:value="#{messages.receiver}" /> 
+                       </td>
+                     </tr>
+                     <tr>                
+                       <td height="400px" align="center">
+                          <h:inputTextarea style="width:97%;height:99%;border:1px solid #ccc; text-decoration: none;"  a:value="#{messages.message_to_send}" />
+                       </td>
+                     </tr>
+                     <tr>                
+                         <td height="50px" align="center">
+                             <h:commandButton type="submit" value="Send Message" a:id="sendmsg_btn" action="#{messages.sendmessage()}"/>
+                       </td>
+                      
+                         
+                     </tr>
+                 </table>
+             </h:form>
+         </td>
+         </tr>
+         </table>
+        </div>
+            
+        <ui:include src="include/footer.xhtml"/> 
+        <ui:include src="include/popups.xhtml"/>
+    </h:body>
+</html>
+  

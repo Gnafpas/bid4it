@@ -1,0 +1,301 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Messages</title>
+        <link rel="stylesheet" href="css/style.css" type="text/css"/>
+        <style>
+           html {background-color:#F2F2F2}
+        </style>
+    </h:head>
+    
+    <h:body>
+        
+
+        
+        <h:form><p:remoteCommand name="onload" a:action="#{messages.get_All_messages()}"   /></h:form>
+        <h:form><p:remoteCommand name="onload" a:action="#{messages.get_unread_messages()}"   /></h:form>
+        <h:form><p:remoteCommand name="onload" a:action="#{messages.get_sent_messages()}"   /></h:form>
+
+        
+        
+        <ui:include src="include/header.xhtml"/>
+        <div id="messages_div" >
+         <table  id="messages_table" align="center" >
+         <tr>
+           <td valign="bottom">
+              <h style="font-size:18px;font-family:tahoma, arial, sans-serif;" >&#160;&#160;Inbox</h>
+           </td>
+           <td>
+             <table width="100%">
+              <tr> 
+               <td >
+                <ui:fragment rendered="#{messages.all_messages}" >
+                  <h style="font-size:25px; color:darkgrey; font-family:tahoma, arial, sans-serif;" >Inbox :</h>
+                  <h style="font-size:25px; color:darkgrey; font-family:tahoma, arial, sans-serif;" >All</h>
+                </ui:fragment>
+                <ui:fragment rendered="#{messages.unread_messages}" >
+                  <h style="font-size:25px; color:darkgrey; font-family:tahoma, arial, sans-serif;" >Inbox :</h>
+                  <h style="font-size:25px; color:darkgrey; font-family:tahoma, arial, sans-serif;" >Unread</h>
+                </ui:fragment>
+                <ui:fragment rendered="#{messages.sent_messages}" >
+                  <h style="font-size:25px; color:darkgrey; font-family:tahoma, arial, sans-serif;" >Sent</h>
+                </ui:fragment>
+               </td>
+               <td style="text-align:right;" >
+                 <h:form>
+                     <h:commandButton  a:id="newmsg_btn" value="New message" action="#{messages.setNew_message(true)}" />
+                 </h:form>
+               </td>
+              </tr>
+             </table>
+           </td>
+         </tr>
+         <tr>
+         <td width="215px" valign="top">
+             <table border="0" cellspacing="0" cellpadding="0" style="margin-top:1px;" >
+                 <h:form>
+                 <tr height="15px">
+                     <td>
+                         <ui:fragment rendered="#{messages.all_messages==false}" >
+                             <h:commandButton  a:id="menu_btn" value="All messages"  action="#{messages.setAll_messages(true)}" />
+                         </ui:fragment>
+                         <ui:fragment rendered="#{messages.all_messages}" >
+                             <h:commandButton  a:id="menu_btn" value="All messages" style="color: #07a3ff;background:#333333;" action="#{messages.setAll_messages(true)}" />
+                         </ui:fragment>
+                     </td>
+                 </tr>
+                 <tr height="15px" >
+                     <td>
+                         <ui:fragment rendered="#{messages.unread_messages==false}" >
+                         <h:commandButton  a:id="menu_btn" value="Unread messages" action="#{messages.setUnread_messages(true)}" />
+                         </ui:fragment>
+                         <ui:fragment rendered="#{messages.unread_messages}" >
+                             <h:commandButton  a:id="menu_btn" value="Unread messages"  style="color: #07a3ff;background:#333333;"  action="#{messages.setUnread_messages(true)}" />
+                         </ui:fragment>
+                     </td>
+                 </tr>
+                 <tr height="15px" >
+                   <td>
+                     <table style="border-top: 1px solid #ccc;" width="100%" >
+                      <tr>
+                         <td>
+                             <ui:fragment rendered="#{messages.sent_messages==false}">
+                                 <h:commandButton  a:id="menu_sent_btn" value="Sent" action="#{messages.setSent_messages(true)}" />
+                            </ui:fragment>
+                            <ui:fragment rendered="#{messages.sent_messages}">
+                                <h:commandButton  a:id="menu_sent_btn" value="Sent" style="color: #07a3ff;background:#333333;" action="#{messages.setSent_messages(true)}" />
+                            </ui:fragment>
+                         </td>
+                      </tr>
+                     </table>
+                   </td>
+                 </tr>
+                 </h:form>
+             </table>
+         </td>
+             
+         <td>
+             
+             
+             
+             
+             
+             <ui:fragment rendered="#{(messages.all_messages )}" >
+                 <table border="0" cellspacing="0" cellpadding="0" name="email" aria-required="true" placeholder=" Messages"   id="msg_table">
+                     <tr style="background:#333333 " >
+                       <td height="30px" >
+                           <table width="100%" style="color:white;">
+                               <tr>
+                                   <td width="200"	style="border-right:1px solid #ccc;">
+                                      From 
+                                   </td>
+                                   <td  width="592" style="border-right:1px solid #ccc;">
+                                       Subject
+                                   </td>
+                                   <td width="32" style="border-right:1px solid #ccc;">
+                                       Viewed
+                                   </td>
+                                   <td></td>
+                               </tr>
+                           </table>
+                       </td>
+                     </tr>
+                     <tr>
+                       <td>
+                         <div class="scrollable" >
+                             
+                              
+                             
+                             <ui:repeat value="#{messages.allMessages}" var="allmessages">
+                                 <li id="messages_li" >
+                                   <table width="100%" style="color:white;" border="0" cellspacing="0" cellpadding="0">
+                                      <h:inputHidden value="messageid" />
+                                      <tr>
+                                        <td width="200" height="37px"	>
+                                            <h:form><h:commandButton  value="#{allmessages.sender}" action="#{messages.setMessage_to_read(allmessages.messageId)}" style="font-weight:bold;text-align:left;background:none;border:none;color:black; width:100%; height:100%;"/></h:form>
+                                        </td>
+                                        <td width="600" height="37px"	>
+                                           <h:form><h:commandButton  a:id="message_button" value="#{allmessages.message}" action="#{messages.setMessage_to_read(allmessages.messageId)}"  /></h:form>
+                                        </td>
+                                        <td width="50" height="37px"	>
+                                            <ui:fragment rendered="#{allmessages.checked}" >
+                                            <h:form><h:commandButton  value="&#10004;" action="#{messages.setMessage_to_read(allmessages.messageId)}" style="text-align:center;background:none;border:none;color:black; width:100%; height:100%;" /></h:form>
+                                           </ui:fragment>
+                                           <ui:fragment rendered="#{allmessages.checked==false}" >
+                                            <h:form><h:commandButton  value="&#9744;" action="#{messages.setMessage_to_read(allmessages.messageId)}" style="text-align:center;background:none;border:none;color:black; width:100%; height:100%;" /></h:form>
+                                           </ui:fragment>
+                                        </td>
+                                        <td  style="text-align:center;" >
+                                            <h:form><h:commandButton  value="Delete" a:id="delete_btn" action="#{messages.delete_msg(allmessages)}"/></h:form>
+                                       </td>
+                                      </tr>
+                                   </table>
+                                </li>
+                               </ui:repeat>  
+                             
+                             
+                             
+                          </div>  
+                       </td>
+                     </tr>
+                 </table>
+             </ui:fragment>
+             
+             
+             
+             
+             
+              <ui:fragment rendered="#{(messages.unread_messages )}" >
+                 <table border="0" cellspacing="0" cellpadding="0" name="email" aria-required="true" placeholder=" Messages"   id="msg_table">
+                     <tr style="background:#333333 " >
+                       <td height="30px" >
+                           <table width="100%" style="color:white;">
+                               <tr>
+                                   <td width="200"	style="border-right:1px solid #ccc;">
+                                      From 
+                                   </td>
+                                   <td  width="592" style="border-right:1px solid #ccc;">
+                                       Subject
+                                   </td>
+                                   <td width="32" style="border-right:1px solid #ccc;">
+                                       Viewed
+                                   </td>
+                                   <td></td>
+                               </tr>
+                           </table>
+                       </td>
+                     </tr>
+                     <tr>
+                       <td>
+                         <div class="scrollable" >
+                             
+                              
+                             
+                             <ui:repeat value="#{messages.unreadMessages}" var="unreadmessage">
+                                 <li id="messages_li" >
+                                   <table width="100%" style="color:white;" border="0" cellspacing="0" cellpadding="0">
+                                      <h:inputHidden value="messageid" />
+                                      <tr>
+                                        <td width="200" height="37px"	>
+                                            <h:form><h:commandButton type="submit" value="#{unreadmessage.sender}" action="#{messages.setMessage_to_read(unreadmessage.messageId)}" style="font-weight:bold;text-align:left;background:none;border:none;color:black; width:100%; height:100%;"/></h:form>
+                                        </td>
+                                        <td width="600" height="37px"	>
+                                           <h:form><h:commandButton type="submit"  a:id="message_button" value="#{unreadmessage.message}" action="#{messages.setMessage_to_read(unreadmessage.messageId)}"  /></h:form>
+                                        </td>
+                                        <td width="50" height="37px"	>
+                                            <ui:fragment rendered="#{unreadmessage.checked}" >
+                                            <h:form><h:commandButton type="submit" value="&#10004;" action="#{messages.setMessage_to_read(unreadmessage.messageId)}" style="text-align:center;background:none;border:none;color:black; width:100%; height:100%;" /></h:form>
+                                           </ui:fragment>
+                                           <ui:fragment rendered="#{unreadmessage.checked==false}" >
+                                            <h:form><h:commandButton type="submit" value="&#9744;" action="#{messages.setMessage_to_read(unreadmessage.messageId)}" style="text-align:center;background:none;border:none;color:black; width:100%; height:100%;" /></h:form>
+                                           </ui:fragment>
+                                        </td>
+                                        <td  style="text-align:center;" >
+                                          <h:form><h:commandButton type="submit" value="Delete" a:id="delete_btn" action="#{messages.delete_msg(unreadmessage)}"/></h:form>
+                                       </td>
+                                      </tr>
+                                   </table>
+                                </li>
+                               </ui:repeat>  
+                             
+                             
+                             
+                          </div>  
+                       </td>
+                     </tr>
+                 </table>
+             </ui:fragment>
+             
+             
+             
+             
+             
+             
+             <ui:fragment rendered="#{messages.sent_messages}" >
+                 <table border="0" cellspacing="0" cellpadding="0" name="email" aria-required="true" placeholder=" Messages"   id="msg_table">
+                     <tr style="background:#333333 " >
+                       <td height="30px" >
+                           <table width="100%" style="color:white;">
+                               <tr>
+                                   <td width="200"	style="border-right:1px solid #ccc;">
+                                      To 
+                                   </td>
+                                   <td  width="624" style="border-right:1px solid #ccc;">
+                                      Subject
+                                   </td>
+                                   <td ></td>
+                                   <td></td>
+                               </tr>
+                           </table>
+                       </td>
+                     </tr>
+                     <tr>
+                       <td>
+                         <div class="scrollable" >
+                             
+                              
+                             
+                             <ui:repeat value="#{messages.sentMessages}" var="sent_message">
+                                 <li id="messages_li" >
+                                   <table width="100%" style="color:white;" border="0" cellspacing="0" cellpadding="0">
+                                      <h:inputHidden value="messageid" />
+                                      <tr>
+                                        <td width="200" height="37px"	>
+                                           <h:form><h:commandButton type="submit" value="#{sent_message.receiver}" action="#{messages.setMessage_to_read(sent_message.messageId)}" style="font-weight:bold;text-align:left;background:none;border:none;color:black; width:100%; height:100%;"/></h:form>
+                                        </td>
+                                        <td width="624" height="37px"	>
+                                           <h:form><h:commandButton type="submit" a:id="message_button" value="#{sent_message.message}" action="#{messages.setMessage_to_read(sent_message.messageId)}"  /></h:form>
+                                        </td>
+                                        <td  style="text-align:center;" >
+                                          <h:form><h:commandButton type="submit" value="Delete" a:id="delete_btn" action="#{messages.delete_msg(sent_message)}"/></h:form>
+                                       </td>
+                                      </tr>
+                                   </table>
+                                </li>
+                              </ui:repeat>  
+                             
+                             
+                             
+                          </div>  
+                       </td>
+                     </tr>
+                 </table>
+             </ui:fragment>
+
+         </td>
+         </tr>
+         </table>
+        </div>
+            
+        <ui:include src="include/footer.xhtml"/> 
+        <ui:include src="include/popups.xhtml"/>
+    </h:body>
+</html>
+

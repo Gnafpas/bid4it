@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class catalog="bid4it" name="Beans.Messagesbean" table="messages">
+    <id column="messageId" name="messageId" type="java.lang.Integer">
+      <generator class="identity"/>
+    </id>
+    <property column="message" name="message" type="string"/>
+    <property column="checked" name="checked" type="boolean"/>
+    <property column="sender" name="sender" type="string"/>
+    <property column="receiver" name="receiver" type="string"/>
+  </class>
+</hibernate-mapping>

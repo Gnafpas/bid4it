@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+ <p:dialog id="Please_Signup" header="Attention" widgetVar="Please_Signup" modal="true" height="100">
+       <div>
+       <h:outputText value="Please Sign up first!" />
+       </div>
+       <div style="text-align:center; margin-top:50px;">
+       <p:commandButton  style="font-size:10px; width:50px; height:20px;"  value="OK" onclick="PF('Please_Signup').hide()"/>
+       </div>
+ </p:dialog>
+ <p:dialog id="Wrong_Password" header="Attention" widgetVar="Wrong_Password" modal="true" height="100">
+       <div>
+       <h:outputText value="Invalid Password!If you forgot your password click the apropriate button." />
+       </div>
+       <div style="text-align:center; margin-top:50px;">
+       <p:commandButton  style="font-size:10px; width:50px; height:20px;" value="OK" onclick="PF('Wrong_Password').hide()"/>
+       </div>
+ </p:dialog>
+ <p:dialog id="fill_in" header="Attention" widgetVar="fill_in" modal="true" height="100">
+     <div>  
+       <h:outputText value="Please fill in all fields!" />
+     </div>
+     <div style="text-align:center; margin-top:50px;"> 
+       <p:commandButton style="font-size:10px; width:50px; height:20px;"   value="OK" onclick="PF('fill_in').hide()"/>
+     </div> 
+ </p:dialog>
+  <p:dialog id="user_is_admin" header="Attention" widgetVar="user_is_admin" modal="true" height="100">
+     <div>  
+       <h:outputText value="Admin users cannot be deleted" />
+     </div>
+     <div style="text-align:center; margin-top:50px;"> 
+       <p:commandButton style="font-size:10px; width:50px; height:20px;"   value="OK" onclick="PF('user_is_admin').hide()"/>
+     </div> 
+ </p:dialog>
+ <p:dialog id="invalid_email" header="Attention" widgetVar="invalid_email" modal="true" height="100">
+       <div>
+       <h:outputText value="Invalid email!" />
+       </div>
+       <div style="text-align:center; margin-top:50px;">
+       <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="OK" onclick="PF('invalid_email').hide()"/>
+       </div>
+ </p:dialog>
+ <p:dialog id="Confirm_pass"  header="Attention" widgetVar="Confirm_pass" modal="true" height="100">
+       <div>
+       <h:outputText value="Password confirmation failed!" />
+       </div>
+       <div style="text-align:center; margin-top:50px;">
+       <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="OK" onclick="PF('Confirm_pass').hide()"/>
+       </div>
+ </p:dialog>
+ <p:dialog id="Signup_success" header="Notification" widgetVar="Signup_success" modal="true" height="100">
+       <div>
+       <h:outputText value="Your sign up completed with success!An emain will send to you after Admin confirms your registration." />
+       </div>
+       <div style="text-align:center; margin-top:50px;">
+       <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="OK" action="#{signup_form.signup_success_redirection()}" />
+       </div>
+ </p:dialog>
+ <p:dialog id="Pending_state_alert" header="Notification" widgetVar="Pending_state_alert" modal="true" height="100">
+       <div>
+       <h:outputText value="You are on pending list.Please wait for admin to confirms your registration.An email will send to you." />
+       </div>
+       <div style="text-align:center; margin-top:50px;">
+       <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="OK" action="#{welcomepage.login_pendinguser_redirection()}" />
+       </div>
+ </p:dialog>
+ <p:dialog id="adduser_error" header="Attention" widgetVar="adduser_error" modal="true" height="100">
+       <div>
+       <h:outputText value="Probably username allready exists." />
+       </div>
+       <div style="text-align:center; margin-top:50px;">
+       <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="OK" onclick="PF('adduser_error').hide()"/>
+       </div>
+ </p:dialog>
+  <p:dialog id="dlgetuser_errorg" header="Attention" widgetVar="getuser_error" modal="true" height="100">
+      <div>
+      <h:outputText value="Something went wrong at retrieving User's information" />
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+      <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="OK" onclick="PF('getuser_error').hide()"/>
+      </div>
+ </p:dialog>
+ <p:dialog id="sendmsg_error" header="Attention" widgetVar="sendmsg_error" modal="true" height="100">
+      <div>
+      <h:outputText value="Sorry the message could not be sent.Check receipient's username." />
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+      <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="OK" onclick="PF('sendmsg_error').hide()"/>
+      </div>
+ </p:dialog>
+ <p:dialog id="sendmsg" header="Nοtification" widgetVar="sendmsg" modal="true" height="100">
+      <div>
+      <h:outputText value="The message has been sent" />
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+      <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="OK" onclick="PF('sendmsg').hide()"/>
+      </div>
+ </p:dialog>
+ <p:dialog id="deltemsg_error" header="Attention" widgetVar="deltemsg_error" modal="true" height="100">
+      <div>
+      <h:outputText value="Sorry the message could not be deleted for some reason." />
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+      <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="OK" onclick="PF('deltemsg_error').hide()"/>
+      </div>
+ </p:dialog>
+ <p:dialog id="deletemsg" header="Nοtification" widgetVar="deletemsg" modal="true" height="100">
+      <div>
+      <h:outputText value="The message has been deleted" />
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+      <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="OK" onclick="PF('deletemsg').hide()"/>
+      </div>
+ </p:dialog>
+ <p:dialog id="server_error" header="Attention" widgetVar="server_error" modal="true" height="100">
+      <div>
+      <h:outputText value="An unexcpeceted error occured  at server.We are working on this." />
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+      <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="OK" onclick="PF('server_error').hide()"/>
+      </div>
+ </p:dialog>
+ <p:dialog id="location_added" header="Notification" widgetVar="location_added" modal="true" height="100">
+      <div>
+      <h:outputText value="Ok your location added succesfully." />
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+      <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="OK" onclick="PF('location_added').hide()"/>
+      </div>
+ </p:dialog>
+ <p:dialog id="upload_item" header="Notification" widgetVar="upload_item" modal="true" height="100">
+      <div>
+      <h:outputText value="Your Item Upload successfully." />
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+      <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="OK" onclick="PF('upload_item').hide()"/>
+      </div>
+ </p:dialog>
+ <p:dialog id="upload_item_err" header="Notification" widgetVar="upload_item_err" modal="true" height="100">
+      <div>
+      <h:outputText value="Sorry something went wrong with your upload." />
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+      <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="OK" onclick="PF('upload_item_err').hide()"/>
+      </div>
+ </p:dialog>
+ <p:dialog id="upload_item_empty_fields" header="Attention" widgetVar="upload_item_empty_fields" modal="true" height="100">
+      <div>
+      <h:outputText value="Please fill in the required fields." />
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+      <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="OK" onclick="PF('upload_item_empty_fields').hide()"/>
+      </div>
+ </p:dialog>
+  <p:dialog id="log_in_first" header="Notification" widgetVar="log_in_first" modal="true" height="100">
+      <div>
+      <h:outputText value="Log in first." />
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+      <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="OK" onclick="PF('log_in_first').hide()"/>
+      </div>
+ </p:dialog>
+ <p:dialog id="place_value_buyprice_firstbid" header="Notification" widgetVar="place_value_buyprice_firstbid" modal="true" height="100">
+      <div>
+      <h:outputText value="Please place a value to Initial price or to Buy price." />
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+      <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="OK" onclick="PF('place_value_buyprice_firstbid').hide()"/>
+      </div>
+ </p:dialog>
+ <p:dialog id="item_not_for_sale" header="Attention" widgetVar="item_not_for_sale" modal="true" height="100">
+      <div>
+      <h:outputText value="Sorry the item is not for sale any more." />
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+      <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="OK" onclick="PF('item_not_for_sale').hide()"/>
+      </div>
+ </p:dialog>
+ <p:dialog id="successful_bid" header="Notification" widgetVar="successful_bid" modal="true" height="100">
+      <div>
+      <h:outputText value="The bid was succesfull." />
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+      <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="OK" onclick="PF('successful_bid').hide()"/>
+      </div>
+ </p:dialog>
+ <p:dialog id="unsuccessful_bid" header="Notification" widgetVar="unsuccessful_bid" modal="true" height="100">
+      <div>
+      <h:outputText value="Someone bidded a larger amount than you for this item.Try again!" />
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+      <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="OK" onclick="PF('unsuccessful_bid').hide()"/>
+      </div>
+ </p:dialog>
+ <p:dialog id="successful_buy" header="Notification" widgetVar="successful_buy" modal="true" height="100">
+      <div>
+      <h:outputText value="You just bought the product!A message had been send to seller with your information." />
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+      <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="OK" onclick="PF('successful_buy').hide()"/>
+      </div>
+ </p:dialog>
+ <p:dialog id="owner_buy_attempt" header="Attention" widgetVar="owner_buy_attempt" modal="true" height="100">
+      <div>
+      <h:outputText value="You can't buy your own product." />
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+      <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="OK" onclick="PF('owner_buy_attempt').hide()"/>
+      </div>
+ </p:dialog>
+ <p:dialog id="buy_confirmation" header="Attention" widgetVar="buy_confirmation" modal="true" height="100">
+      <div>
+      <h:outputText value="Are you sure you want to proceed?" />
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+          <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="Yes" action="#{item.buy()}" onclick="PF('buy_confirmation').hide()"/>
+      <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="No" onclick="PF('buy_confirmation').hide()"/>
+      </div>
+ </p:dialog>
+ <p:dialog id="bid_confirmation" header="Attention" widgetVar="bid_confirmation" modal="true" height="100">
+      <div>
+      <h:outputText value="Are you sure you want to proceed?" />
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+          <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="Yes" action="#{item.bid()}" onclick="PF('bid_confirmation').hide()"/>
+      <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="No" onclick="PF('bid_confirmation').hide()"/>
+      </div>
+ </p:dialog>
+    
+</html>
+
+
+    

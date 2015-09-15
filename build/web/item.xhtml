@@ -1,0 +1,375 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+<h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Item</title>
+        <link rel="stylesheet" href="css/style.css" type="text/css"/>
+        <style>
+           html {background-color:#F2F2F2}
+        </style>
+<script type="text/javascript" 
+   src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+<script type="text/javascript">
+  //<![CDATA[
+  var geocoder;
+  var map;
+  
+  function loadMap(x,y) {
+
+    geocoder = new google.maps.Geocoder();
+    var latlng = new google.maps.LatLng(x, y);
+    var myOptions = {
+      zoom: 4,
+      center: latlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    map = new google.maps.Map(document.getElementById("map_container"),myOptions);
+	
+    var marker = new google.maps.Marker({
+      position: latlng, 
+      map: map, 
+      title:"my hometown, Malim Nawar!"
+    }); 
+  
+  }
+  function codeAddress(address) {
+     
+       geocoder.geocode( { 'address': address}, function(results, status) {
+       if (status == google.maps.GeocoderStatus.OK) {
+          map.setCenter(results[0].geometry.location);
+          var marker = new google.maps.Marker({map: map,position: results[0].geometry.location});
+       } else {
+          alert('Could not find location with this postcode');
+       }
+     });
+   }
+  
+  var upgradeTime=-1 ;
+ 
+  function setsecs(secs){
+      upgradeTime = secs;
+  } 
+
+  var seconds= -1 ;
+  function timer() {
+    if(seconds===-1){
+        seconds=upgradeTime;
+        return;
+    }
+        
+    var days        = Math.floor(seconds/24/60/60);
+    var hoursLeft   = Math.floor((seconds) - (days*86400));
+    var hours       = Math.floor(hoursLeft/3600);
+    var minutesLeft = Math.floor((hoursLeft) - (hours*3600));
+    var minutes     = Math.floor(minutesLeft/60);
+    var remainingSeconds = seconds % 60;
+    if (remainingSeconds < 10) {
+        remainingSeconds = "0" + remainingSeconds; 
+    }
+    document.getElementById('time').innerHTML = days + "d " + hours + "h " + minutes + "m " + remainingSeconds+ "s " ;
+    if (seconds <= 0) {
+        clearInterval(countdownTimer);
+        document.getElementById('time').innerHTML = "Completed";
+    } else {
+        seconds--;
+    }
+  }
+  var countdownTimer = setInterval('timer()', 1000);
+
+ //]]>
+</script>
+    </h:head>
+      <f:metadata >
+        <f:viewParam name="itemid_for_loading" value="#{item.itemid_for_loading}"/>
+      </f:metadata>
+      <f:event listener="#{item.load_item}" type="preRenderView" />
+    <h:body >
+        
+        <ui:include src="include/header.xhtml"/>
+        <div id="items_div" >
+         <table  id="items_table" align="center" >
+           <tr>
+             <td>
+               <table cellspacing="0" cellpadding="0">
+                 <tr>
+                  <td align="left" width="23px" height="25px">
+                    <h:commandButton  a:id="back_button"  image="img/back-button.png"  />
+                  </td>
+                  <td align="left" width="100px" >
+                    <h:commandButton value="Back to search results" a:id="top_buttons" style="border-right: 1px solid #ccc;" />
+                  </td>
+                  <td align="left"  >
+                    <a style="font-size:11px;font-family:Tahoma, Geneva, sans-serif;">Category Tags:</a>  
+                    <ui:repeat value="#{item.item_categories}" var="item_category">
+                        <h:commandButton value=" #{item_category.category}" a:id="top_buttons" style="border-right: 1px solid #ccc;"/>
+                    </ui:repeat>
+                  </td>
+                 </tr>
+               </table>
+             </td>
+           </tr>
+           <tr>
+             <td>
+               <table width="100%">
+                   <tr>
+                     <td width="450px" height="625px">
+                        <table  height="625px">
+                          <tr>
+                            <td height="500px" >
+                                <p:graphicImage value="#{item.main_image}" style="width:450px; height:500px; border: 1px solid #ccc;border-radius: 2px"/>
+                            </td>
+                          </tr>
+                          <tr>
+                             <td valign="top">
+                               <table cellspacing="0" cellpadding="0" >
+                                 <tr>
+                                   <td width="130" align="right">
+                                       <h:form><h:commandButton image="#{item.images_paths[0]}"  action="#{item.changemain_image(0)}" style="width:95px; height:95px; border: 1px solid #ccc;border-radius: 2px" /></h:form>
+                                   </td>
+                                   <td width="90">
+                                      <h:form><h:commandButton image="#{item.images_paths[1]}"   action="#{item.changemain_image(1)}" style="width:95px; height:95px; border: 1px solid #ccc;border-radius: 2px"/></h:form>
+                                   </td>
+                                   <td width="90">
+                                      <h:form><h:commandButton image="#{item.images_paths[2]}"   action="#{item.changemain_image(2)}" style="width:95px; height:95px; border: 1px solid #ccc;border-radius: 2px"/></h:form>
+                                   </td>
+                                   <td width="90">
+                                      <h:form><h:commandButton image="#{item.images_paths[3]}"   action="#{item.changemain_image(3)}" style="width:95px; height:95px; border: 1px solid #ccc;border-radius: 2px"/></h:form>
+                                   </td>
+                                 </tr>
+                               </table>
+                             </td>
+                          </tr>
+                        </table>
+                     </td>
+                     <td valign="top">
+                        <table  width="100%" height="100%" cellspacing="0" cellpadding="0">
+                           <tr>
+                              <td >
+                                  <h:outputLabel value="#{item.main_item.name}" style="font-weight:bold; font-family:Tahoma, Geneva, sans-serif; font-size:16px;"/>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td height="93%">
+                                 <table width="100%" cellspacing="0" cellpadding="0"   style="border-top: 1px solid #ccc; ">
+                                    <tr>
+                                      <td  align="center" width="70%">
+                                          <table height="600px">
+                                            <tr>
+                                               <td height="34%" valign="bottom">
+                                                    <table  width="490px" height="170px" style="box-shadow: 4px 4px 1px #e6e6e6; border-radius: 3px; background-color: #ddd">
+                                                       <tr>
+                                                           <td style="border-bottom: 2px solid #e6e6e6; text-align:left;" width="40px"  >
+                                                               
+                                                           </td>
+                                                           <td style="border-bottom: 2px solid #e6e6e6; text-align:left;" >
+                                                               <a style="font-family:Tahoma, Geneva, sans-serif; font-size:14px; color:#555 ">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Price:</a>
+                                                               <ui:fragment rendered="#{item.main_item.buy_price!=0}" > 
+                                                               <h:outputLabel style="font-family:Tahoma, Geneva, sans-serif; font-size:18px; color:#000 ; font-weight: bold;" value="  EUR #{item.main_item.buy_price}"/>
+                                                               </ui:fragment>
+                                                               <ui:fragment rendered="#{item.main_item.buy_price==0}" > 
+                                                               <h:outputLabel style="font-family:Tahoma, Geneva, sans-serif; font-size:18px; color:#000 ; font-weight: bold;" value="  No instant buy"/>
+                                                               </ui:fragment>
+                                                           </td>
+                                                           <td style="border-bottom: 2px solid #e6e6e6; text-align:center;" >
+                                                               <ui:fragment rendered="#{item.main_item.buy_price!=0}" >
+                                                                   <h:form><h:commandButton   action="#{item.buy_confirmation()}" a:id="buy_button" value="Buy It Now"/></h:form>
+                                                               </ui:fragment>
+                                                               <ui:fragment rendered="#{item.main_item.buy_price==0}" >
+                                                                   <h:commandButton   a:id="buy_button" value="Buy It Now"/>
+                                                               </ui:fragment>
+                                                           </td>
+                                                       </tr>
+                                                       <tr>
+                                                           <td width="40px" >
+                                                               
+                                                           </td>
+                                                           <td style="text-align:left;">
+                                                               <a style="font-family:Tahoma, Geneva, sans-serif; font-size:14px; color:#555 " >Current Bid:</a>
+                                                               <ui:fragment rendered="#{item.main_item.currently!=0}" > 
+                                                               <h:outputLabel style="font-family:Tahoma, Geneva, sans-serif; font-size:18px; color:#000 ; font-weight: bold;" value="  EUR #{item.main_item.currently}"/>
+                                                               </ui:fragment>
+                                                               <ui:fragment rendered="#{item.main_item.currently==0}" > 
+                                                               <h:outputLabel style="font-family:Tahoma, Geneva, sans-serif; font-size:18px; color:#000 ; font-weight: bold;" value="  Only instant buy"/>
+                                                               </ui:fragment>
+                                                               
+                                                           </td>
+                                                           <td style=" text-align:center;" >
+                                                             <h:form>
+                                                               <h:inputText value="#{item.bid}" style="width:40px;"/>
+                                                               <ui:fragment rendered="#{item.main_item.currently!=0}" >
+                                                                   <h:commandButton   action="#{item.bidconfirmation()}" a:id="offer_button" value="Place Bid"/>
+                                                               </ui:fragment>
+                                                               <ui:fragment rendered="#{item.main_item.currently==0}" >
+                                                                   <h:commandButton   a:id="offer_button" value="Place Bid"/>
+                                                               </ui:fragment>
+                                                             </h:form>
+                                                           </td>
+                                                       </tr>
+                                                    </table>
+                                               </td>
+                                            </tr>
+                                            <tr>
+                                               <td align="left" height="20px">
+                                                    <a style="font-family:Tahoma, Geneva, sans-serif; font-size:12px; color:#333333 ;">Number of bids:&#160;&#160;</a>
+                                                    <h:outputLabel style="font-family:Tahoma, Geneva, sans-serif; font-size:12px; color:#333333 ;font-weight: bold;" value="#{item.main_item.number_of_bids}"/>
+                                               </td>
+                                            </tr>
+                                            <tr>
+                                               <td align="left" height="20px">
+                                                    <a style="font-family:Tahoma, Geneva, sans-serif; font-size:12px; color:#333333 ;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Time left:&#160;&#160;</a>
+                                                    <a style="font-family:Tahoma, Geneva, sans-serif; font-size:12px; color:#333333 ;font-weight: bold;"><span id="time"></span> </a>
+                                                    <h:outputText id="startDate" value="#{item.main_item.ends}" style="font-family:Tahoma, Geneva, sans-serif; font-size:8px; color:#333333 ;">
+                                                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+                                                    </h:outputText>
+                                               </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" height="20px">
+                                                    <a style="font-family:Tahoma, Geneva, sans-serif; font-size:12px; color:#333333 ;">&#160;&#160;Item Location:&#160;&#160;</a>
+                                                    <h:outputLabel style="font-family:Tahoma, Geneva, sans-serif; font-size:12px; color:#333333 ;font-weight: bold;" value="#{item.main_item.country},"/>
+                                                    <a style="font-family:Tahoma, Geneva, sans-serif; font-size:12px; color:#333333 ;">Postcode:</a>
+                                                    <h:outputLabel style="font-family:Tahoma, Geneva, sans-serif; font-size:12px; color:#333333 ;font-weight: bold;" value="#{item.main_item.postcode}"/>
+                                               </td>
+                                            </tr>
+                                            <tr>
+                                               <td align="left" >
+                                                   <ui:fragment rendered="#{item.description_panel==true}" > 
+                                                    <h:form>
+                                                        <h:commandButton action="#{item.setDescription_panel(true)}"  value="Description" a:id="description_map_btn" style="background:white;  border-bottom:1px solid white;" />&#160;
+                                                        <h:commandButton action="#{item.setDescription_panel(false)}" value="Map"  a:id="description_map_btn" style="background:none; " /><br></br>
+                                                    </h:form>
+                                                   </ui:fragment>
+                                                   <ui:fragment rendered="#{item.description_panel==false}" > 
+                                                    <h:form>
+                                                        <h:commandButton action="#{item.setDescription_panel(true)}"  value="Description" a:id="description_map_btn" style=" background:none; " />&#160;
+                                                        <h:commandButton action="#{item.setDescription_panel(false)}" value="Map"  a:id="description_map_btn" style="background:white; border-bottom:1px solid white;" /><br></br>
+                                                    </h:form>
+                                                   </ui:fragment>
+                                                   <ui:fragment rendered="#{item.description_panel==true}" > 
+                                                     <table width="100%" height="300px" style="background:white; border:1px solid #ccc;  margin-top:-1px; z-index:10;">
+                                                       <tr>
+                                                          <td>
+                                                              <div id="description_container">
+                                                              <h:outputText style="font-family:Tahoma, Geneva, sans-serif; width:100%;height:100%;border: none; text-decoration: none;font-size:14px;" value="#{item.main_item.description}"/>
+                                                              </div>
+                                                          </td>
+                                                       </tr>
+                                                      </table>
+                                                   </ui:fragment>
+                                                   <ui:fragment rendered="#{item.description_panel==false}" > 
+                                                     <table width="100%" height="300px" style="background:white; border:1px solid #ccc;  margin-top:-1px; z-index:10;">
+                                                       <tr>
+                                                          <td align="center">
+                                                              <div id="map_container"></div>
+                                                              <h:outputLabel style="font-family:Tahoma, Geneva, sans-serif; font-size:10px; color:#999; " value="#{item.how_loacation_loaded_tomap}"/>
+                                                          </td>
+                                                       </tr>
+                                                      </table>
+                                                   </ui:fragment>
+                                               </td>
+                                            </tr>
+                                          </table>
+                                      </td>
+                                      <td width="130" align="right">
+                                          <table height="600px">
+                                            <tr>
+                                               <td height="35%" valign="center">
+                                                    <table  width="200px" height="140px" style="box-shadow: 4px 4px 1px #e6e6e6; border-radius: 2px; background-color: #fff; border: 1px solid #ccc;">
+                                                       <tr>
+                                                           <td style="text-align:left;" height="15px">
+                                                               <a style="font-family:Tahoma, Geneva, sans-serif; font-size:14px; color:#333333 ; font-weight: bold;">Seller information</a>
+                                                           </td>
+                                                       </tr>
+                                                       <tr>
+                                                           <td style="text-align:left;" height="15px">
+                                                               <h:outputLabel style="font-family:Tahoma, Geneva, sans-serif; font-size:10px; color:#07a3ff ; font-weight: bold;" value="#{item.main_item.seller}"/>
+                                                           </td>
+                                                       </tr>
+                                                       <tr>
+                                                           <td style="text-align:left;" height="15px" >
+                                                               <a style="font-family:Tahoma, Geneva, sans-serif; font-size:10px; color:#333333 ;">Address info:</a><br></br>
+                                                               <h:outputLabel style="font-family:Tahoma, Geneva, sans-serif; font-size:10px; color:#333333 ;font-weight: bold;" value="#{item.seller.address_info}"/>
+                                                           </td>
+                                                       </tr>
+                                                       <tr>
+                                                           <td align="center">
+                                                               <h:form>
+                                                                   <h:commandButton value="Send message" action="#{item.send_message_to_seller()}" a:id="top_buttons" >
+                                                                       <f:setPropertyActionListener target="#{messages.receiver}" value="#{item.main_item.seller}" />
+                                                                   </h:commandButton>
+                                                               </h:form>
+                                                           </td>
+                                                       </tr>
+                                                    </table>
+                                               </td>
+                                            </tr>
+                                            <tr>
+                                               <td height="170px" valign="top">
+                                                    <a href="http://www.paypal.com" ><img src="img/paypal.jpg" width="200" height="170" /></a>
+                                               </td>
+                                            </tr>
+                                            <tr>
+                                               <td valign="top" align="right">
+                                                    <a href="http://www.paypal.com" ><img src="img/paypal2.jpeg" width="200" height="170" /></a><br></br>
+                                                    <a style="font-family:Tahoma, Geneva, sans-serif; font-size:10px; color:#999 ;">Ad Feedback|AdChoice</a>
+                                               </td>
+                                            </tr>
+                                        </table>
+                                      </td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                        </table>
+                     </td>
+                   </tr>
+                 </table>
+             </td>
+           </tr>
+           <tr>
+               <td align="left" style="border-top: 1px solid #ccc;">
+                   <a style="font-family:Tahoma, Geneva, sans-serif; font-size:16px; font-weight: bold; color:#333333 ;">Related Products</a><br></br>
+                   <table cellspacing="0" cellpadding="0" >
+                          <tr>
+                             <td width="1" align="center">
+                             </td>
+                              <ui:repeat value="#{item.relateditems}" var="relateditem">
+                             <td width="90" >
+                                 <table width="300px" height="120px" style="border:none;">
+                                   <tr>
+                                      <td width="120px">
+                                          <a style="width:120px; height:100px; " href="/e-auction-2015/items_itemid=#{relateditem.item.itemId}"><img src="#{relateditem.imagepath}" width="118" height="98" /></a>
+                                      </td>
+                                      <td  align="left">
+                                          <div style="height:52px;width:150px; overflow:hidden !important;text-overflow: ellipsis;">
+                                              <a id="related_products_btn" href="/e-auction-2015/items_itemid=#{relateditem.item.itemId}">#{relateditem.item.name}</a>
+                                          </div>
+                                          <a style="font-family:Tahoma, Geneva, sans-serif; font-size:10px; color:#333333 ;">Price:</a>
+                                          <h:outputLabel  value="EUR #{relateditem.item.buy_price}" style="font-family:Tahoma, Geneva, sans-serif; font-size:10px; color:#333333 ;font-weight: bold;"/><br></br>
+                                          <a style="font-family:Tahoma, Geneva, sans-serif; font-size:10px; color:#333333 ;">Current Bid:</a>
+                                          <h:outputLabel value="EUR #{relateditem.item.currently}" style="font-family:Tahoma, Geneva, sans-serif; font-size:10px; color:#333333 ;font-weight: bold;"/><br></br>
+                                      </td>
+                                   </tr>
+                                 </table>
+                             </td>
+                           </ui:repeat>
+                          </tr>
+                   </table>
+               </td>
+           </tr>
+         </table>
+            
+        </div>
+            
+        <ui:include src="include/footer.xhtml"/> 
+        <ui:include src="include/popups.xhtml"/>
+    </h:body>
+</html>

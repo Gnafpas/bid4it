@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class catalog="bid4it" name="Beans.Item_has_categorybean" table="item_has_category">
+      
+      <composite-id>
+         <key-property  column="itemId" name="itemId" type="java.lang.Integer" />
+         <key-property column="categoryId" name="categoryId" type="java.lang.Integer"/>
+      </composite-id>
+      
+    </class>
+</hibernate-mapping>

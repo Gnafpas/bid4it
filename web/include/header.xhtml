@@ -1,0 +1,656 @@
+
+<ui:composition 
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:p="http://primefaces.org/ui">
+
+<h:form><p:remoteCommand name="onload" a:action="#{messages.get_All_messages()}"   /></h:form>
+<h:form><p:remoteCommand name="onload" a:action="#{messages.get_unread_messages()}"   /></h:form>    
+    
+<div id="header">
+     <div id="header-top" >
+      <table  width="1200" align="center" style="max-width: 1200px;  margin-top:-10px;text-align:left;">
+          <tr>
+           <ui:fragment rendered="#{headerbean.loggedin_user()==false}">
+             <td  width="210" height="41"  >
+                &#160;&#160;<a style="font-family: Tahoma, Geneva, sans-serif;text-decoration:none;font-size: 12px;color: black;">Hi!</a>
+                <a href="/e-auction-2015/faces/welcome-page.xhtml" style="font-family: Tahoma, Geneva, sans-serif;font-size: 12px;">Sign in </a>
+                <a style="font-family: Tahoma, Geneva, sans-serif;text-decoration:none;font-size: 12px;color: black;">or</a>
+                <a href="/e-auction-2015/faces/welcome-page.xhtml" style="font-family: Tahoma, Geneva, sans-serif;font-size: 12px;"> register</a>
+                <a href="/e-auction-2015/faces/under-construction.xhtml" _sp="m570.l3188"  id="header-font">Daily Deals</a>
+             </td>
+           </ui:fragment>
+           <ui:fragment rendered="#{headerbean.loggedin_user()==true}">
+             <td>&#160;&#160;<a style="font-family: Tahoma, Geneva, sans-serif;text-decoration:none;font-size: 12px;color: black;">Hi!</a></td>
+             <td   height="41"  >
+                <ul id="nav">
+                    <li id="my-bid4it" style="width:70px; height:20px;"><a href="#"><h:commandButton   value="#{headerbean.user.username}!" style="border:none;background:#FFF;font-weight: bold;" /></a>
+		        <div style="width:100px;">
+                        <ul style="margin-left:-1px; margin-top:-2px;">
+                          <li></li>
+                          <li><table><tr><td><img src="img/profile_avatar.png" width="60" height="60" /></td><td><h:outputText value="#{headerbean.user.firstname} #{headerbean.user.lastname}"/></td></tr></table></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li><a  href="#">&#160;&#160;Account settings</a></li>
+			  
+                          <li><h:form><h:commandButton   a:id="logout_btn" value="Log out"  action="#{headerbean.logout()}" /> </h:form></li>
+			  <li></li>
+		        </ul>
+                      </div>
+	               </li>
+                </ul>
+             </td>
+             <td width="100">&#160;&#160;<a href="/e-auction-2015/faces/under-construction.xhtml" _sp="m570.l3188"  id="header-font">Daily Deals</a></td>
+           </ui:fragment>
+             <td width="89" height="41" >
+              <a style="font-size:10px; border-left:1px solid ;">&#160;&#160;&#160;</a><a href="/e-auction-2015/faces/under-construction.xhtml" _sp="m570.l3188"  id="header-font">Gift Cards</a>
+             </td>
+             <td width="48"  height="41" >
+              <a style="font-size:10px; border-left:1px solid ;">&#160;&#160;&#160;</a><a href="/e-auction-2015/faces/under-construction.xhtml" _sp="m570.l3188"  id="header-font">Sell</a>
+             </td>
+             <td width="738"  height="41" >
+              <a style="font-size:10px; border-left:1px solid ;">&#160;&#160;&#160;</a><a href="/e-auction-2015/faces/under-construction.xhtml" _sp="m570.l3188"  id="header-font">Help &amp; Contact</a>
+             </td>
+           <ui:fragment rendered="#{headerbean.loggedin_user()==true}">
+             <td width="74"  height="41" >
+               <ul id="nav">
+	               <li id="my-bid4it" style="width:70px; height:20px;"><a href="#"><button  _sp="m570.l3188" style="border:none;background:#FFF;" >My Bid4It</button></a>
+		              <div style="width:100px;">
+                        <ul style="margin-left:-1px; margin-top:-2px;">
+                          <li></li>
+			              <li><a id="nav-font" href="#">&#160;&#160;Summary</a></li>
+                          <li></li>
+			              <li><a id="nav-font" href="#">&#160;&#160;Bids/Offers</a></li>
+			              <li></li>
+                          <li><a id="nav-font" href="#">&#160;&#160;Watch list</a></li>
+			              <li></li>
+                          <li><a id="nav-font" href="#">&#160;&#160;All lists</a></li>
+                          <li></li>
+                          <li><a id="nav-font" href="#">&#160;&#160;Purchase history</a></li>
+			              <li></li>
+                          <li><a id="nav-font" href="#">&#160;&#160;Selling</a></li>
+			              <li></li>
+                          <li><a id="nav-font" href="#">&#160;&#160;My Collections</a></li>
+			              <li></li>
+                          <li><a id="nav-font" href="#">&#160;&#160;Followed searches</a></li>
+                          <li></li>
+                          <li><a id="nav-font" href="messages.xhtml">&#160;&#160;Messages</a></li>
+                          <li></li>
+		                </ul>
+                      </div>
+	               </li>
+                </ul>
+             </td>
+            </ui:fragment>
+            <ui:fragment rendered="#{headerbean.loggedin_user()==false}">
+             <td width="74"  height="41" >
+               <ul id="nav">
+	               <li id="my-bid4it" style="width:70px; height:20px;"><a href="#"><button  _sp="m570.l3188" style="border:none;background:#FFF;" >My Bid4It</button></a>
+		       <div style="width:100px;">
+                        <ul style="margin-left:-1px; margin-top:-2px;">
+                          <li></li>
+			              <li><a id="nav-font" href="#">&#160;&#160;Summary</a></li>
+                          <li></li>
+			              <li><a id="nav-font" href="#">&#160;&#160;Bids/Offers</a></li>
+			              <li></li>
+                          <li><a id="nav-font" href="#">&#160;&#160;Watch list</a></li>
+			              <li></li>
+                          <li><a id="nav-font" href="#">&#160;&#160;All lists</a></li>
+                          <li></li>
+                          <li><a id="nav-font" href="#">&#160;&#160;Purchase history</a></li>
+			              <li></li>
+                          <li><a id="nav-font" href="#">&#160;&#160;Selling</a></li>
+			              <li></li>
+                          <li><a id="nav-font" href="#">&#160;&#160;My Collections</a></li>
+			              <li></li>
+                          <li><a id="nav-font" href="#">&#160;&#160;Followed searches</a></li>
+                          <li></li>
+                          <li><a id="nav-font" href="#">&#160;&#160;Messages</a></li>
+                          <li></li>
+		        </ul>
+                      </div>
+	              </li>
+                </ul>
+             </td>
+            </ui:fragment>  
+            <ui:fragment rendered="#{messages.newmessages()==false}"> 
+             <td width="60"  height="41" >
+               <ul id="nav">
+	               <li id="my-bid4it" style="width:30px; height:20px;">
+                          <button  _sp="m570.l3188" style="border:none;background:#FFF;"><img src="img/bell.png" width="13" height="13" /></button>
+		          <div style="width:100px;margin-left:-135px">
+                            <ul style="margin-left:-1px; margin-top:-2px;">
+                              <li></li>
+			      <li><a id="nav-font" href="#">&#160;&#160;No Notifications</a></li>
+                              <li></li>
+		            </ul>
+                          </div>
+	               </li>
+                </ul>
+             </td>
+            </ui:fragment>
+            <ui:fragment rendered="#{messages.newmessages()==true}"> 
+             <td width="60"  height="41" >
+               <ul id="nav">
+	               <li id="my-bid4it" style="width:30px; height:20px;">
+                          <button  _sp="m570.l3188" style="border:none;background:#FFF;"><img src="img/red-bell.png" width="13" height="13" /></button>
+		          <div style="width:100px;margin-left:-135px">
+                            <ul style="margin-left:54px;height:95px;width:110px; margin-top:-2px; text-align: center;">
+                              <li></li>
+			      <li><a id="nav-font" href="messages.xhtml">You have unread messages at your inbox!</a></li>
+                              <li></li>
+		            </ul>
+                          </div>
+	               </li>
+                </ul>
+             </td>
+            </ui:fragment>
+             <td width="49"  height="41" >
+               <img src="img/shopping-cart.png" width="23" height="21" />
+             </td>
+          </tr>
+      </table>
+          
+</div>
+
+
+<div id="header-middle" style="width:1200px;  margin: 0px auto;" >
+    <table width="100%" style="text-align:left;">
+      <tr>
+         <td width="126" height="52">
+            <a href="http://localhost:8080/e-auction-2015/searchSTR:%20_searchCAT:All%20Categories"><img src="img/main-logo.png" width="123" height="57" /></a>
+         </td>
+         <td width="84">
+         
+            <ul id="shopbycat-nav">
+	               <li id="shopbycat" style="width:85px; height:40px;">
+                      <button style="border:none;background:none; font-size:12px; font-weight:bold;">Shop by category</button>
+		              <div >
+                        <ul>
+                          <li>
+                            <table id="shopbycat-table" >
+                               <tr>
+                                  <td width="5px" >
+                                      
+                                   </td>
+                                  <td width="20" >
+                                      <a href="#" style="font-size:12px; font-weight:bold; ">Collectibles &amp; art</a>  
+                                      <a href="#" style="font-size:10px; font-weight:100;">Collectibles</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Coins &amp; paper money</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Antiques</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Sports memorabilia</a>
+                                   </td>
+                                   <td width="20" > 
+                                      <a href="#" style="font-size:12px; font-weight:bold; ">Fashion</a>  
+                                      <a href="#" style="font-size:10px; font-weight:100;">Women</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Men</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Jewelry &amp; watches</a>
+                                      <a href="#" style="font-size:10px; font-weight:100;">Shoes</a>
+                                   </td>
+                                   <td width="20" > 
+                                      <a href="#" style="font-size:12px; font-weight:bold; ">Sporting goods</a>  
+                                      <a href="#" style="font-size:10px; font-weight:100;">Outdoor sports</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Team sports</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Exercise &amp; fitness</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Golf</a>
+                                  </td>
+                               </tr>
+                               <tr>
+                                  <td width="10px" >
+                                      
+                                   </td>
+                                   <td width="20" >
+                                      <a href="#" style="font-size:12px; font-weight:bold; ">Electronics</a>  
+                                      <a href="#" style="font-size:10px; font-weight:100;">Computers &amp; tablets</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Cameras &amp; photo</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">TV, audio &amp; surveillance</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Cell phones &amp; accessories</a>
+                                   </td>
+                                   
+                                    <td width="20" > 
+                                      <a href="#" style="font-size:12px; font-weight:bold; ">Home &amp; garden</a>  
+                                      <a href="#" style="font-size:10px; font-weight:100;">Yard, garden &amp; outdoor</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Crafts</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Home improvement</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Pet supplies</a>
+                                    </td>
+                                    <td width="20" > 
+                                      <a href="#" style="font-size:12px; font-weight:bold; ">Toys &amp; hobbies</a>  
+                                      <a href="#" style="font-size:10px; font-weight:100;">Collector &amp; hobbyist toys</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Kids toys</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Action figures</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Dolls &amp; bears</a>
+                                    </td>
+                               </tr>
+                               <tr>
+                                  <td width="10px" >
+                                      
+                                  </td>
+                                  <td width="20" >
+                                      <a href="#" style="font-size:12px; font-weight:bold; ">Entertainment</a>  
+                                      <a href="#" style="font-size:10px; font-weight:100;">Video games &amp; consoles</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Music</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">DVDs &amp; movies</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Tickets</a>
+                                   </td>
+                                   <td width="20" > 
+                                      <a href="#" style="font-size:12px; font-weight:bold;">Motors</a>  
+                                      <a href="#" style="font-size:10px; font-weight:100;">Parts &amp; accessories</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Cars &amp; trucks</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Motorcycles</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Passenger vehicles</a>
+                                   </td>
+                                   <td width="20" > 
+                                      <a href="#" style="font-size:12px; font-weight:bold; ">Other categories</a>  
+                                      <a href="#" style="font-size:10px; font-weight:100;">Books</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Health &amp; beauty</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Musical instruments &amp; gear</a> 
+                                      <a href="#" style="font-size:10px; font-weight:100;">Business &amp; industrial</a>
+                                   </td>
+                               </tr>
+                               
+                              </table>
+                            </li>
+			</ul>
+                       </div>
+	                </li>
+              </ul>
+            
+          </td>
+         
+         <h:form >
+          <td width="627">
+           <h:inputText  a:placeholder="Search..."  a:id="search_txt" a:value="#{headerbean.searchSTR}"/>
+          </td>
+          <td width="182" >
+            <div id="allcategories-btn" aria-expanded="false" >
+                      <table width="100%" style="text-align:left;">
+                        <tr>
+                          <td >
+                                <h:selectOneMenu a:id="allcat_select" value="#{headerbean.searchCAT}">
+                                    <f:selectItem itemValue="All Categories" itemLabel="All Categories" />
+                                    <f:selectItem itemValue="Action figures" itemLabel="Action figures" />
+                                    <f:selectItem itemValue="Antiques" itemLabel="Antiques" />
+                                    <f:selectItem itemValue="Books" itemLabel="Books" />
+                                    <f:selectItem itemValue="Business &amp; industrial" itemLabel="Business &amp; industrial" />
+                                    <f:selectItem itemValue="Cameras &amp; photo" itemLabel="Cameras &amp; photo" />
+                                    <f:selectItem itemValue="Cars &amp; trucks" itemLabel="Cars &amp; trucks" />
+                                    <f:selectItem itemValue="Cell phones &amp; accessories" itemLabel="Cell phones &amp; accessories" />
+                                    <f:selectItem itemValue="Collectibles" itemLabel="Collectibles" />
+                                    <f:selectItem itemValue="Collector &amp; hobbyist toys" itemLabel="Collector &amp; hobbyist toys" />
+                                    <f:selectItem itemValue="Computers &amp; tablets" itemLabel="Computers &amp; tablets" />
+                                    <f:selectItem itemValue="Crafts" itemLabel="Crafts" />
+                                    <f:selectItem itemValue="Dolls &amp; bears" itemLabel="Dolls &amp; bears" />
+                                    <f:selectItem itemValue="DVDs &amp; movies" itemLabel="DVDs &amp; movies" />
+                                    <f:selectItem itemValue="Exercise &amp; fitness" itemLabel="Exercise &amp; fitness" />
+                                    <f:selectItem itemValue="Golf" itemLabel="Golf" />
+                                    <f:selectItem itemValue="Health &amp; beauty" itemLabel="Health &amp; beauty" />
+                                    <f:selectItem itemValue="Home improvement" itemLabel="Home improvement" />
+                                    <f:selectItem itemValue="Jewelry &amp; watches" itemLabel="Jewelry &amp; watches" />
+                                    <f:selectItem itemValue="Kids toys" itemLabel="Kids toys" />
+                                    <f:selectItem itemValue="Men" itemLabel="Men" />
+                                    <f:selectItem itemValue="Motorcycles" itemLabel="Motorcycles" />
+                                    <f:selectItem itemValue="Music" itemLabel="Music" />
+                                    <f:selectItem itemValue="Musical instruments &amp; gear" itemLabel="Musical instruments &amp; gear" />
+                                    <f:selectItem itemValue="Passenger vehicles" itemLabel="Passenger vehicles" />
+                                    <f:selectItem itemValue="Parts &amp; accessories" itemLabel="Parts &amp; accessories" />
+                                    <f:selectItem itemValue="Pet supplies" itemLabel="Pet supplies" />
+                                    <f:selectItem itemValue="Shoes" itemLabel="Shoes" />
+                                    <f:selectItem itemValue="Sports memorabilia" itemLabel="Sports memorabilia" />
+                                    <f:selectItem itemValue="Team sports" itemLabel="Team sports" />
+                                    <f:selectItem itemValue="Tickets" itemLabel="Tickets" />
+                                    <f:selectItem itemValue="TV, audio &amp; surveillance" itemLabel="TV, audio &amp; surveillance" />
+                                    <f:selectItem itemValue="Video games &amp; consoles" itemLabel="Video games &amp; consoles" />
+                                    <f:selectItem itemValue="Women" itemLabel="Women" />
+                                    <f:selectItem itemValue="Yard, garden &amp; outdoor" itemLabel="Yard, garden &amp; outdoor" />
+                                </h:selectOneMenu>
+                          </td>
+                          <td>
+                          </td>
+                        </tr>
+                       </table>
+             </div>  
+           </td>
+           <td width="97">
+               <h:commandButton a:value="Search" a:id ="searchbtn" action="#{headerbean.redirect()}" />
+           </td> 
+         </h:form>
+           
+           <td width="56">
+              <a href="web/signup-form.jsp" id="adv-search">Advanced</a>
+           </td>
+      </tr>
+    </table>
+</div>
+     <center>
+     <div align="center" id="header-bottom" style=" margin: 0px auto;" >
+         <table width="989">
+           <tr>
+             <td width="73">
+                 
+                 <ul id="bottom-menu-nav">
+	               <li id="bottom-menu" style="width:85px; height:35px;">
+                      <button id="cat-btn">Fashion</button>
+		              <div >
+                        <ul>
+                          <li>
+                            <table  style= "margin-left:-109px;" width="1200px" height="300px" id="bottom-menu-table" >
+                               <tr>
+                                  <td width="195" style="vertical-align: top;" >
+                                      <p></p>
+                                      <p href="#" style="font-family:Tahoma, Geneva, sans-serif; font-size:16px; font-weight:bold; text-decoration:underline; ">Top categories</p> 
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Collectibles</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Coins &amp; paper money</a>
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Antiques</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Sports memorabilia</a>
+                                   </td>
+                                   <td width="195" style="vertical-align: top;" >
+                                      <p></p>
+                                      <p href="#" style="font-family:Tahoma, Geneva, sans-serif; font-size:16px; font-weight:bold; text-decoration:underline; ">Other categories</p> 
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Collectibles</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Coins &amp; paper money</a>
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Antiques</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Sports memorabilia</a>
+                                   </td>
+                                   <td >
+                                      <a href="#" ><img src="img/bottom-menu-1.jpeg"  /></a>
+                                   </td>
+                               </tr>
+                               
+                              </table>
+                            </li>
+			             </ul>
+                       </div>
+	                </li>
+              </ul>
+             </td>
+             <td width="89">
+                 <ul id="bottom-menu-nav">
+	               <li id="bottom-menu" style="width:85px; height:35px;">
+                      <button id="cat-btn">Electronics</button>
+		              <div >
+                        <ul>
+                          <li>
+                            <table style="margin-left:-218px;" width="1200px" height="300px" id="bottom-menu-table">
+                               <tr>
+                                  <td width="195" style="vertical-align: top;" >
+                                      <p></p>
+                                      <p href="#" style="font-family:Tahoma, Geneva, sans-serif; font-size:16px; font-weight:bold; text-decoration:underline; ">Top categories</p> 
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Collectibles</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Coins &amp; paper money</a>
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Antiques</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Sports memorabilia</a>
+                                   </td>
+                                   <td width="195" style="vertical-align: top;" >
+                                      <p></p>
+                                      <p href="#" style="font-family:Tahoma, Geneva, sans-serif; font-size:16px; font-weight:bold; text-decoration:underline; ">Other categories</p> 
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Collectibles</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Coins &amp; paper money</a>
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Antiques</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Sports memorabilia</a>
+                                   </td>
+                                   <td >
+                                      <a href="#" ><img src="img/bottom-menu-2.jpeg"  /></a>
+                                   </td>
+                               </tr>
+                              </table>
+                            </li>
+			             </ul>
+                       </div>
+	                </li>
+              </ul>
+             </td>
+             <td width="140">
+                 <ul id="bottom-menu-nav">
+	               <li id="bottom-menu" style="width:125px; height:35px;">
+                      <button id="cat-btn">Collectibles &amp; Art</button>
+		              <div >
+                        <ul>
+                          <li>
+                            <table style="margin-left:-330px;" width="1200px" height="300px" id="bottom-menu-table">
+                               <tr>
+                                  <td width="195" style="vertical-align: top;" >
+                                      <p></p>
+                                      <p href="#" style="font-family:Tahoma, Geneva, sans-serif; font-size:16px; font-weight:bold; text-decoration:underline; ">Top categories</p> 
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Collectibles</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Coins &amp; paper money</a>
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Antiques</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Sports memorabilia</a>
+                                   </td>
+                                   <td width="195" style="vertical-align: top;" >
+                                      <p></p>
+                                      <p href="#" style="font-family:Tahoma, Geneva, sans-serif; font-size:16px; font-weight:bold; text-decoration:underline; ">Other categories</p> 
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Collectibles</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Coins &amp; paper money</a>
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Antiques</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Sports memorabilia</a>
+                                   </td>
+                                   <td >
+                                      <a href="#" ><img src="img/bottom-menu-3.jpeg"  /></a>
+                                   </td>
+                               </tr>
+                               
+                              </table>
+                            </li>
+			             </ul>
+                       </div>
+	                </li>
+              </ul>
+             </td>
+             <td width="128">
+                <ul id="bottom-menu-nav">
+	               <li id="bottom-menu" style="width:110px; height:35px;">
+                      <button id="cat-btn">Home &amp; Garden</button>
+		              <div >
+                        <ul>
+                          <li>
+                            <table style="margin-left:-504px;" width="1200px" height="300px" id="bottom-menu-table">
+                               <tr>
+                                  <td width="195" style="vertical-align: top;" >
+                                      <p></p>
+                                      <p href="#" style="font-family:Tahoma, Geneva, sans-serif; font-size:16px; font-weight:bold; text-decoration:underline; ">Top categories</p> 
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Collectibles</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Coins &amp; paper money</a>
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Antiques</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Sports memorabilia</a>
+                                   </td>
+                                   <td width="195" style="vertical-align: top;" >
+                                      <p></p>
+                                      <p href="#" style="font-family:Tahoma, Geneva, sans-serif; font-size:16px; font-weight:bold; text-decoration:underline; ">Other categories</p> 
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Collectibles</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Coins &amp; paper money</a>
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Antiques</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Sports memorabilia</a>
+                                   </td>
+                                   <td >
+                                      <a href="#" ><img src="img/bottom-menu-4.jpeg"  /></a>
+                                   </td>
+                               </tr>
+                               
+                              </table>
+                            </li>
+			             </ul>
+                       </div>
+	                </li>
+              </ul>
+             </td>
+             <td width="119">
+                <ul id="bottom-menu-nav">
+	               <li id="bottom-menu" style="width:110px; height:35px;">
+                      <button id="cat-btn">Sporting Goods</button>
+		              <div >
+                        <ul>
+                          <li>
+                            <table style="margin-left:-664px;" width="1200px" height="300px" id="bottom-menu-table">
+                               <tr>
+                                  <td width="195" style="vertical-align: top;" >
+                                      <p></p>
+                                      <p href="#" style="font-family:Tahoma, Geneva, sans-serif; font-size:16px; font-weight:bold; text-decoration:underline; ">Top categories</p> 
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Collectibles</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Coins &amp; paper money</a>
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Antiques</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Sports memorabilia</a>
+                                   </td>
+                                   <td width="195" style="vertical-align: top;" >
+                                      <p></p>
+                                      <p href="#" style="font-family:Tahoma, Geneva, sans-serif; font-size:16px; font-weight:bold; text-decoration:underline; ">Other categories</p> 
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Collectibles</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Coins &amp; paper money</a>
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Antiques</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Sports memorabilia</a>
+                                   </td>
+                                   <td >
+                                      <a href="#" ><img src="img/bottom-menu-5.jpeg"  /></a>
+                                   </td>
+                                </tr>
+                              </table>
+                            </li>
+			             </ul>
+                       </div>
+	                </li>
+              </ul>
+             </td>
+             <td width="66">
+                <ul id="bottom-menu-nav">
+	               <li id="bottom-menu" style="width:110px; height:35px;">
+                      <button id="cat-btn">Motors</button>
+		              <div >
+                        <ul>
+                          <li>
+                            <table style="margin-left:-813px;" width="1200px" height="300px" id="bottom-menu-table">
+                               <tr>
+                                  <td width="195" style="vertical-align: top;" >
+                                      <p></p>
+                                      <p href="#" style="font-family:Tahoma, Geneva, sans-serif; font-size:16px; font-weight:bold; text-decoration:underline; ">Top categories</p> 
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Collectibles</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Coins &amp; paper money</a>
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Antiques</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Sports memorabilia</a>
+                                   </td>
+                                   <td width="195" style="vertical-align: top;" >
+                                      <p></p>
+                                      <p href="#" style="font-family:Tahoma, Geneva, sans-serif; font-size:16px; font-weight:bold; text-decoration:underline; ">Other categories</p> 
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Collectibles</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Coins &amp; paper money</a>
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;">Antiques</a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;">Sports memorabilia</a>
+                                   </td>
+                                   <td >
+                                      <a href="#" ><img src="img/bottom-menu-6.jpeg"  /></a>
+                                   </td>
+                               </tr>
+                               
+                              </table>
+                            </li>
+			             </ul>
+                       </div>
+	                </li>
+              </ul>
+             </td>
+             <td width="113">
+                <ul id="bottom-menu-nav">
+	               <li id="bottom-menu" style="width:110px; height:35px;">
+                      <button id="cat-btn">Daily Deals</button>
+		              <div >
+                        <ul>
+                          <li>
+                            <table style="margin-left:-953px;" width="1200px" height="300px" id="bottom-menu-table">
+                               <tr>
+                                  <td width="195" style="vertical-align: top;" >
+                                      <p></p>
+                                      <p href="#" style="font-family:Tahoma, Geneva, sans-serif; font-size:16px; font-weight:bold; text-decoration:underline; ">Top categories</p> 
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;"></a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;"></a>
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;"></a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;"></a>
+                                   </td>
+                                   <td width="195" style="vertical-align: top;" >
+                                      <p></p>
+                                      <p href="#" style="font-family:Tahoma, Geneva, sans-serif; font-size:16px; font-weight:bold; text-decoration:underline; ">Other categories</p> 
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;"></a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;"></a>
+                                      <p></p> 
+                                      <a href="#" style="font-size:14px; font-weight:100;"></a> 
+                                      <p></p>
+                                      <a href="#" style="font-size:14px; font-weight:100;"></a>
+                                   </td>
+                                   <td >
+                                      <a href="#" ><img src="img/under-construction.jpeg" width="700" height="300"  /></a>
+                                   </td>
+                               </tr>
+                               
+                              </table>
+                            </li>
+			</ul>
+                       </div>
+	                </li>
+              </ul>
+             </td>
+           </tr>
+         </table>
+        
+     </div>
+     </center>
+
+</div>
+    
+</ui:composition>

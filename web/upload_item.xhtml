@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+
+
+
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Upload Item</title>
+<link rel="stylesheet" href="css/style.css" type="text/css"/>
+</h:head>
+
+<h:body>
+
+<table width="700px"   align="center" style="max-width: 1000px;text-align:center;">
+      <tr >
+        <td height="114" style="border-bottom: 1px solid #ccc;">
+            <h4>Please Complete The Form Below</h4>
+        </td>
+      </tr>
+      <tr>
+          <td width="30%" style="border-bottom: 1px solid #ccc;" >
+              <label style="font-size:20px;font-family: Verdana, Geneva, sans-serif;">Add item's categories<br></br><br></br></label>
+              <h:form >
+              <table>
+               <tr>
+                   <td>
+                    <div  style="text-align:left; margin-left:215px;"  >
+                      <table width="100%"  >
+                        <tr>
+                          <td >
+                             <h:selectOneMenu value="#{upload_item.currentcategory}" id="allcat-select">
+                               <f:selectItem itemValue="Action figures" itemLabel="&#160;&#160;Action figures"/>
+                               <f:selectItem itemValue="Antiques" itemLabel="&#160;&#160;Antiques"/>
+                               <f:selectItem itemValue="Books" itemLabel="&#160;&#160;Books"/>
+                               <f:selectItem itemValue="Business &amp; industrial" itemLabel="&#160;&#160;Business &amp; industrial"/>
+                               <f:selectItem itemValue="Cameras &amp; photo" itemLabel="&#160;&#160;Cameras &amp; photo"/>
+                               <f:selectItem itemValue="Cars &amp; trucks" itemLabel="&#160;&#160;Cars &amp; trucks"/>
+                               <f:selectItem itemValue="Cell phones &amp; accessories" itemLabel="&#160;&#160;Cell phones &amp; accessories"/>
+                               <f:selectItem itemValue="Coins &amp; paper money" itemLabel="&#160;&#160;Coins &amp; paper money"/>
+                               <f:selectItem itemValue="Collectibles" itemLabel="&#160;&#160;Collectibles"/>
+                               <f:selectItem itemValue="Collector &amp; hobbyist toys" itemLabel="&#160;&#160;Collector &amp; hobbyist toys"/>
+                               <f:selectItem itemValue="Computers &amp; tablets" itemLabel="&#160;&#160;Computers &amp; tablets"/>
+                               <f:selectItem itemValue="Crafts" itemLabel="&#160;&#160;Crafts"/>
+                               <f:selectItem itemValue="Dolls &amp; bears" itemLabel="&#160;&#160;Dolls &amp; bears"/>
+                               <f:selectItem itemValue="DVDs &amp; movies" itemLabel="&#160;&#160;DVDs &amp; movies"/>
+                               <f:selectItem itemValue="Exercise &amp; fitness" itemLabel="&#160;&#160;Exercise &amp; fitness"/>
+                               <f:selectItem itemValue="Golf" itemLabel="&#160;&#160;Golf"/>
+                               <f:selectItem itemValue="Health &amp; beauty" itemLabel="&#160;&#160;Health &amp; beauty"/>
+                               <f:selectItem itemValue="Home improvement" itemLabel="&#160;&#160;Home improvement"/>
+                               <f:selectItem itemValue="Jewelry &amp; watches" itemLabel="&#160;&#160;Jewelry &amp; watches"/>
+                               <f:selectItem itemValue="Kids toys" itemLabel="&#160;&#160;Kids toys"/>
+                               <f:selectItem itemValue="Men" itemLabel="&#160;&#160;Men"/>
+                               <f:selectItem itemValue="Motorcycles" itemLabel="&#160;&#160;Motorcycles"/>
+                               <f:selectItem itemValue="Music" itemLabel="&#160;&#160;Music"/>
+                               <f:selectItem itemValue="Musical instruments &amp; gear" itemLabel="&#160;&#160;Musical instruments &amp; gear"/>
+                               <f:selectItem itemValue="Outdoor sports" itemLabel="&#160;&#160;Outdoor sports"/>
+                               <f:selectItem itemValue="Passenger vehicles" itemLabel="&#160;&#160;Passenger vehicles"/>
+                               <f:selectItem itemValue="Parts &amp; accessories" itemLabel="&#160;&#160;Parts &amp; accessories"/>
+                               <f:selectItem itemValue="Pet supplies" itemLabel="&#160;&#160;Pet supplies"/>
+                               <f:selectItem itemValue="Shoes" itemLabel="&#160;&#160;Shoes"/>
+                               <f:selectItem itemValue="Sports memorabilia" itemLabel="&#160;&#160;Sports memorabilia"/>
+                               <f:selectItem itemValue="Team sports" itemLabel="&#160;&#160;Team sports"/>
+                               <f:selectItem itemValue="Tickets" itemLabel="&#160;&#160;Tickets"/>
+                               <f:selectItem itemValue="TV, audio &amp; surveillance" itemLabel="&#160;&#160;TV, audio &amp; surveillance"/>
+                               <f:selectItem itemValue="Video games &amp; consoles" itemLabel="&#160;&#160;Video games &amp; consoles"/>
+                               <f:selectItem itemValue="Women" itemLabel="&#160;&#160;Women"/>
+                               <f:selectItem itemValue="Yard, garden &amp; outdoor" itemLabel="&#160;&#160;Yard, garden &amp; outdoor"/>
+                             </h:selectOneMenu>  
+                          </td>
+                          <td>
+                          </td>
+                        </tr>
+                       </table>
+                    </div> 
+                   </td>
+                   <td>
+                       <h:commandButton value="Add" action="#{upload_item.add_to_category_list()}" style="width:60px;height:25px;font-weight:100;font-size:14px;" />
+                   </td>
+                  </tr>
+                  <tr>
+                      <td style="text-align: right;">
+                          <h:outputText value="#{upload_item.categories_num} categories added"/>
+                      </td>
+                  </tr>
+              </table>
+             </h:form >
+             <br></br>
+          </td> 
+      </tr>   
+      <tr>
+          <td width="355" height="56">
+               <label style="font-size:20px;font-family: Verdana, Geneva, sans-serif;">Location Information<br></br><br></br></label>   
+              <h:commandButton  a:id="sfButton" onclick="getLocation()" value="Load current location"/>
+          </td>
+      </tr>
+      <tr>
+          <td width="355" style="border-bottom: 1px solid #ccc;">
+                <h:form>
+                  <h:outputText a:id="Lat" ></h:outputText>
+                  <h:inputHidden  a:id="pass_latitude" value="#{upload_item.item.latitude}"  />
+                  <h:outputText  a:id="latitude" />
+                  <h:outputText a:id="Long" ></h:outputText>
+                  <h:inputHidden  a:id="pass_longtitude" value="#{upload_item.item.longtitude}"  />
+                  <h:outputText  a:id="longtitude" />
+                  <h:outputText a:id="br" ></h:outputText>
+                   
+                  <script type="text/javascript">
+                    var x = document.getElementById("latitude");
+                    var y = document.getElementById("longtitude");
+                    var lat = document.getElementById("Lat");
+                    var long = document.getElementById("Long");
+                    var br = document.getElementById("br");
+                    var pass_latitude= document.getElementById("pass_latitude");
+                    var pass_longtitude = document.getElementById("pass_longtitude");
+                    var temp1;
+                    var temp2;
+
+                    function getLocation() {
+                       if (navigator.geolocation) {
+                           navigator.geolocation.getCurrentPosition(showPosition);
+                       } else { 
+                          lat.innerHTML = "Geolocation is not supported by this browser.";
+                       }
+                    }
+                    function showPosition(position) {
+                       lat.innerHTML ="Latitude   : ";
+                       x.innerHTML =  position.coords.latitude;
+                       long.innerHTML ="<br>Longitude: ";
+                       y.innerHTML = position.coords.longitude;
+                       br.innerHTML = "</br>";
+                       temp1=position.coords.latitude;
+                       temp2=position.coords.longitude;
+                   }
+                   function addPosition() {
+                       pass_latitude.value=temp1;
+                       pass_longtitude.value=temp2;
+                   }
+                  </script>
+                  <h:commandButton  a:id="sfButton"  value="Add Location to your item" onclick="addPosition()" action="#{upload_item.add_coordinates()}"/>
+                </h:form>
+          </td>
+      </tr>
+      <h:form a:id="su_form" enctype="multipart/form-data">
+      <tr>
+        <td style="border-bottom: 1px solid #ccc;">
+           <label style="font-size:20px;font-family: Verdana, Geneva, sans-serif;">Add some pictures</label>
+           <table style="margin-left:255px;">
+              <!-- <h:graphicImage id="image" alt="uploaded image" url="/img/no_image.png"/>-->
+              <tr><td  ><p:fileUpload value="#{upload_item.file1}" mode="simple" /></td></tr>
+              <tr><td  ><p:fileUpload value="#{upload_item.file2}" mode="simple" /></td></tr>
+              <tr><td  ><p:fileUpload value="#{upload_item.file3}" mode="simple" /></td></tr>
+              <tr><td  ><p:fileUpload value="#{upload_item.file4}" mode="simple" /></td></tr>
+              <tr><td  ><p:fileUpload value="#{upload_item.file5}" mode="simple" /></td></tr>
+           </table>
+        </td>         
+      </tr>
+      <tr>
+          <td width="30%" >
+              <label style="font-size:20px;font-family: Verdana, Geneva, sans-serif;">More Information<br></br><br></br></label>
+              <h:inputText  a:placeholder=" Title for your item"  a:value="#{upload_item.item.name}"  styleClass="sup-username"/>
+          </td> 
+      </tr>
+      <tr>
+          <td width="355" height="56"><h:inputText a:placeholder=" Country which positioned your item"  a:value="#{upload_item.item.country}"  styleClass="sup"/></td>
+      </tr>
+      <tr>
+          <td width="355" height="56"><h:inputText a:placeholder=" Postcode which positioned your item" a:value="#{upload_item.item.postcode}" styleClass="sup"/></td>
+      </tr>
+     
+      <tr>
+          <td width="355" height="56"><h:inputTextarea a:placeholder=" Description" a:value="#{upload_item.item.description}" style="width:350px; height:200px;font-size:14px;" a:id="adminstext"/></td>
+      </tr>
+      <tr >
+          <td width="355" height="56" ><h:outputLabel   a:value=" Initial price(Only for auction):"  /><h:inputText a:placeholder=""  a:value="#{upload_item.item.first_bid}" styleClass="upload_item_txt"/></td>
+      </tr>
+      <tr >
+          <td width="355" height="56" ><h:outputLabel   a:value=" Instant Buy price   (Optional):&#160;&#160;&#160;"  /><h:inputText  a:value="#{upload_item.item.buy_price}"  styleClass="upload_item_txt"/></td>
+      </tr>
+      <tr>
+          <td width="355" height="56"><h:commandButton value="Submit"  a:id="sfButton"   action="#{upload_item.storeItem_and_Imges()}"/></td>
+      </tr>
+      </h:form>
+</table>
+
+    <ui:include src="include/footer.xhtml"/>
+    <ui:include src="include/popups.xhtml"/>
+
+
+</h:body>
+</html>
