@@ -12,7 +12,7 @@
 
  
  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
- <title>Main</title>
+ <title>Selling</title>
  <link rel="stylesheet" href="css/style.css" type="text/css"/>
  <style>
    html { 
@@ -22,11 +22,7 @@
 	
 </h:head>
     
-<f:metadata >
-    <f:viewParam name="searchSTR" value="#{index.searchSTR}"/>
-    <f:viewParam name="searchCAT" value="#{index.searchCAT}"/>
-</f:metadata>
-<f:event listener="#{index.searchItems()}" type="preRenderView" />
+<f:event listener="#{selling.searchmyItems()}" type="preRenderView" />
 <h:body>
 
 <ui:include src="include/header.xhtml"/>
@@ -38,7 +34,7 @@
       </tr>
       <tr>
        <td>
-         
+         <a style="font-weight: bold; font-family:Tahoma, Geneva, sans-serif;font-size: 18px;">My Items</a><br></br>
          <table  align="center" id="index_table" cellspacing="0" cellpadding="0" >
            <tr>
              <td style="border-top: 1px solid  #ccc;" height="1px">
@@ -46,16 +42,16 @@
              <td style="border-top: 1px solid  #ccc;" height="1px">
              </td>
            </tr>
-          <ui:repeat value="#{index.pageItems}" var="currentitem" >  
+          <ui:repeat value="#{selling.pageItems}" var="currentitem" >  
            <tr>
             <td width="235px" height="175px" style="border-bottom:  1px solid  #ccc;" align="left" >
-                <p:graphicImage class="autoResizeImage" value="search_images/#{currentitem.itemId}.jpg"/>
+                <p:graphicImage class="autoResizeImage" value="search_images/#{currentitem.item.itemId}.jpg"/>
             </td>
             <td  style=" border-bottom:  1px solid  #ccc;">
                 <table height="155px" cellspacing="0" cellpadding="0" >
                     <tr>
                         <td align="left" height="40px" valign="top">
-                           <a id="clink_index" href="/e-auction-2015/faces/items_itemid=#{currentitem.itemId}">#{currentitem.name}</a>
+                           <a id="clink_index" href="/e-auction-2015/items_itemid=#{currentitem.item.itemId}">#{currentitem.item.name}</a>
                         </td>
                     </tr>
                     <tr>
@@ -63,17 +59,22 @@
                             <table height="90%" cellspacing="0" cellpadding="0" >
                                <tr>
                                  <td align="left" width="250px" valign="top">
-                                    <ui:fragment rendered="#{currentitem.buy_price!=0}" >  
-                                     <h:outputLabel style="font-weight: bold; font-family:Tahoma, Geneva, sans-serif;font-size: 18px;" a:value="EUR #{currentitem.buy_price}"/> <br></br>
+                                    <ui:fragment rendered="#{currentitem.item.buy_price!=0}" >  
+                                     <h:outputLabel style="font-weight: bold; font-family:Tahoma, Geneva, sans-serif;font-size: 18px;" a:value="EUR #{currentitem.item.buy_price}"/> <br></br>
                                      <a style="color:#999; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;">Buy it now</a><br></br><br></br>
                                     </ui:fragment>
-                                    <ui:fragment rendered="#{currentitem.currently!=0}" >  
-                                     <h:outputLabel style="font-weight: bold; font-family:Tahoma, Geneva, sans-serif;font-size: 18px;" a:value="EUR #{currentitem.currently}"/><br></br>
-                                     <h:outputLabel style="color:#999; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;" a:value="#{currentitem.number_of_bids} bids"/>
+                                    <ui:fragment rendered="#{currentitem.item.currently!=0}" >  
+                                     <h:outputLabel style="font-weight: bold; font-family:Tahoma, Geneva, sans-serif;font-size: 18px;" a:value="EUR #{currentitem.item.currently}"/><br></br>
+                                     <h:outputLabel style="color:#999; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;" a:value="#{currentitem.item.number_of_bids} bids"/>
                                     </ui:fragment> 
                                  </td >
                                  <td valign="top" align="left">
-                                     <h:outputLabel style="color:#999; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;" a:value="From #{currentitem.country}"/><br></br>
+                                     <ui:fragment rendered="#{currentitem.active}" >  
+                                       <h:outputLabel style="color:#999; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;" a:value="Active"/><br></br>
+                                     </ui:fragment> 
+                                     <ui:fragment rendered="#{!currentitem.active}" >  
+                                       <h:outputLabel style="color:#999; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;" a:value="Not active"/><br></br>
+                                     </ui:fragment> 
                                  </td>
                                </tr>
                             </table>
@@ -100,27 +101,27 @@
                        <tr>
                             <td valign="center">
                                <!--The paging buttons-->
-                               <ui:fragment rendered="#{index.firstRow != 0}"> 
-                                 <h:commandButton a:id="index_paging_arrow_btns" value="prev" action="#{index.pagePrevious}"  image="img/leftarrow.png"/>
+                               <ui:fragment rendered="#{selling.firstRow != 0}"> 
+                                 <h:commandButton a:id="index_paging_arrow_btns" value="prev" action="#{selling.pagePrevious}"  image="img/leftarrow.png"/>
                                </ui:fragment>
-                               <ui:fragment rendered="#{index.firstRow == 0}"> 
+                               <ui:fragment rendered="#{selling.firstRow == 0}"> 
                                  <h:commandButton a:id="index_paging_arrow_btns" value="prev"  image="img/leftarrowdis.png"/>
                                </ui:fragment>
                             </td>
                             <td>
                                <!--The paging links-->
-                                <ui:repeat value="#{index.pages}" var="page">
-                                    <h:commandButton a:id="index_paging_num_btns" value="#{page}" actionListener="#{index.page}" rendered="#{page != index.currentPage}" />
-                                    <ui:fragment rendered="#{page == index.currentPage}">
+                                <ui:repeat value="#{selling.pages}" var="page">
+                                    <h:commandButton a:id="index_paging_num_btns" value="#{page}" actionListener="#{selling.page}" rendered="#{page != selling.currentPage}" />
+                                    <ui:fragment rendered="#{page == selling.currentPage}">
                                        <h:commandButton a:id="index_paging_num_btn_focus" value="#{page}"  />
                                     </ui:fragment>
                                 </ui:repeat>
                             </td>
                             <td>
-                                <ui:fragment rendered="#{!(index.firstRow + index.rowsPerPage &gt;= index.totalRows)}"> 
-                                  <h:commandButton a:id="index_paging_arrow_btns" value="next" action="#{index.pageNext}"  image="img/rightarrow.png"/>
+                                <ui:fragment rendered="#{!(selling.firstRow + selling.rowsPerPage &gt;= selling.totalRows)}"> 
+                                  <h:commandButton a:id="index_paging_arrow_btns" value="next" action="#{selling.pageNext}"  image="img/rightarrow.png"/>
                                 </ui:fragment>
-                                <ui:fragment rendered="#{index.firstRow + index.rowsPerPage &gt;= index.totalRows}"> 
+                                <ui:fragment rendered="#{selling.firstRow + selling.rowsPerPage &gt;= selling.totalRows}"> 
                                   <h:commandButton a:id="index_paging_arrow_btns" value="next"  image="img/rightarrowdis.png"/>
                                 </ui:fragment>
                             </td> 
@@ -130,7 +131,7 @@
                  <td width="160px" align="left">
                      <h:outputLabel style="font-family:Tahoma, Geneva, sans-serif;font-size: 12px; color:#999 " value="Items per page:"/>
                      <h:form>
-                         <h:selectOneMenu value="#{index.rowsPerPage}" valueChangeListener="#{index.pageFirst}" onchange="submit()">
+                         <h:selectOneMenu value="#{selling.rowsPerPage}" valueChangeListener="#{selling.pageFirst}" onchange="submit()">
                                     <f:selectItem itemValue="1" itemLabel="1" />
                                     <f:selectItem itemValue="2" itemLabel="2" />
                                     <f:selectItem itemValue="4" itemLabel="4" />

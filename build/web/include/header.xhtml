@@ -50,9 +50,16 @@
              <td width="89" height="41" >
               <a style="font-size:10px; border-left:1px solid ;">&#160;&#160;&#160;</a><a href="/e-auction-2015/faces/under-construction.xhtml" _sp="m570.l3188"  id="header-font">Gift Cards</a>
              </td>
-             <td width="48"  height="41" >
-              <a style="font-size:10px; border-left:1px solid ;">&#160;&#160;&#160;</a><a href="/e-auction-2015/faces/under-construction.xhtml" _sp="m570.l3188"  id="header-font">Sell</a>
+           <ui:fragment rendered="#{headerbean.loggedin_user()==true}">  
+              <td width="48"  height="41" >
+              <a style="font-size:10px; border-left:1px solid ;">&#160;&#160;&#160;</a><a href="upload_item.xhtml" _sp="m570.l3188"  id="header-font">Sell</a>
              </td>
+           </ui:fragment>
+           <ui:fragment rendered="#{headerbean.loggedin_user()==false}">  
+              <td width="48"  height="41" >
+              <a style="font-size:10px; border-left:1px solid ;">&#160;&#160;&#160;</a><a href="signup_warning.xhtml" _sp="m570.l3188"  id="header-font">Sell</a>
+             </td>
+           </ui:fragment>
              <td width="738"  height="41" >
               <a style="font-size:10px; border-left:1px solid ;">&#160;&#160;&#160;</a><a href="/e-auction-2015/faces/under-construction.xhtml" _sp="m570.l3188"  id="header-font">Help &amp; Contact</a>
              </td>
@@ -63,22 +70,10 @@
 		              <div style="width:100px;">
                         <ul style="margin-left:-1px; margin-top:-2px;">
                           <li></li>
-			              <li><a id="nav-font" href="#">&#160;&#160;Summary</a></li>
+			  <li><a id="nav-font" href="#">&#160;&#160;Bids/Offers</a></li>
                           <li></li>
-			              <li><a id="nav-font" href="#">&#160;&#160;Bids/Offers</a></li>
-			              <li></li>
-                          <li><a id="nav-font" href="#">&#160;&#160;Watch list</a></li>
-			              <li></li>
-                          <li><a id="nav-font" href="#">&#160;&#160;All lists</a></li>
-                          <li></li>
-                          <li><a id="nav-font" href="#">&#160;&#160;Purchase history</a></li>
-			              <li></li>
-                          <li><a id="nav-font" href="#">&#160;&#160;Selling</a></li>
-			              <li></li>
-                          <li><a id="nav-font" href="#">&#160;&#160;My Collections</a></li>
-			              <li></li>
-                          <li><a id="nav-font" href="#">&#160;&#160;Followed searches</a></li>
-                          <li></li>
+                          <li><a id="nav-font" href="selling.xhtml">&#160;&#160;Selling</a></li>
+			  <li></li>
                           <li><a id="nav-font" href="messages.xhtml">&#160;&#160;Messages</a></li>
                           <li></li>
 		                </ul>
@@ -94,23 +89,11 @@
 		       <div style="width:100px;">
                         <ul style="margin-left:-1px; margin-top:-2px;">
                           <li></li>
-			              <li><a id="nav-font" href="#">&#160;&#160;Summary</a></li>
+			  <li><a id="nav-font" href="signup_warning.xhtml">&#160;&#160;Bids/Offers</a></li>
                           <li></li>
-			              <li><a id="nav-font" href="#">&#160;&#160;Bids/Offers</a></li>
-			              <li></li>
-                          <li><a id="nav-font" href="#">&#160;&#160;Watch list</a></li>
-			              <li></li>
-                          <li><a id="nav-font" href="#">&#160;&#160;All lists</a></li>
+                          <li><a id="nav-font" href="signup_warning.xhtml">&#160;&#160;Selling</a></li>
                           <li></li>
-                          <li><a id="nav-font" href="#">&#160;&#160;Purchase history</a></li>
-			              <li></li>
-                          <li><a id="nav-font" href="#">&#160;&#160;Selling</a></li>
-			              <li></li>
-                          <li><a id="nav-font" href="#">&#160;&#160;My Collections</a></li>
-			              <li></li>
-                          <li><a id="nav-font" href="#">&#160;&#160;Followed searches</a></li>
-                          <li></li>
-                          <li><a id="nav-font" href="#">&#160;&#160;Messages</a></li>
+                          <li><a id="nav-font" href="signup_warning.xhtml">&#160;&#160;Messages</a></li>
                           <li></li>
 		        </ul>
                       </div>
@@ -163,7 +146,7 @@
     <table width="100%" style="text-align:left;">
       <tr>
          <td width="126" height="52">
-            <a href="http://localhost:8080/e-auction-2015/searchSTR:%20_searchCAT:All%20Categories"><img src="img/main-logo.png" width="123" height="57" /></a>
+            <a href="/e-auction-2015/faces/searchSTR:%20_searchCAT:All%20Categories"><img src="img/main-logo.png" width="123" height="57" /></a>
          </td>
          <td width="84">
          
@@ -322,7 +305,7 @@
          </h:form>
            
            <td width="56">
-              <a href="web/signup-form.jsp" id="adv-search">Advanced</a>
+              <a href="#" id="adv-search">Advanced</a>
            </td>
       </tr>
     </table>

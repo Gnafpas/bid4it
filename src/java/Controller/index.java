@@ -42,6 +42,14 @@ public class index implements Serializable{
     private Integer[] pages;
     private int currentPage;
 
+    public List<Itemsbean> getPageItems() {
+        return pageItems;
+    }
+
+    public void setPageItems(List<Itemsbean> pageItems) {
+        this.pageItems = pageItems;
+    }
+
     public Itemsbean getItem() {
         return item;
     }
@@ -129,14 +137,6 @@ public class index implements Serializable{
     public void setMain_image(String main_image) {
         this.main_image = main_image;
     }
-
-    public List<Itemsbean> getpageItems() {
-        return pageItems;
-    }
-
-    public void setpageItems(List<Itemsbean> pageItems) {
-        this.pageItems = pageItems;
-    }
     
     public List<Itemsbean > searchItems()
     {
@@ -150,6 +150,8 @@ public class index implements Serializable{
         if(searchCAT.equals("All Categories"))
             searchCAT="";
             pageItems = bean.getitemsByCategory (searchCAT, searchSTR, firstRow, rowsPerPage);
+            if(pageItems==null)
+                return null;
              totalRows = bean.getResultNumber(searchCAT, searchSTR);
  
             // Set currentPage, totalPages and pages.

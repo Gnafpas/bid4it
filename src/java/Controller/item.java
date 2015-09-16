@@ -28,6 +28,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.event.ComponentSystemEvent;
 import org.primefaces.context.RequestContext;
 import helpers.Relateditems;
+import static java.lang.System.out;
 import java.util.Date;
 
 
@@ -47,14 +48,13 @@ public class item implements Serializable{
     private List<Categoriesbean>  item_categories=new ArrayList();
     private List <Relateditems> relateditems=new ArrayList();
     private List <Item_has_imagebean> item_has_images=new ArrayList();
-    private String images_paths[]=new String[4];
+    private String images_paths[]=new String[5];
     private String related_items_image_path[]=new String[4];
-    private String main_image="";
+    private int main_image_pointer=0;
     private Categoriesbean  category;
     private boolean description_panel=true;
     private String loadmap_call;
     private String codeAddress_call;
-    private boolean loaditem=true;
     private long seconds; //time left for main item.
     private int bid;
     private String how_loacation_loaded_tomap="";
@@ -82,14 +82,15 @@ public class item implements Serializable{
     public void setRelated_items_image_path(String[] related_items_image_path) {
         this.related_items_image_path = related_items_image_path;
     }
-    
-    public String getMain_image() {
-        return main_image;
+
+    public int getMain_image_pointer() {
+        return main_image_pointer;
     }
 
-    public void setMain_image(String main_image) {
-        this.main_image = main_image;
+    public void setMain_image_pointer(int main_image_pointer) {
+        this.main_image_pointer = main_image_pointer;
     }
+    
     
     public int getItemid_for_loading() {
         return itemid_for_loading;
@@ -145,6 +146,7 @@ public class item implements Serializable{
 
     public void setDescription_panel(boolean description_panel) {
         this.description_panel = description_panel;
+        load_map();
     }
     
    
@@ -179,10 +181,8 @@ public class item implements Serializable{
     
     public void load_item(ComponentSystemEvent event){
         
-        //Do not load item again if user just want to change the main image(Display another item's image at the large view)
-        if(!loaditem)
-            return;
-       
+
+
         //Get item's info and categories
         seller=null;  
         List<Item_has_categorybean>  it_has_catlist=new ArrayList();
@@ -197,9 +197,7 @@ public class item implements Serializable{
         seller=u.getUser(main_item.getSeller());
         if(seller==null)
             return;
-        
-        //Load map with items location
-        load_map();
+       
         
         Item_has_categoryDAO ihc=new Item_has_categoryDAO();
         it_has_catlist=ihc.getcategory_from_item(main_item.getItemId());
@@ -245,10 +243,9 @@ public class item implements Serializable{
         //Display  item's images
         byte[] image;
         int j;
-        for(j=0;j<4;j++){
+        for(j=0;j<5;j++){
             images_paths[j]= "img/no_image.png";
         }
-        main_image= "img/no_image.png";
         Item_has_imageDAO ihi=new Item_has_imageDAO();
         item_has_images=ihi.getimages(itemid_for_loading);
         if(item_has_images!=null){
@@ -260,11 +257,9 @@ public class item implements Serializable{
                    try{
                       FileOutputStream fos = new FileOutputStream("/Users/George/Desktop/TED/e-auction-2015/web/items_images/"+it_h_im.getIditem_has_image()+".jpg"); 
                       fos.write(image);
-                      if(j!=0 && j<5){
-                        images_paths[j-1]="items_images/"+it_h_im.getIditem_has_image()+".jpg";
+                      if(j<5){
+                        images_paths[j]="items_images/"+it_h_im.getIditem_has_image()+".jpg";
                       }
-                      else
-                        main_image="items_images/"+it_h_im.getIditem_has_image()+".jpg";
                       j++;
                       fos.close();
                    }catch(Exception e){
@@ -277,10 +272,14 @@ public class item implements Serializable{
  
         //Display rellated items images
         j=0;
-        if(relateditems==null)
+        if(relateditems==null){
+            load_map();
             return;
-        if(relateditems.isEmpty())
+        }
+        if(relateditems.isEmpty()){
+            load_map();
             return;
+        }
         for (Relateditems rit : relateditems) {
             rit.setImagepath("img/no_image.png");
             image=ihi.getimage(rit.getItem().getItemId());   
@@ -298,15 +297,14 @@ public class item implements Serializable{
             }
         }
         
+        //Load map with items location
+        load_map();
+        
     }
     
     //Display another item's image at the large view.
     public void changemain_image(int newmain){
-        loaditem=false;
-        String temp;
-        temp=main_image;
-        main_image=images_paths[newmain];
-        images_paths[newmain]= temp;
+        main_image_pointer=newmain;
         //Set time to left for the item to complete in seconds and call js function to display it in real-time
         Date date=new Date();
         seconds = (main_item.getEnds().getTime() - date.getTime())/1000;
@@ -329,20 +327,8 @@ public class item implements Serializable{
     //When user's session is timed out delete all item images that he had requested.
     @PreDestroy
     public void destroy(){
-        if(!main_image.equals("img/no_image.png")){  
-        try{
-    		File file = new File("/Users/George/Desktop/TED/e-auction-2015/web/"+main_image);
-        	if(file.delete()){
-    			System.out.println(file.getName() + " is deleted!");
-    		}else{
-    			System.out.println("Delete operation is failed.");
-    		}
-    	}catch(Exception e){
-    		e.printStackTrace();
-    	}
-      }
       
-        for(int j=0;j<4;j++){
+        for(int j=0;j<5;j++){
           if(!images_paths[j].equals("img/no_image.png")){
             try{
     		File file = new File("/Users/George/Desktop/TED/e-auction-2015/web/"+images_paths[j]);
@@ -359,13 +345,12 @@ public class item implements Serializable{
     }
     
     public void bidconfirmation(){
-         load_map();
          RequestContext requestContext = RequestContext.getCurrentInstance();
          requestContext.execute("PF('bid_confirmation').show();");
+         load_map();
     }
     
     public void bid(){
-        load_map();
         RequestContext requestContext = RequestContext.getCurrentInstance();
        
         if(SessionBean.getUserName()==null){
@@ -392,7 +377,6 @@ public class item implements Serializable{
             requestContext.execute("PF('successful_bid').show();");
         else
             requestContext.execute("PF('unsuccessful_bid').show();");
-       
     }
     
     public void buy_confirmation(){
@@ -402,7 +386,6 @@ public class item implements Serializable{
     }
     
     public void buy(){
-        load_map();
         RequestContext requestContext = RequestContext.getCurrentInstance();
         
         if(SessionBean.getUserName()==null){
@@ -426,7 +409,6 @@ public class item implements Serializable{
     }
     
     public String redirection(){
-        loaditem=true;
         return "item";
     }
     

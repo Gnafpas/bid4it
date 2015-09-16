@@ -7,6 +7,7 @@ package DAOs;
 
 import Beans.Itemsbean;
 import DB_Conn.HibernateUtil;
+import static java.lang.System.out;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.Criteria;
@@ -104,6 +105,54 @@ public class ItemsDAO {
         return items;
     }
     
+    public List getitemsBySeller(String Seller,int firstRow, int rowCount){
+        List <Itemsbean> items=null;
+      
+        Transaction tx = null;    
+        try{
+           session = helper.getSessionFactory().openSession();
+           tx=session.beginTransaction();
+           Criteria cr  = session.createCriteria(Itemsbean.class);
+           cr.add(Restrictions.eq("seller", Seller))
+                              .setFirstResult(firstRow)
+                              .setMaxResults(rowCount).list();;
+           items=cr.list();
+           session.close(); 
+        }catch (HibernateException e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace(); 
+           session.close(); 
+        }catch (ExceptionInInitializerError e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace();
+        }
+        return items;
+    }
+    
+    public int getResultNumber_for_seller_items (String sellername){
+        int rowsNum = 0;
+        String hql = "select i.itemId from Beans.Itemsbean i where i.seller = :sellername ";
+        Transaction tx = null;    
+        try{
+           session = helper.getSessionFactory().openSession();
+           tx=session.beginTransaction();
+           rowsNum = session.createQuery(hql).setParameter("sellername", sellername).list().size();
+           session.close(); 
+        }catch (HibernateException e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace(); 
+           session.close(); 
+        }catch (ExceptionInInitializerError e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace();
+        }
+        return rowsNum;
+    }
+    
     public List getitemsByCategory (String cat, String name, int firstRow, int rowCount){
         List <Itemsbean> items=null;
         String hql = "select DISTINCT(i) from Beans.Itemsbean i, Beans.Item_has_categorybean ihc, Beans.Categoriesbean c where i.name LIKE :itemname and c.category LIKE :catname and c.categoryId = ihc.categoryId and ihc.itemId = i.itemId ";
@@ -130,7 +179,7 @@ public class ItemsDAO {
         return items;
     }
     
-        public int getResultNumber (String cat, String name){
+    public int getResultNumber (String cat, String name){
         int rowsNum = 0;
         String hql = "select DISTINCT(i) from Beans.Itemsbean i, Beans.Item_has_categorybean ihc, Beans.Categoriesbean c where i.name LIKE :itemname and c.category LIKE :catname and c.categoryId = ihc.categoryId and ihc.itemId = i.itemId ";
         Transaction tx = null;    

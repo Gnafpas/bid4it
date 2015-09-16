@@ -124,24 +124,27 @@
                         <table  height="625px">
                           <tr>
                             <td height="500px" >
-                                <p:graphicImage value="#{item.main_image}" style="width:450px; height:500px; border: 1px solid #ccc;border-radius: 2px"/>
+                                <p:graphicImage value="#{item.images_paths[item.main_image_pointer]}" style="width:450px; height:500px; border: 1px solid #ccc;border-radius: 2px"/>
                             </td>
                           </tr>
                           <tr>
                              <td valign="top">
                                <table cellspacing="0" cellpadding="0" >
                                  <tr>
-                                   <td width="130" align="right">
-                                       <h:form><h:commandButton image="#{item.images_paths[0]}"  action="#{item.changemain_image(0)}" style="width:95px; height:95px; border: 1px solid #ccc;border-radius: 2px" /></h:form>
+                                   <td width="90" align="right">
+                                       <h:form><h:commandButton image="#{item.images_paths[0]}"  action="#{item.changemain_image(0)}" style="width:87px; height:95px; border: 1px solid #ccc;border-radius: 2px" /></h:form>
                                    </td>
                                    <td width="90">
-                                      <h:form><h:commandButton image="#{item.images_paths[1]}"   action="#{item.changemain_image(1)}" style="width:95px; height:95px; border: 1px solid #ccc;border-radius: 2px"/></h:form>
+                                      <h:form><h:commandButton image="#{item.images_paths[1]}"   action="#{item.changemain_image(1)}" style="width:87px; height:95px; border: 1px solid #ccc;border-radius: 2px"/></h:form>
                                    </td>
                                    <td width="90">
-                                      <h:form><h:commandButton image="#{item.images_paths[2]}"   action="#{item.changemain_image(2)}" style="width:95px; height:95px; border: 1px solid #ccc;border-radius: 2px"/></h:form>
+                                      <h:form><h:commandButton image="#{item.images_paths[2]}"   action="#{item.changemain_image(2)}" style="width:87px; height:95px; border: 1px solid #ccc;border-radius: 2px"/></h:form>
                                    </td>
                                    <td width="90">
-                                      <h:form><h:commandButton image="#{item.images_paths[3]}"   action="#{item.changemain_image(3)}" style="width:95px; height:95px; border: 1px solid #ccc;border-radius: 2px"/></h:form>
+                                      <h:form><h:commandButton image="#{item.images_paths[3]}"   action="#{item.changemain_image(3)}" style="width:87px; height:95px; border: 1px solid #ccc;border-radius: 2px"/></h:form>
+                                   </td>
+                                   <td width="90">
+                                      <h:form><h:commandButton image="#{item.images_paths[3]}"   action="#{item.changemain_image(3)}" style="width:87px; height:95px; border: 1px solid #ccc;border-radius: 2px"/></h:form>
                                    </td>
                                  </tr>
                                </table>
@@ -346,11 +349,11 @@
                                  <table width="300px" height="120px" style="border:none;">
                                    <tr>
                                       <td width="120px">
-                                          <a style="width:120px; height:100px; " href="/e-auction-2015/items_itemid=#{relateditem.item.itemId}"><img src="#{relateditem.imagepath}" width="118" height="98" /></a>
+                                          <a style="width:120px; height:100px; " href="/e-auction-2015/faces/items_itemid=#{relateditem.item.itemId}"><img src="#{relateditem.imagepath}" width="118" height="98" /></a>
                                       </td>
                                       <td  align="left">
                                           <div style="height:52px;width:150px; overflow:hidden !important;text-overflow: ellipsis;">
-                                              <a id="related_products_btn" href="/e-auction-2015/items_itemid=#{relateditem.item.itemId}">#{relateditem.item.name}</a>
+                                              <a id="related_products_btn" href="/e-auction-2015/faces/items_itemid=#{relateditem.item.itemId}">#{relateditem.item.name}</a>
                                           </div>
                                           <a style="font-family:Tahoma, Geneva, sans-serif; font-size:10px; color:#333333 ;">Price:</a>
                                           <h:outputLabel  value="EUR #{relateditem.item.buy_price}" style="font-family:Tahoma, Geneva, sans-serif; font-size:10px; color:#333333 ;font-weight: bold;"/><br></br>

@@ -14,13 +14,13 @@
    
  
       <url-mapping >
-          <pattern value="/items_itemid=#{itemid_for_loading}" />
+          <pattern value="/faces/items_itemid=#{itemid_for_loading}" />
           <view-id>/faces/item.xhtml</view-id> 
           <action>#{item.load_item}</action>
       </url-mapping>
       
       <url-mapping >
-          <pattern value="/searchSTR:#{searchSTR}_searchCAT:#{searchCAT}" />
+          <pattern value="/faces/searchSTR:#{searchSTR}_searchCAT:#{searchCAT}" />
           <view-id>/faces/index.xhtml</view-id> 
       </url-mapping>
    
