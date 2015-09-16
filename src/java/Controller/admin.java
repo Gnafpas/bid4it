@@ -23,6 +23,15 @@ public class admin implements Serializable{
     Usersbean usr = new Usersbean();
     Usersbean usr2 = new Usersbean();
     private String msg ;
+    private String subject ;
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
     public String getMsg() {
         return msg;
@@ -83,7 +92,11 @@ public class admin implements Serializable{
     public int acceptUser(String key ) throws IOException 
     {   UsersDAO bean=new UsersDAO();
         if ((bean.acceptUser(key))==0)
-        {
+        {   
+            subject = "You have been accepted to bid4it";
+            msg = "Hello "+key+" you have been accepted to bid4it; happy bidding!";
+            sendEmail(usr.getEmail());
+            
             return 0;
         }
         usr = null;
@@ -126,13 +139,14 @@ public class admin implements Serializable{
       properties.setProperty("mail.smtps.auth", "true");
       properties.setProperty("mail.smtp.starttls.enable", "true");
       Session session = Session.getDefaultInstance(properties, null);
-
+       
+      subject = "Welcome to bid4it!";
       try{
 
          MimeMessage message = new MimeMessage(session);
          message.setFrom(new InternetAddress(from));
          message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-         message.setSubject("This is the Subject Line!");
+         message.setSubject(subject);
          message.setText(msg);
          // Send message
          Transport transport = session.getTransport("smtp");
