@@ -9,6 +9,7 @@ import Beans.Item_has_imagebean;
 import Beans.Itemsbean;
 import DAOs.Item_has_imageDAO;
 import DAOs.ItemsDAO;
+import helpers.Index_items;
 import helpers.Relateditems;
 import java.io.FileOutputStream;
 import java.io.Serializable;
@@ -31,6 +32,7 @@ public class index implements Serializable{
     
     Itemsbean item = new Itemsbean();
     private List <Itemsbean> pageItems = new ArrayList();
+    private List <Index_items> index_pageItems = new ArrayList();
     private String main_image="search_images/";
     private String searchSTR="";
     private String searchCAT="";
@@ -48,6 +50,14 @@ public class index implements Serializable{
 
     public void setPageItems(List<Itemsbean> pageItems) {
         this.pageItems = pageItems;
+    }
+
+    public List<Index_items> getIndex_pageItems() {
+        return index_pageItems;
+    }
+
+    public void setIndex_pageItems(List<Index_items> index_pageItems) {
+        this.index_pageItems = index_pageItems;
     }
 
     public Itemsbean getItem() {
@@ -138,10 +148,9 @@ public class index implements Serializable{
         this.main_image = main_image;
     }
     
-    public List<Itemsbean > searchItems()
+    public List<Index_items > searchItems()
     {
         ItemsDAO bean=new ItemsDAO();
-        
         if (rowsPerPage==0)
             rowsPerPage = 2;
         pageRange = 10; // Default page range (max amount of page links to be displayed at once).
@@ -167,26 +176,31 @@ public class index implements Serializable{
             for (int i = 0; i < pagesLength; i++) {
                 pages[i] = ++firstPage;
             }
-             for (Itemsbean it : pageItems) {
-                getCoverImage (it.getItemId());
-             }
-                return pageItems;
-
-    }
-    
-    
-    public void getCoverImage (int itemid)
-    {   
-        byte[] image;
-        Item_has_imageDAO ihi=new Item_has_imageDAO();
-        image=ihi.getimage(itemid);
-        try{
-            FileOutputStream fos = new FileOutputStream("/Users/George/Desktop/TED/e-auction-2015/web/search_images/"+itemid+".jpg"); 
-            fos.write(image);
-            fos.close();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+            
+            Item_has_imageDAO ihi=new Item_has_imageDAO();
+            index_pageItems.clear();
+            for (Itemsbean it : pageItems) {
+                Index_items in_item=new Index_items();
+                in_item.setItem(it);
+                
+                byte[] image;
+                image=ihi.getimage(it.getItemId());
+                if(image!=null)
+                {
+                    in_item.setHas_image(true);
+                    try{
+                        FileOutputStream fos = new FileOutputStream("/Users/George/Desktop/TED/e-auction-2015/web/search_images/"+it.getItemId()+".jpg"); 
+                        fos.write(image);
+                        fos.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }else
+                    in_item.setHas_image(false);
+                
+                index_pageItems.add(in_item);
+            }
+                return index_pageItems;
     }
     
     // Paging actions -----------------------------------------------------------------------------
