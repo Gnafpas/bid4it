@@ -8,6 +8,7 @@ package DAOs;
 import Beans.Itemsbean;
 import DB_Conn.HibernateUtil;
 import static java.lang.System.out;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.Criteria;
@@ -155,52 +156,117 @@ public class ItemsDAO {
     
     public List getitemsByCategory (String cat, String name, int firstRow, int rowCount){
         List <Itemsbean> items=null;
-        String hql = "select DISTINCT(i) from Beans.Itemsbean i, Beans.Item_has_categorybean ihc, Beans.Categoriesbean c where i.name LIKE :itemname and c.category LIKE :catname and c.categoryId = ihc.categoryId and ihc.itemId = i.itemId ";
-        Transaction tx = null;    
-        try{
-           session = helper.getSessionFactory().openSession();
-           tx=session.beginTransaction();
-           items = session.createQuery(hql)
-                   .setParameter("catname", "%" + cat + "%")
-                   .setParameter("itemname", "%" + name + "%")
-                   .setFirstResult(firstRow)
-                   .setMaxResults(rowCount).list();
-           session.close(); 
-        }catch (HibernateException e) {
-           RequestContext context = RequestContext.getCurrentInstance();
-           context.execute("PF('server_error').show();");
-           e.printStackTrace(); 
-           session.close(); 
-        }catch (ExceptionInInitializerError e) {
-           RequestContext context = RequestContext.getCurrentInstance();
-           context.execute("PF('server_error').show();");
-           e.printStackTrace();
+        if(cat.equals("")){
+            String hql =   " select DISTINCT(i) "
+                   +   " from Beans.Itemsbean i, Beans.Item_has_categorybean ihc, Beans.Categoriesbean c "
+                   +   " where i.name LIKE :itemname "
+                   +   " and 0 < Timestampdiff(second,NOW(),i.ends)";
+            Transaction tx = null;    
+            try{
+               session = helper.getSessionFactory().openSession();
+               tx=session.beginTransaction();
+               items = session.createQuery(hql)
+                       .setParameter("itemname", "%" + name + "%")
+                       .setFirstResult(firstRow)
+                       .setMaxResults(rowCount).list();
+               session.close(); 
+            }catch (HibernateException e) {
+               RequestContext context = RequestContext.getCurrentInstance();
+               context.execute("PF('server_error').show();");
+               e.printStackTrace(); 
+               session.close(); 
+            }catch (ExceptionInInitializerError e) {
+               RequestContext context = RequestContext.getCurrentInstance();
+               context.execute("PF('server_error').show();");
+               e.printStackTrace();
+            }
+        }else{
+        
+            String hql =   " select DISTINCT(i) "
+                       +   " from Beans.Itemsbean i, Beans.Item_has_categorybean ihc, Beans.Categoriesbean c "
+                       +   " where i.name LIKE :itemname "
+                       +   " and c.category LIKE :catname "
+                       +   " and c.categoryId = ihc.categoryId "
+                       +   " and ihc.itemId = i.itemId "
+                       +   " and 0 < Timestampdiff(second,NOW(),i.ends)";
+            Transaction tx = null;    
+            try{
+               session = helper.getSessionFactory().openSession();
+               tx=session.beginTransaction();
+               items = session.createQuery(hql)
+                       .setParameter("catname", "%" + cat + "%")
+                       .setParameter("itemname", "%" + name + "%")
+                       .setFirstResult(firstRow)
+                       .setMaxResults(rowCount).list();
+               session.close(); 
+            }catch (HibernateException e) {
+               RequestContext context = RequestContext.getCurrentInstance();
+               context.execute("PF('server_error').show();");
+               e.printStackTrace(); 
+               session.close(); 
+            }catch (ExceptionInInitializerError e) {
+               RequestContext context = RequestContext.getCurrentInstance();
+               context.execute("PF('server_error').show();");
+               e.printStackTrace();
+            }
         }
+
         return items;
     }
     
     public int getResultNumber (String cat, String name){
         int rowsNum = 0;
-        String hql = "select DISTINCT(i) from Beans.Itemsbean i, Beans.Item_has_categorybean ihc, Beans.Categoriesbean c where i.name LIKE :itemname and c.category LIKE :catname and c.categoryId = ihc.categoryId and ihc.itemId = i.itemId ";
-        Transaction tx = null;    
-        try{
-           session = helper.getSessionFactory().openSession();
-           tx=session.beginTransaction();
-           rowsNum = session.createQuery(hql)
-                   .setParameter("catname", "%" + cat + "%")
-                   .setParameter("itemname", "%" + name + "%").list().size();
-           session.close(); 
-        }catch (HibernateException e) {
-           RequestContext context = RequestContext.getCurrentInstance();
-           context.execute("PF('server_error').show();");
-           e.printStackTrace(); 
-           session.close(); 
-        }catch (ExceptionInInitializerError e) {
-           RequestContext context = RequestContext.getCurrentInstance();
-           context.execute("PF('server_error').show();");
-           e.printStackTrace();
+        if(cat.equals("")){
+            String hql =   " select DISTINCT(i) "
+                   +   " from Beans.Itemsbean i, Beans.Item_has_categorybean ihc, Beans.Categoriesbean c "
+                   +   " where i.name LIKE :itemname "
+                   +   " and 0 < Timestampdiff(second,NOW(),i.ends)";
+            Transaction tx = null;    
+            try{
+               session = helper.getSessionFactory().openSession();
+               tx=session.beginTransaction();
+               rowsNum = session.createQuery(hql)
+                       .setParameter("itemname", "%" + name + "%").list().size();
+               session.close(); 
+            }catch (HibernateException e) {
+               RequestContext context = RequestContext.getCurrentInstance();
+               context.execute("PF('server_error').show();");
+               e.printStackTrace(); 
+               session.close(); 
+            }catch (ExceptionInInitializerError e) {
+               RequestContext context = RequestContext.getCurrentInstance();
+               context.execute("PF('server_error').show();");
+               e.printStackTrace();
+            }
+        }else{
+            String hql =   " select DISTINCT(i) "
+                       +   " from Beans.Itemsbean i, Beans.Item_has_categorybean ihc, Beans.Categoriesbean c "
+                       +   " where i.name LIKE :itemname "
+                       +   " and c.category LIKE :catname "
+                       +   " and c.categoryId = ihc.categoryId "
+                       +   " and ihc.itemId = i.itemId "
+                       +   " and 0 < Timestampdiff(second,NOW(),i.ends)";
+            Transaction tx = null;    
+            try{
+               session = helper.getSessionFactory().openSession();
+               tx=session.beginTransaction();
+               rowsNum = session.createQuery(hql)
+                       .setParameter("catname", "%" + cat + "%")
+                       .setParameter("itemname", "%" + name + "%").list().size();
+               session.close(); 
+            }catch (HibernateException e) {
+               RequestContext context = RequestContext.getCurrentInstance();
+               context.execute("PF('server_error').show();");
+               e.printStackTrace(); 
+               session.close(); 
+            }catch (ExceptionInInitializerError e) {
+               RequestContext context = RequestContext.getCurrentInstance();
+               context.execute("PF('server_error').show();");
+               e.printStackTrace();
+            }
         }
         return rowsNum;
+
     }
     
     public boolean addbid(int itemid,int bid,String bider_username){
@@ -236,6 +302,7 @@ public class ItemsDAO {
         
         items.get(0).setCurrently(bid);
         items.get(0).setWinner(bider_username);
+        items.get(0).setNumber_of_bids(items.get(0).getNumber_of_bids()+1);
         
         try{
            session = helper.getSessionFactory().openSession();
@@ -287,6 +354,7 @@ public class ItemsDAO {
         
         items.get(0).setWinner(buyer_username);
         items.get(0).setEnds(date);
+        items.get(0).setCurrently(items.get(0).getBuy_price());
         
         try{
            session = helper.getSessionFactory().openSession();
@@ -306,7 +374,7 @@ public class ItemsDAO {
         }
         
         MessagesDAO messagedao=new MessagesDAO();
-        messagedao.savemessage(items.get(0).getSeller(), buyer_username, buyer_username + " bought your product with name " +items.get(0).getName()+ ".Please send him a message for the next steps.");
+        messagedao.savemessage(items.get(0).getSeller(), buyer_username, "Hello, I just  bought your product with name " +items.get(0).getName()+ " for "+items.get(0).getBuy_price()+" euros.Please contact with me for the next steps.");
         
         return true;
     }

@@ -13,7 +13,9 @@ import helpers.Index_items;
 import helpers.Relateditems;
 import java.io.FileOutputStream;
 import java.io.Serializable;
+import static java.lang.System.out;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -161,8 +163,10 @@ public class index implements Serializable{
             pageItems = bean.getitemsByCategory (searchCAT, searchSTR, firstRow, rowsPerPage);
             if(pageItems==null)
                 return null;
-             totalRows = bean.getResultNumber(searchCAT, searchSTR);
- 
+            
+            totalRows = bean.getResultNumber(searchCAT, searchSTR);
+            
+         
             // Set currentPage, totalPages and pages.
             currentPage = (totalRows / rowsPerPage) - ((totalRows - firstRow) / rowsPerPage) + 1;
             totalPages = (totalRows / rowsPerPage) + ((totalRows % rowsPerPage != 0) ? 1 : 0);

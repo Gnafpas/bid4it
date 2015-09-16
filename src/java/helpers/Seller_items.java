@@ -14,7 +14,8 @@ import Beans.Itemsbean;
 public class Seller_items {
     
     private Itemsbean item;
-    private boolean  active;
+    private String status;
+    private boolean  has_image;
 
     public Itemsbean getItem() {
         return item;
@@ -24,14 +25,20 @@ public class Seller_items {
         this.item = item;
     }
 
-    public boolean isActive() {
-        return active;
+    public String getStatus() {
+        return status;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setStatus(String status) {
+        this.status = status;
     }
-    
-    
-    
+
+    public boolean isHas_image() {
+        return has_image;
+    }
+
+    public void setHas_image(boolean has_image) {
+        this.has_image = has_image;
+    }
+   
 }

@@ -273,11 +273,9 @@ public class item implements Serializable{
         //Display rellated items images
         j=0;
         if(relateditems==null){
-            load_map();
             return;
         }
         if(relateditems.isEmpty()){
-            load_map();
             return;
         }
         for (Relateditems rit : relateditems) {
@@ -296,9 +294,6 @@ public class item implements Serializable{
                 
             }
         }
-        
-        //Load map with items location
-        load_map();
         
     }
     

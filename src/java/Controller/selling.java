@@ -8,10 +8,12 @@ package Controller;
 import Beans.Itemsbean;
 import DAOs.Item_has_imageDAO;
 import DAOs.ItemsDAO;
+import helpers.Index_items;
 import helpers.Seller_items;
 import java.io.FileOutputStream;
 import static java.lang.System.out;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -40,6 +42,52 @@ public class selling {
     private int pageRange;
     private Integer[] pages;
     private int currentPage;
+    private String Active_with_bids="Active_with_bids";
+    private String Active_without_bids="Active_without_bids";
+    private String Completed_and_bought="Completed_and_bought";
+    private String Completed_without_bought="Completed_without_bought";
+    private String Not_Active="Not_Active";
+
+
+    public String getActive_with_bids() {
+        return Active_with_bids;
+    }
+
+    public void setActive_with_bids(String Active_with_bids) {
+        this.Active_with_bids = Active_with_bids;
+    }
+
+    public String getActive_without_bids() {
+        return Active_without_bids;
+    }
+
+    public void setActive_without_bids(String Active_without_bids) {
+        this.Active_without_bids = Active_without_bids;
+    }
+
+    public String getCompleted_and_bought() {
+        return Completed_and_bought;
+    }
+
+    public void setCompleted_and_bought(String Completed_and_bought) {
+        this.Completed_and_bought = Completed_and_bought;
+    }
+
+    public String getCompleted_without_bought() {
+        return Completed_without_bought;
+    }
+
+    public void setCompleted_without_bought(String Completed_without_bought) {
+        this.Completed_without_bought = Completed_without_bought;
+    }
+
+    public String getNot_Active() {
+        return Not_Active;
+    }
+
+    public void setNot_Active(String Not_Active) {
+        this.Not_Active = Not_Active;
+    }
 
     public List<Seller_items> getPageItems() {
         return pageItems;
@@ -48,8 +96,6 @@ public class selling {
     public void setPageItems(List<Seller_items> pageItems) {
         this.pageItems = pageItems;
     }
-
-    
 
     public Itemsbean getItem() {
         return item;
@@ -153,36 +199,50 @@ public class selling {
         for (int i = 0; i < pagesLength; i++) {
             pages[i] = ++firstPage;
         }
-        for (Itemsbean it : pageItems_whithout_status) {
-            getCoverImage (it.getItemId());
-        }
-        pageItems.clear();
         
+        
+               
+        Item_has_imageDAO ihi=new Item_has_imageDAO();
+        pageItems.clear();
+        Date date=new Date();
+        long seconds;
         for (Itemsbean it : pageItems_whithout_status) {
            Seller_items items_with_status=new Seller_items();
            items_with_status.setItem(it);
-           if(it.getEnds()==null)
-               items_with_status.setActive(false);
-           else
-               items_with_status.setActive(true);
+           if(it.getEnds()!=null){
+               seconds = (it.getEnds().getTime() - date.getTime())/1000;
+               if(seconds>0 && it.getWinner()!=null)
+                   items_with_status.setStatus("Active_with_bids");
+               else if(seconds>0 && it.getWinner()==null)
+                   items_with_status.setStatus("Active_without_bids");
+               else if(seconds<=0 && it.getWinner()!=null)
+                   items_with_status.setStatus("Completed_and_bought");
+               else if(seconds<=0 && it.getWinner()==null)
+                   items_with_status.setStatus("Completed_without_bought");
+            }
+            else
+               items_with_status.setStatus("Not_Active");
+           
+
+            byte[] image;
+            image=ihi.getimage(it.getItemId());
+            if(image!=null)
+            {
+                items_with_status.setHas_image(true);
+                try{
+                    FileOutputStream fos = new FileOutputStream("/Users/George/Desktop/TED/e-auction-2015/web/search_images/"+it.getItemId()+".jpg"); 
+                    fos.write(image);
+                    fos.close();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }else
+                items_with_status.setHas_image(false);
            pageItems.add(items_with_status);
         }
     }
     
-    
-    public void getCoverImage (int itemid)
-    {   
-        byte[] image;
-        Item_has_imageDAO ihi=new Item_has_imageDAO();
-        image=ihi.getimage(itemid);
-        try{
-            FileOutputStream fos = new FileOutputStream("/Users/George/Desktop/TED/e-auction-2015/web/search_images/"+itemid+".jpg"); 
-            fos.write(image);
-            fos.close();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
+   
     
     // Paging actions -----------------------------------------------------------------------------
     private void page(int firstRow) {
