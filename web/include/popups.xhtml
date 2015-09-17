@@ -230,6 +230,30 @@
       <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="No" onclick="PF('bid_confirmation').hide()"/>
       </div>
  </p:dialog>
+ <p:dialog id="Succesful_item_start" header="Notification" widgetVar="Succesful_item_start" modal="true" height="100">
+      <div>
+      <h:outputText value="Your item started!" />
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+          <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="Ok"  onclick="PF('Succesful_item_start').hide()"/>
+      </div>
+ </p:dialog>
+ <p:dialog id="Unsuccesful_item_start" header="Attention" widgetVar="Unsuccesful_item_start" modal="true" height="100">
+      <div>
+      <h:outputText value="Please set acurate expiry Date." />
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+          <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="Ok"  onclick="PF('Unsuccesful_item_start').hide()"/>
+      </div>
+ </p:dialog>
+ <p:dialog id="delete_item_success" header="Attention" widgetVar="delete_item_success" modal="true" height="100">
+      <div>
+      <h:outputText value="Yoour item deleted." />
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+          <p:commandButton style="font-size:10px; width:50px; height:20px;"  value="Ok"  onclick="PF('delete_item_success').hide()"/>
+      </div>
+ </p:dialog>
     
 </html>
 

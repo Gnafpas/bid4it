@@ -7,6 +7,7 @@ package Controller;
 
 import Beans.Usersbean;
 import DAOs.UsersDAO;
+import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -17,10 +18,11 @@ import javax.faces.bean.SessionScoped;
 
 @ManagedBean (name = "account_settings")
 @SessionScoped
-public class account_settings {
+public class account_settings implements Serializable{
   
     private String username;
     private boolean editmode;
+    
     private Usersbean user = new Usersbean();
 
     public Usersbean getUser() {
@@ -48,8 +50,10 @@ public class account_settings {
         editmode = true;
     }
 
-    public void save() {
+    public void save(String field, String value) {
         
+        UsersDAO bean=new UsersDAO();
+        bean.changeInfo(user.getUsername(), field, value);
         editmode = false;
     }
 
@@ -64,4 +68,6 @@ public class account_settings {
         user = bean.getUser(usrnm); 
     
     }
+    
+
 }

@@ -42,74 +42,72 @@
                     <table >
                          <tr>
                              <td>Username</td>
-                             <td><h:inputText a:value="#{headerbean.user.username}" binding="#{account_settings.username}" disabled="#{not account_settings.editmode}" /></td>
+                             <td><h:inputText value="#{account_settings.user.username}" disabled="true" /></td>
                              <td style="width: 70px;"><a>&#160;</a>
-                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Edit" action="#{account_settings.edit()}" rendered="#{not account_settings.editmode}" />
-                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save()}" rendered="#{account_settings.editmode}" />
                              </td>
                          </tr>
                         <tr>
                              <td>Password</td>
-                             <td><h:inputText a:value="#{account_settings.user.password}"  disabled="#{not account_settings.editmode}" /></td>
+                             <td><h:inputText value="#{account_settings.user.password}"  disabled="#{not account_settings.editmode}" /></td>
                              <td style="width: 70px;"><a>&#160;</a>
                                 <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Edit" action="#{account_settings.edit()}" rendered="#{not account_settings.editmode}" />
-                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save()}" rendered="#{account_settings.editmode}" />
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save('password',account_settings.password)}" rendered="#{account_settings.editmode}" />
                              </td>
                          </tr>
                         <tr>
                              <td>Firstname</td>
-                             <td><h:inputText a:value="#{account_settings.user.firstname}"  disabled="#{not account_settings.editmode}" /></td>
+                             <td><h:inputText value="#{account_settings.user.firstname}"  disabled="#{not account_settings.editmode}" /></td>
                              <td style="width: 70px;"><a>&#160;</a>
                                 <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Edit" action="#{account_settings.edit()}" rendered="#{not account_settings.editmode}" />
-                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save()}" rendered="#{account_settings.editmode}" />
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save('firstname', account_settings.user.firstname)}" rendered="#{account_settings.editmode}" />
                              </td>
                          </tr>
                         <tr>
                              <td>Lastname</td>
-                             <td><h:inputText a:value="#{account_settings.user.lastname}"  disabled="#{not account_settings.editmode}" /></td>
+                             <td><h:inputText value="#{account_settings.user.lastname}"  disabled="#{not account_settings.editmode}" /></td>
                              <td style="width: 70px;"><a>&#160;</a>
                                 <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Edit" action="#{account_settings.edit()}" rendered="#{not account_settings.editmode}" />
-                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save()}" rendered="#{account_settings.editmode}" />
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save('lastname', account_settings.user.lastname)}" rendered="#{account_settings.editmode}" />
                              </td>
                          </tr>
                         <tr>
                              <td>email</td>
-                             <td><h:inputText a:value="#{account_settings.user.email}"  disabled="#{not account_settings.editmode}" /></td>
+                             <td><h:inputText value="#{account_settings.user.email}"  disabled="#{not account_settings.editmode}" /></td>
                              <td style="width: 70px;"><a>&#160;</a>
                                 <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Edit" action="#{account_settings.edit()}" rendered="#{not account_settings.editmode}" />
-                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save()}" rendered="#{account_settings.editmode}" />
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save('email', account_settings.user.email)}" rendered="#{account_settings.editmode}" />
                              </td>
                          </tr>
                         <tr>
                              <td>Address</td>
-                             <td><h:inputText a:value="#{account_settings.user.address_info}"  disabled="#{not account_settings.editmode}" /></td>
+                             <td><h:inputText value="#{account_settings.user.address_info}"  disabled="#{not account_settings.editmode}" /></td>
                              <td style="width: 70px;"><a>&#160;</a>
                                 <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Edit" action="#{account_settings.edit()}" rendered="#{not account_settings.editmode}" />
-                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save()}" rendered="#{account_settings.editmode}" />
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save('address_info', account_settings.user.address_info)}" rendered="#{account_settings.editmode}" />
                              </td>
                          </tr>
                         <tr>
                              <td>Postcode</td>
-                             <td><h:inputText a:value="#{account_settings.user.postcode}"  disabled="#{not account_settings.editmode}" /></td>
+                             <td><h:inputText value="#{account_settings.user.postcode}"  disabled="#{not account_settings.editmode}" /></td>
                              <td style="width: 70px;"><a>&#160;</a>
                                 <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Edit" action="#{account_settings.edit()}" rendered="#{not account_settings.editmode}" />
-                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save()}" rendered="#{account_settings.editmode}" />
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save('postcode', account_settings.user.postcode)}" rendered="#{account_settings.editmode}" />
                              </td>
                          </tr>
                         <tr>
                              <td>Phone</td>
-                             <td><h:inputText a:value="#{account_settings.user.phone}"  disabled="#{not account_settings.editmode}" /></td>
+                             <td><h:inputText value="#{account_settings.user.phone}"  disabled="#{not account_settings.editmode}" /></td>
                              <td style="width: 70px;"><a>&#160;</a>
                                 <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Edit" action="#{account_settings.edit()}" rendered="#{not account_settings.editmode}" />
-                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save()}" rendered="#{account_settings.editmode}" />
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save('phone', account_settings.user.phone)}" rendered="#{account_settings.editmode}" />
                              </td>
                          </tr>
                         <tr>
                              <td>VAT number</td>
-                             <td><h:inputText a:value="#{account_settings.user.vatnumber}"  disabled="#{not account_settings.editmode}" /></td>
+                             <td><h:inputText value="#{account_settings.user.vatnumber}"  disabled="#{not account_settings.editmode}" /></td>
                              <td style="width: 70px;"><a>&#160;</a>
                                 <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Edit" action="#{account_settings.edit()}" rendered="#{not account_settings.editmode}" />
-                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save()}" rendered="#{account_settings.editmode}" />
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save('vatnumber', account_settings.user.vatnumber)}" rendered="#{account_settings.editmode}" />
                              </td>
                          </tr>
                     </table>

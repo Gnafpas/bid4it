@@ -5,25 +5,19 @@
  */
 package Controller;
 
-import Beans.Categoriesbean;
 import Beans.Item_has_categorybean;
 import Beans.Item_has_imagebean;
 import Beans.Itemsbean;
-import Beans.Messagesbean;
 import DAOs.CategoriesDAO;
 import DAOs.Item_has_categoryDAO;
 import DAOs.Item_has_imageDAO;
 import DAOs.ItemsDAO;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.Serializable;
-import static java.lang.System.out;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.UploadedFile;
 
@@ -32,9 +26,9 @@ import org.primefaces.model.UploadedFile;
  * @author George
  */
 
-@ManagedBean (name = "upload_item")
+@ManagedBean (name = "update_item")
 @SessionScoped
-public class upload_item implements Serializable{
+public class update_item implements Serializable{
     
     private Itemsbean item=new Itemsbean();
     private Item_has_imagebean image1=new Item_has_imagebean();
@@ -56,8 +50,9 @@ public class upload_item implements Serializable{
         return item;
     }
 
-    public void setItem(Itemsbean item) {
+    public String setItem(Itemsbean item) {
         this.item = item;
+        return "update_item";
     }
           
     public int getCategories_num() {
@@ -132,11 +127,11 @@ public class upload_item implements Serializable{
         RequestContext context = RequestContext.getCurrentInstance();
         if(item.getCountry().isEmpty() || item.getName().isEmpty() || item.getPostcode().isEmpty()){
             context.execute("PF('upload_item_empty_fields').show();");
-            return "upload_item";
+            return "update_item";   
         }
         if(item.getFirst_bid()==0 && item.getBuy_price()==0 ){
             context.execute("PF('place_value_buyprice_firstbid').show();");
-            return "upload_item";
+            return "update_item";
         }
         
         int itemid;
@@ -148,7 +143,7 @@ public class upload_item implements Serializable{
         byte[] bFile5 = new byte[(int) file5.getSize()];
         
         try {
-	     if(file1.getSize()>0){
+             if(file1.getSize()>0){
                FileInputStream fileInputStream1 ;
                fileInputStream1=(FileInputStream) file1.getInputstream();
 	       fileInputStream1.read(bFile1);
@@ -187,77 +182,62 @@ public class upload_item implements Serializable{
         item.setSeller(SessionBean.getUserName());
         item.setCurrently(item.getFirst_bid());
         ItemsDAO saveitem=new ItemsDAO();
-        itemid=saveitem.additem(item);
+
         //If item saved succesfully upload images and connect them with current item.Upload categories too and connect them with current item.
-        if(itemid>=0){
+        if(!saveitem.updateitem(item)){
           Item_has_imageDAO saveimage=new Item_has_imageDAO();
-           
+          upload_err=saveimage.delete_items_images(item.getItemId());
           if(bFile1.length!=0){
             image1.setImage(bFile1);
-            image1.setItemeid(itemid);
+            image1.setItemeid(item.getItemId());
             upload_err=saveimage.addimage(image1);
           }
           if(bFile2.length!=0){
             image2.setImage(bFile2);
-            image2.setItemeid(itemid);
+            image2.setItemeid(item.getItemId());
             upload_err=saveimage.addimage(image2);
           }
           if(bFile3.length!=0){
             image3.setImage(bFile3);
-            image3.setItemeid(itemid);
+            image3.setItemeid(item.getItemId());
             upload_err=saveimage.addimage(image3);
           }
           if(bFile4.length!=0){
             image4.setImage(bFile4);
-            image4.setItemeid(itemid);
+            image4.setItemeid(item.getItemId());
             upload_err=saveimage.addimage(image4);
           }
           if(bFile5.length!=0){
             image5.setImage(bFile5);
-            image5.setItemeid(itemid);
+            image5.setItemeid(item.getItemId());
             upload_err=saveimage.addimage(image5);
           }
           
           Item_has_categorybean items_category=new Item_has_categorybean();
           Item_has_categoryDAO  save_item_category=new Item_has_categoryDAO();
+          upload_err=save_item_category.delete_categories_from_item(item.getItemId());
           CategoriesDAO category=new CategoriesDAO();
           int cat_id;
           for (String c : categories_list) {
              cat_id=category.getCategoryId(c);
              if(cat_id==0){
                  context.execute("PF('upload_item_err').show();"); 
-                 return "index";
+                 return "update_item";
              }
              items_category.setCategoryId(cat_id);
-             items_category.setItemId(itemid);
+             items_category.setItemId(item.getItemId());
              upload_err=save_item_category.addcategory_to_item(items_category);
           }
           
           
-          if(itemid>=0 && upload_err==false)
+          if(upload_err==false)
             context.execute("PF('upload_item').show();");
           else
             context.execute("PF('upload_item_err').show();"); 
-        }
-        return "index";
-        
-    }
-    
-    public void getitem(){
-        ItemsDAO saveitem=new ItemsDAO();
-        Itemsbean item2 = saveitem.getitem(4);
-        Item_has_imageDAO saveimage=new Item_has_imageDAO();
-        
-        byte[] image = image2.getImage();
-        
-        try{
-            FileOutputStream fos = new FileOutputStream("/Users/George/Desktop/test2.jpg"); 
-            fos.write(image);
-            fos.close();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        }else
+            context.execute("PF('upload_item_err').show();"); 
 
+        return "index";
     }
 
 }

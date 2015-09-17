@@ -52,6 +52,52 @@ public class ItemsDAO {
         return itemid;
     }
     
+    public boolean updateitem(Itemsbean item){
+        
+        Transaction tx = null; 
+        boolean err=false;    
+        try{
+           session = helper.getSessionFactory().openSession();
+           tx=session.beginTransaction();
+           session.update(item);
+           tx.commit();
+           session.close(); 
+        }catch (HibernateException e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace();
+           err=true;
+           session.close(); 
+        }catch (ExceptionInInitializerError e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           err=true;
+           e.printStackTrace();
+        }
+        return err;
+    }
+    
+    public boolean delete_item(Itemsbean item){
+        Transaction tx = null;     
+        boolean err=false;  
+        try{
+           session = helper.getSessionFactory().openSession();
+           tx = session.beginTransaction();
+           session.delete(item);
+           tx.commit();
+           session.close();
+        }catch (HibernateException e) {
+           e.printStackTrace(); 
+           err=true;
+           session.close();
+        }catch (ExceptionInInitializerError e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace();
+        }
+        return err;
+    }
+    
     public Itemsbean getitem(int itemid){
         List <Itemsbean> items=null;
       
@@ -466,6 +512,61 @@ public class ItemsDAO {
         
         return true;
     }
+    
+    public boolean set_started_ends_dates(int itemid,Date expiry_date,Date start_date){
+        List <Itemsbean> items=null;
+        Transaction tx = null;  
+        boolean err=false;
+        try{
+           session = helper.getSessionFactory().openSession();
+           tx=session.beginTransaction();
+           Criteria cr  = session.createCriteria(Itemsbean.class);
+           cr.add(Restrictions.eq("itemId", itemid));
+           items=cr.list();
+           session.close(); 
+        }catch (HibernateException e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace(); 
+           err=true;
+           session.close(); 
+        }catch (ExceptionInInitializerError e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace();
+           err=true;
+        }
+        
+        if(items==null || items.isEmpty())
+            return true;
+            
+        items.get(0).setStarted(start_date);
+        items.get(0).setEnds(expiry_date);
+        
+        
+        try{
+           session = helper.getSessionFactory().openSession();
+           tx=session.beginTransaction();
+           session.update(items.get(0));
+           tx.commit();
+           session.close(); 
+        }catch (HibernateException e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace(); 
+           err=true;
+           session.close(); 
+        }catch (ExceptionInInitializerError e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace();
+           err=true;
+        }
+        
+        return err;
+        
+    }
+    
 }
 
 

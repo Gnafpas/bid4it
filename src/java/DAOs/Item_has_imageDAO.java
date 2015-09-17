@@ -100,4 +100,54 @@ public class Item_has_imageDAO {
         else
             return images.get(0).getImage();
     }
+    
+    public boolean delete_items_images(int itemid){
+           
+        boolean err=false;  
+        List <Item_has_imagebean> images=null;
+      
+        Transaction tx = null;    
+        try{
+           session = helper.getSessionFactory().openSession();
+           tx=session.beginTransaction();
+           Criteria cr  = session.createCriteria(Item_has_imagebean.class);
+           cr.add(Restrictions.eq("itemeid", itemid));
+           images=cr.list();
+           session.close(); 
+        }catch (HibernateException e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace();
+           err=true;
+           session.close(); 
+        }catch (ExceptionInInitializerError e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           err=true;
+           e.printStackTrace();
+        }
+        
+        if(err || images==null)
+            return err;
+        
+        for(Item_has_imagebean im: images){
+            try{
+               session = helper.getSessionFactory().openSession();
+               tx = session.beginTransaction();
+               session.delete(im);
+               tx.commit();
+               session.close();
+            }catch (HibernateException e) {
+               e.printStackTrace(); 
+               err=true;
+               session.close();
+            }catch (ExceptionInInitializerError e) {
+               RequestContext context = RequestContext.getCurrentInstance();
+               context.execute("PF('server_error').show();");
+               err=true;
+               e.printStackTrace();
+            }
+        }
+        return err;
+    }
 }

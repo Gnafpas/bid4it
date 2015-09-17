@@ -13,6 +13,7 @@ import static java.lang.System.out;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -99,6 +100,49 @@ public  class UsersDAO {
            session.close();
         }
         return allActiveUsers;
+    }
+    
+    public void changeInfo ( String username, String field, String value)
+    {
+        Usersbean user=null;
+        Transaction tx = null;
+        System.out.println(username+field+value);
+        try{
+           session = helper.getSessionFactory().openSession();
+           tx=session.beginTransaction();
+           user=(Usersbean) session.get(Usersbean.class, username);
+           if (field.equals("password"))
+               user.setPassword(value);
+           else if (field.equals("firstname"))
+               user.setFirstname(value);
+           else if (field.equals("lastname"))
+               user.setLastname(value);
+           else if (field.equals("email"))
+               user.setEmail(value);
+           else if (field.equals("phone"))
+               user.setPhone(value);
+           else if (field.equals("address_info"))
+               user.setAddress_info(value);
+           else if (field.equals("postcode"))
+               user.setPostcode(value);
+           else if (field.equals("vatnumber"))
+               user.setVatnumber(value);          
+           session.update(user);
+           tx.commit();
+           session.close();
+        }catch (ExceptionInInitializerError e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace();
+        }catch (HibernateException e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace();
+           session.close();
+        }
+    
+    
+    
     }
     
     public List getAllPendingUsers( )  {

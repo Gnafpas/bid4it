@@ -96,4 +96,55 @@ public class Item_has_categoryDAO {
         return items;
     }
     
+    
+    public boolean delete_categories_from_item(int itemid){
+           
+        boolean err=false;  
+        List <Item_has_categorybean> item_has_cat=null;
+      
+        Transaction tx = null;    
+        try{
+           session = helper.getSessionFactory().openSession();
+           tx=session.beginTransaction();
+           Criteria cr  = session.createCriteria(Item_has_categorybean.class);
+           cr.add(Restrictions.eq("itemId", itemid));
+           item_has_cat=cr.list();
+           session.close(); 
+        }catch (HibernateException e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace();
+           err=true;
+           session.close(); 
+        }catch (ExceptionInInitializerError e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           err=true;
+           e.printStackTrace();
+        }
+        
+        if(err || item_has_cat==null)
+            return err;
+        
+        for(Item_has_categorybean ihc: item_has_cat){
+            try{
+               session = helper.getSessionFactory().openSession();
+               tx = session.beginTransaction();
+               session.delete(ihc);
+               tx.commit();
+               session.close();
+            }catch (HibernateException e) {
+               e.printStackTrace(); 
+               err=true;
+               session.close();
+            }catch (ExceptionInInitializerError e) {
+               RequestContext context = RequestContext.getCurrentInstance();
+               context.execute("PF('server_error').show();");
+               err=true;
+               e.printStackTrace();
+            }
+        }
+        return err;
+    }
+    
 }

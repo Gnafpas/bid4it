@@ -8,19 +8,19 @@ package Controller;
 import Beans.Itemsbean;
 import DAOs.Item_has_imageDAO;
 import DAOs.ItemsDAO;
-import helpers.Index_items;
+import helpers.Custom_date;
 import helpers.Seller_items;
 import java.io.FileOutputStream;
 import static java.lang.System.out;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UICommand;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -47,8 +47,16 @@ public class selling {
     private String Completed_and_bought="Completed_and_bought";
     private String Completed_without_bought="Completed_without_bought";
     private String Not_Active="Not_Active";
+    private Date expiry_date=new Date();
 
+    public Date getExpiry_date() {
+        return expiry_date;
+    }
 
+    public void setExpiry_date(Date expiry_date) {
+        this.expiry_date = expiry_date;
+    }
+    
     public String getActive_with_bids() {
         return Active_with_bids;
     }
@@ -198,6 +206,7 @@ public class selling {
         // Create pages (page numbers for page links).
         for (int i = 0; i < pagesLength; i++) {
             pages[i] = ++firstPage;
+            
         }
         
         
@@ -240,11 +249,14 @@ public class selling {
                 items_with_status.setHas_image(false);
            pageItems.add(items_with_status);
         }
+        
+        //Set date for starting items
+        expiry_date=new Date();
+        expiry_date.setMonth(expiry_date.getMonth()+1);
+        expiry_date.setYear(expiry_date.getYear()+1900);
     }
     
-   
-    
-    // Paging actions -----------------------------------------------------------------------------
+   // Paging actions -----------------------------------------------------------------------------
     private void page(int firstRow) {
         this.firstRow = firstRow;
         searchmyItems();
@@ -268,6 +280,42 @@ public class selling {
     public void page(ActionEvent event) {        
         page(((Integer) ((UICommand) event.getComponent()).getValue() - 1) * rowsPerPage);
     }
+    
+    
+    //Start,Remove button actions ---------------------------------------------------
+    public void remove(Itemsbean item){
+        RequestContext requestContext = RequestContext.getCurrentInstance();
+        ItemsDAO it=new ItemsDAO();
+        if(!it.delete_item(item))
+                  requestContext.execute("PF('delete_item_success').show();");
+    }
+    
+    public void start(int itemid){
+            
+            long seconds;
+            RequestContext requestContext = RequestContext.getCurrentInstance();
+            Date date_start=new Date();
+            date_start.setYear(date_start.getYear());
+            expiry_date.setYear(expiry_date.getYear()-1900);
+            expiry_date.setMonth(expiry_date.getMonth()-1);
+            seconds = (expiry_date.getTime() - date_start.getTime())/1000;
+            out.println("seconnssssss    "+seconds);
+            if(seconds<0){
+               requestContext.execute("PF('Unsuccesful_item_start').show();");
+            }
+            else{
+                ItemsDAO it=new ItemsDAO();
+                if(!it.set_started_ends_dates(itemid,expiry_date, date_start ))
+                  requestContext.execute("PF('Succesful_item_start').show();");
+            }
+            
+    }
+    
+    public String rediretion_to_update_item(){
+        return "update_item";
+    }
+    
+
  
     
 }
