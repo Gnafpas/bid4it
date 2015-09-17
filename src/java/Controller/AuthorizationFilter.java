@@ -78,6 +78,10 @@ public class AuthorizationFilter implements Filter {
                 resp.sendRedirect(reqt.getContextPath() + "/faces/welcome-page.xhtml");
                 return;
             }
+            if(reqURI.contains("/faces/account_settings.xhtml") && (ses == null || ses.getAttribute("username") == null)){
+                resp.sendRedirect(reqt.getContextPath() + "/faces/welcome-page.xhtml");
+                return;
+            }
             if(reqURI.contains("/faces/welcome-page.xhtml") && ses != null && ses.getAttribute("adm") != null  ){
                 resp.sendRedirect(reqt.getContextPath() + "/faces/allready_loggedin.xhtml");
             }

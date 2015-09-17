@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+ 
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+ <title>Main</title>
+ <link rel="stylesheet" href="css/style.css" type="text/css"/>
+ <style>
+   html { 
+    background-color:#F2F2F2
+   }
+ </style>
+	
+</h:head>
+    
+<f:event listener="#{mybids.searchItems()}" type="preRenderView" />
+<h:body>
+
+<ui:include src="include/header.xhtml"/>
+   <div style="width: 100%;min-width:1200px;position: absolute;text-align: center;">
+     <table id="index_ptable" align="center">
+      <tr>
+       <td >
+       </td>
+      </tr>
+      <tr>
+       <td>
+         <a style="font-weight: bold; font-family:Tahoma, Geneva, sans-serif;font-size: 18px;">My Bids</a><br></br>
+         <table  align="center" id="index_table" cellspacing="0" cellpadding="0" >
+           <tr>
+             <td style="border-top: 1px solid  #ccc;" height="1px">
+             </td>
+             <td style="border-top: 1px solid  #ccc;" height="1px">
+             </td>
+           </tr>
+          <ui:repeat value="#{mybids.mybids_pageItems}" var="currentitem" >  
+           <tr>
+            <ui:fragment rendered="#{currentitem.completed &amp;&amp; currentitem.iwin}">  
+            <td width="235px" height="175px" style="border-bottom:  1px solid  #ccc; ;" align="left" >
+               <ui:fragment rendered="#{currentitem.has_image}"> 
+                <p:graphicImage class="autoResizeImage" value="search_images/#{currentitem.item.itemId}.jpg" style="margin-left:5px;"/>
+               </ui:fragment>
+               <ui:fragment rendered="#{!currentitem.has_image}"> 
+                <p:graphicImage class="autoResizeImage" value="img/no_image.png" style="margin-left:5px;"/>
+               </ui:fragment>
+            </td>
+            <td  style=" border-bottom:  1px solid  #ccc; ;">
+                <table height="155px"   style="background-size: 520px 155px ; " background="img/congrats.jpg">
+                    <tr>
+                        <td align="left" height="40px" valign="top">
+                           <a style="color:white; " id="clink_index" href="/e-auction-2015/faces/items_itemid=#{currentitem.item.itemId}">#{currentitem.item.name}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                           <table height="90%" cellspacing="0" cellpadding="0" >
+                               <tr>
+                                 <td align="left" width="250px" valign="top" >
+                                    <ui:fragment rendered="#{currentitem.item.buy_price!=0}" >  
+                                     <h:outputLabel style="color:white;font-weight: bold; font-family:Tahoma, Geneva, sans-serif;font-size: 18px;" a:value="EUR #{currentitem.item.buy_price}"/><br></br>
+                                     <a style="color:white; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;">Buy it now</a><br></br>
+                                    </ui:fragment>
+                                     
+                                    <ui:fragment rendered="#{currentitem.item.currently!=0}" >  
+                                     <h:outputLabel style="color:white ; font-weight: bold; font-family:Tahoma, Geneva, sans-serif;font-size: 18px;" a:value="EUR #{currentitem.item.currently}"/><br></br>
+                                     <h:outputLabel style="color:white; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;" a:value="#{currentitem.item.number_of_bids} bids"/>
+                                    </ui:fragment> 
+                                     &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                     <h:outputLabel style="color:white; font-weight: bold; font-family:Tahoma, Geneva, sans-serif;font-size: 18px;" a:value="Completed"/>
+                                 </td >
+                                 <td valign="top" align="left">
+                                     <h:outputLabel style="color:white; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;" a:value="From #{currentitem.item.country}"/><br></br><br></br>
+                                     <h:outputLabel style="color:white; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;" a:value="Congratulations!!!You won the action with your bid:"/><br></br>
+                                     <h:outputLabel style="color:white; font-family:Tahoma, Geneva, sans-serif;font-size: 14px; font-weight: bold;" a:value="EUR #{currentitem.bids.amount}"/>
+                                 </td>
+                               </tr>
+                           </table>   
+                        </td>
+                    </tr>
+                </table>
+            </td> 
+            </ui:fragment> 
+            <ui:fragment rendered="#{currentitem.completed &amp;&amp; !currentitem.iwin}">  
+            <td width="235px" height="175px" style="border-bottom:  1px solid  #ccc;" align="left" >
+               <ui:fragment rendered="#{currentitem.has_image}"> 
+                <p:graphicImage class="autoResizeImage" value="search_images/#{currentitem.item.itemId}.jpg" style="margin-left:5px;"/>
+               </ui:fragment>
+               <ui:fragment rendered="#{!currentitem.has_image}"> 
+                <p:graphicImage class="autoResizeImage" value="img/no_image.png" style="margin-left:5px;"/>
+               </ui:fragment>
+            </td>
+            <td  style=" border-bottom:  1px solid  #ccc;">
+                <table height="155px" width="100%" style="background:#333333">
+                    <tr>
+                        <td align="left" height="40px" valign="top">
+                           <a id="clink_index" style="color:#CCC " href="/e-auction-2015/faces/items_itemid=#{currentitem.item.itemId}">#{currentitem.item.name}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                           <table height="90%" cellspacing="0" cellpadding="0" >
+                               <tr>
+                                 <td align="left" width="250px" valign="top" >
+                                    <ui:fragment rendered="#{currentitem.item.buy_price!=0}" >  
+                                     <h:outputLabel style="font-weight: bold; font-family:Tahoma, Geneva, sans-serif;font-size: 18px;" a:value="EUR #{currentitem.item.buy_price}"/> <br></br>
+                                     <a style="color:#999; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;">Buy it now</a><br></br>
+                                    </ui:fragment>
+                                     
+                                    <ui:fragment rendered="#{currentitem.item.currently!=0}" >  
+                                     <h:outputLabel style="font-weight: bold; font-family:Tahoma, Geneva, sans-serif;font-size: 18px;" a:value="EUR #{currentitem.item.currently}"/><br></br>
+                                     <h:outputLabel style="color:#999; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;" a:value="#{currentitem.item.number_of_bids} bids"/>
+                                    </ui:fragment> 
+                                     &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                     <h:outputLabel style="color:maroon; font-weight: bold; font-family:Tahoma, Geneva, sans-serif;font-size: 18px;" a:value="Completed"/> 
+                                 </td >
+                                 <td valign="top" align="left">
+                                     <h:outputLabel style="color:#999; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;" a:value="From #{currentitem.item.country}"/><br></br><br></br>
+                                     <h:outputLabel style="color:maroon ; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;" a:value="Your best bid was not enough to win:"/><br></br>
+                                     <h:outputLabel style="color:maroon; font-family:Tahoma, Geneva, sans-serif;font-size: 14px; font-weight: bold;" a:value="EUR #{currentitem.bids.amount}"/>
+                                 </td>
+                               </tr>
+                           </table>   
+                        </td>
+                    </tr>
+                </table>
+            </td> 
+            </ui:fragment> 
+            <ui:fragment rendered="#{!currentitem.completed &amp;&amp; !currentitem.iwin}">  
+            <td width="235px" height="175px" style="border-bottom:  1px solid  #ccc;" align="left" >
+               <ui:fragment rendered="#{currentitem.has_image}"> 
+                <p:graphicImage class="autoResizeImage" value="search_images/#{currentitem.item.itemId}.jpg" style="margin-left:5px;"/>
+               </ui:fragment>
+               <ui:fragment rendered="#{!currentitem.has_image}"> 
+                <p:graphicImage class="autoResizeImage" value="img/no_image.png" style="margin-left:5px;"/>
+               </ui:fragment>
+            </td>
+            <td  style=" border-bottom:  1px solid  #ccc;">
+                <table height="155px" cellspacing="0" cellpadding="0" >
+                    <tr>
+                        <td align="left" height="40px" valign="top">
+                           <a id="clink_index"  href="/e-auction-2015/faces/items_itemid=#{currentitem.item.itemId}">#{currentitem.item.name}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                           <table height="90%" cellspacing="0" cellpadding="0" >
+                               <tr>
+                                 <td align="left" width="250px" valign="top" >
+                                    <ui:fragment rendered="#{currentitem.item.buy_price!=0}" >  
+                                     <h:outputLabel style="font-weight: bold; font-family:Tahoma, Geneva, sans-serif;font-size: 18px;" a:value="EUR #{currentitem.item.buy_price}"/> <br></br>
+                                     <a style="color:#999; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;">Buy it now</a><br></br><br></br>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{currentitem.item.currently!=0}" >  
+                                     <h:outputLabel style="font-weight: bold; font-family:Tahoma, Geneva, sans-serif;font-size: 18px;" a:value="EUR #{currentitem.item.currently}"/><br></br>
+                                     <h:outputLabel style="color:#999; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;" a:value="#{currentitem.item.number_of_bids} bids"/>
+                                    </ui:fragment> 
+                                     &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                     <h:outputLabel style="color:red; font-weight: bold; font-family:Tahoma, Geneva, sans-serif;font-size: 18px;" a:value="Active"/>
+                                 </td >
+                                 <td valign="top" align="left">
+                                     <h:outputLabel style="color:#999; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;" a:value="From #{currentitem.item.country}"/><br></br><br></br>
+                                     <h:outputLabel style="color:red ; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;" a:value="Your best bid:"/><br></br>
+                                     <h:outputLabel style="color:red; font-family:Tahoma, Geneva, sans-serif;font-size: 14px; font-weight: bold;" a:value="EUR #{currentitem.bids.amount}"/>
+                                 </td>
+                               </tr>
+                           </table>   
+                        </td>
+                    </tr>
+                </table>
+            </td> 
+            </ui:fragment> 
+           </tr>
+          </ui:repeat>
+           <tr>
+             <td style=" border-bottom: 1px solid  #999; " height="60px">
+             </td>
+             <td style=" border-bottom: 1px solid  #999;" height="60px">
+             </td>
+           </tr>
+         </table>
+         <table cellspacing="0" cellpadding="0" width="100%">
+             <tr>
+               <h:form >
+                 <td width="20px">
+                 </td>
+                 <td align="center">
+                   <table align="center">
+                       <tr>
+                            <td valign="center">
+                               <!--The paging buttons-->
+                               <ui:fragment rendered="#{mybids.firstRow != 0}"> 
+                                 <h:commandButton a:id="index_paging_arrow_btns" value="prev" action="#{mybids.pagePrevious}"  image="img/leftarrow.png"/>
+                               </ui:fragment>
+                               <ui:fragment rendered="#{mybids.firstRow == 0}"> 
+                                 <h:commandButton a:id="index_paging_arrow_btns" value="prev"  image="img/leftarrowdis.png"/>
+                               </ui:fragment>
+                            </td>
+                            <td>
+                               <!--The paging links-->
+                                <ui:repeat value="#{mybids.pages}" var="page">
+                                    <h:commandButton a:id="index_paging_num_btns" value="#{page}" actionListener="#{mybids.page}" rendered="#{page != mybids.currentPage}" />
+                                    <ui:fragment rendered="#{page == mybids.currentPage}">
+                                       <h:commandButton a:id="index_paging_num_btn_focus" value="#{page}"  />
+                                    </ui:fragment>
+                                </ui:repeat>
+                            </td>
+                            <td>
+                                <ui:fragment rendered="#{!(mybids.firstRow + mybids.rowsPerPage &gt;= mybids.totalRows)}"> 
+                                  <h:commandButton a:id="index_paging_arrow_btns" value="next" action="#{mybids.pageNext}"  image="img/rightarrow.png"/>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{mybids.firstRow + mybids.rowsPerPage &gt;= mybids.totalRows}"> 
+                                  <h:commandButton a:id="index_paging_arrow_btns" value="next"  image="img/rightarrowdis.png"/>
+                                </ui:fragment>
+                            </td> 
+                       </tr>
+                   </table>
+                 </td>
+                 <td width="160px" align="left">
+                     <h:outputLabel style="font-family:Tahoma, Geneva, sans-serif;font-size: 12px; color:#999 " value="Items per page:"/>
+                     <h:form>
+                         <h:selectOneMenu value="#{mybids.rowsPerPage}" valueChangeListener="#{mybids.pageFirst}" onchange="submit()">
+                                    <f:selectItem itemValue="1" itemLabel="1" />
+                                    <f:selectItem itemValue="2" itemLabel="2" />
+                                    <f:selectItem itemValue="4" itemLabel="4" />
+                                    <f:selectItem itemValue="20" itemLabel="20" />
+                                    <f:selectItem itemValue="30" itemLabel="30" />
+                                    <f:selectItem itemValue="40" itemLabel="40" />
+                        </h:selectOneMenu>
+                     </h:form>
+                 </td>
+               </h:form>
+             </tr>
+         </table>
+       </td>
+      </tr>
+     </table>
+    </div>
+<ui:include src="include/footer.xhtml"/> 
+<ui:include src="include/popups.xhtml"/>
+   
+</h:body>
+</html>

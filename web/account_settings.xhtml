@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+ 
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+ <title>Main</title>
+ <link rel="stylesheet" href="css/style.css" type="text/css"/>
+ <style>
+   html { 
+    background-color:#F2F2F2
+   }
+ </style>
+	
+</h:head>
+<f:event listener="#{account_settings.init(headerbean.user.username)}" type="preRenderView" />
+<h:body>
+
+<ui:include src="include/header.xhtml"/>
+<h:form>
+   <div style="width: 100%;min-width:1200px;position: absolute;text-align: center;">   
+       <table id="acc_table" align="center" style="text-align:center; color: #999;">
+            <tr>
+                <th style="border-bottom: 2px solid  #ccc;" height="1px">Personal Information</th>             
+           </tr>
+           <tr>
+               <th style="border-bottom: 2px solid  #ccc;" height="1px"></th>          
+           </tr>
+           <tr>
+                <th style="border-bottom: 1px solid  #ccc;">Account Information</th>
+           </tr>
+           <tr>
+               <td>
+                    <table >
+                         <tr>
+                             <td>Username</td>
+                             <td><h:inputText a:value="#{headerbean.user.username}" binding="#{account_settings.username}" disabled="#{not account_settings.editmode}" /></td>
+                             <td style="width: 70px;"><a>&#160;</a>
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Edit" action="#{account_settings.edit()}" rendered="#{not account_settings.editmode}" />
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save()}" rendered="#{account_settings.editmode}" />
+                             </td>
+                         </tr>
+                        <tr>
+                             <td>Password</td>
+                             <td><h:inputText a:value="#{account_settings.user.password}"  disabled="#{not account_settings.editmode}" /></td>
+                             <td style="width: 70px;"><a>&#160;</a>
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Edit" action="#{account_settings.edit()}" rendered="#{not account_settings.editmode}" />
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save()}" rendered="#{account_settings.editmode}" />
+                             </td>
+                         </tr>
+                        <tr>
+                             <td>Firstname</td>
+                             <td><h:inputText a:value="#{account_settings.user.firstname}"  disabled="#{not account_settings.editmode}" /></td>
+                             <td style="width: 70px;"><a>&#160;</a>
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Edit" action="#{account_settings.edit()}" rendered="#{not account_settings.editmode}" />
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save()}" rendered="#{account_settings.editmode}" />
+                             </td>
+                         </tr>
+                        <tr>
+                             <td>Lastname</td>
+                             <td><h:inputText a:value="#{account_settings.user.lastname}"  disabled="#{not account_settings.editmode}" /></td>
+                             <td style="width: 70px;"><a>&#160;</a>
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Edit" action="#{account_settings.edit()}" rendered="#{not account_settings.editmode}" />
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save()}" rendered="#{account_settings.editmode}" />
+                             </td>
+                         </tr>
+                        <tr>
+                             <td>email</td>
+                             <td><h:inputText a:value="#{account_settings.user.email}"  disabled="#{not account_settings.editmode}" /></td>
+                             <td style="width: 70px;"><a>&#160;</a>
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Edit" action="#{account_settings.edit()}" rendered="#{not account_settings.editmode}" />
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save()}" rendered="#{account_settings.editmode}" />
+                             </td>
+                         </tr>
+                        <tr>
+                             <td>Address</td>
+                             <td><h:inputText a:value="#{account_settings.user.address_info}"  disabled="#{not account_settings.editmode}" /></td>
+                             <td style="width: 70px;"><a>&#160;</a>
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Edit" action="#{account_settings.edit()}" rendered="#{not account_settings.editmode}" />
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save()}" rendered="#{account_settings.editmode}" />
+                             </td>
+                         </tr>
+                        <tr>
+                             <td>Postcode</td>
+                             <td><h:inputText a:value="#{account_settings.user.postcode}"  disabled="#{not account_settings.editmode}" /></td>
+                             <td style="width: 70px;"><a>&#160;</a>
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Edit" action="#{account_settings.edit()}" rendered="#{not account_settings.editmode}" />
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save()}" rendered="#{account_settings.editmode}" />
+                             </td>
+                         </tr>
+                        <tr>
+                             <td>Phone</td>
+                             <td><h:inputText a:value="#{account_settings.user.phone}"  disabled="#{not account_settings.editmode}" /></td>
+                             <td style="width: 70px;"><a>&#160;</a>
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Edit" action="#{account_settings.edit()}" rendered="#{not account_settings.editmode}" />
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save()}" rendered="#{account_settings.editmode}" />
+                             </td>
+                         </tr>
+                        <tr>
+                             <td>VAT number</td>
+                             <td><h:inputText a:value="#{account_settings.user.vatnumber}"  disabled="#{not account_settings.editmode}" /></td>
+                             <td style="width: 70px;"><a>&#160;</a>
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Edit" action="#{account_settings.edit()}" rendered="#{not account_settings.editmode}" />
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save()}" rendered="#{account_settings.editmode}" />
+                             </td>
+                         </tr>
+                    </table>
+                </td>
+           </tr>           
+       </table>
+       </div>
+</h:form>
+<ui:include src="include/footer.xhtml"/> 
+<ui:include src="include/popups.xhtml"/>
+   
+</h:body>
+</html>
