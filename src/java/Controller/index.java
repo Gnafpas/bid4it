@@ -17,6 +17,7 @@ import static java.lang.System.out;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UICommand;
@@ -194,7 +195,10 @@ public class index implements Serializable{
             {
                 in_item.setHas_image(true);
                 try{
-                    FileOutputStream fos = new FileOutputStream("/Users/George/Desktop/TED/e-auction-2015/web/search_images/"+it.getItemId()+".jpg"); 
+                    ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+                    Properties properties = new Properties();
+                    properties.load(classLoader.getResourceAsStream("config.properties"));
+                    FileOutputStream fos = new FileOutputStream(properties.getProperty("application_path")+"/e-auction-2015/web/search_images/"+it.getItemId()+".jpg"); 
                     fos.write(image);
                     fos.close();
                 }catch(Exception e){

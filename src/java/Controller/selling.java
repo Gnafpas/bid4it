@@ -299,7 +299,6 @@ public class selling {
             expiry_date.setYear(expiry_date.getYear()-1900);
             expiry_date.setMonth(expiry_date.getMonth()-1);
             seconds = (expiry_date.getTime() - date_start.getTime())/1000;
-            out.println("seconnssssss    "+seconds);
             if(seconds<0){
                requestContext.execute("PF('Unsuccesful_item_start').show();");
             }

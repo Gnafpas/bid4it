@@ -74,7 +74,27 @@ public class AuthorizationFilter implements Filter {
                 resp.sendRedirect(reqt.getContextPath() + "/faces/welcome-page.xhtml");
                 return;
             }
+            if(reqURI.contains("/faces/write_msg.xhtml") && (ses == null || ses.getAttribute("username") == null)){
+                resp.sendRedirect(reqt.getContextPath() + "/faces/welcome-page.xhtml");
+                return;
+            }
             if(reqURI.contains("/faces/upload_item.xhtml") && (ses == null || ses.getAttribute("username") == null)){
+                resp.sendRedirect(reqt.getContextPath() + "/faces/welcome-page.xhtml");
+                return;
+            }
+            if(reqURI.contains("/faces/update_item.xhtml") && (ses == null || ses.getAttribute("username") == null)){
+                resp.sendRedirect(reqt.getContextPath() + "/faces/welcome-page.xhtml");
+                return;
+            }
+            if(reqURI.contains("/faces/selling.xhtml") && (ses == null || ses.getAttribute("username") == null)){
+                resp.sendRedirect(reqt.getContextPath() + "/faces/welcome-page.xhtml");
+                return;
+            }
+            if(reqURI.contains("/faces/read_msg.xhtml") && (ses == null || ses.getAttribute("username") == null)){
+                resp.sendRedirect(reqt.getContextPath() + "/faces/welcome-page.xhtml");
+                return;
+            }
+            if(reqURI.contains("/faces/mybids.xhtml") && (ses == null || ses.getAttribute("username") == null)){
                 resp.sendRedirect(reqt.getContextPath() + "/faces/welcome-page.xhtml");
                 return;
             }

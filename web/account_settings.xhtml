@@ -51,7 +51,7 @@
                              <td><h:inputText value="#{account_settings.user.password}"  disabled="#{not account_settings.editmode}" /></td>
                              <td style="width: 70px;"><a>&#160;</a>
                                 <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Edit" action="#{account_settings.edit()}" rendered="#{not account_settings.editmode}" />
-                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save('password',account_settings.password)}" rendered="#{account_settings.editmode}" />
+                                <h:commandButton style="width: 55px; padding: 1px 0px; border-radius: 4px;" value="Save" action="#{account_settings.save('password',account_settings.user.password)}" rendered="#{account_settings.editmode}" />
                              </td>
                          </tr>
                         <tr>

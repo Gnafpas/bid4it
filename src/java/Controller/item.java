@@ -30,6 +30,7 @@ import org.primefaces.context.RequestContext;
 import helpers.Relateditems;
 import static java.lang.System.out;
 import java.util.Date;
+import java.util.Properties;
 
 
 /**
@@ -257,7 +258,11 @@ public class item implements Serializable{
                 image=it_h_im.getImage();
                 if(image!=null ){ 
                    try{
-                      FileOutputStream fos = new FileOutputStream("/Users/George/Desktop/TED/e-auction-2015/web/items_images/"+it_h_im.getIditem_has_image()+".jpg"); 
+                      
+                      ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+                      Properties properties = new Properties();
+                      properties.load(classLoader.getResourceAsStream("config.properties"));
+                      FileOutputStream fos = new FileOutputStream(properties.getProperty("application_path")+"/e-auction-2015/web/items_images/"+it_h_im.getIditem_has_image()+".jpg"); 
                       fos.write(image);
                       if(j<5){
                         images_paths[j]="items_images/"+it_h_im.getIditem_has_image()+".jpg";
@@ -285,7 +290,10 @@ public class item implements Serializable{
             image=ihi.getimage(rit.getItem().getItemId());   
             if(image!=null && j<4){
                try{
-                   FileOutputStream fos = new FileOutputStream("/Users/George/Desktop/TED/e-auction-2015/web/relateditems_images/"+rit.getItem().getItemId()+".jpg"); 
+                   ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+                   Properties properties = new Properties();
+                   properties.load(classLoader.getResourceAsStream("config.properties"));
+                   FileOutputStream fos = new FileOutputStream(properties.getProperty("application_path")+"/e-auction-2015/web/relateditems_images/"+rit.getItem().getItemId()+".jpg"); 
                    fos.write(image);
                    rit.setImagepath("relateditems_images/"+rit.getItem().getItemId()+".jpg");
                    j++;
