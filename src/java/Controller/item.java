@@ -213,10 +213,12 @@ public class item implements Serializable{
         }
 
         //Set time to left for the item to complete in seconds and call js function to display it in real-time
-        Date date=new Date();
-        seconds = (main_item.getEnds().getTime() - date.getTime())/1000;
-        RequestContext requestContext = RequestContext.getCurrentInstance();  
-        requestContext.execute("setsecs('"+seconds+"')");
+        if(main_item.getEnds()!=null){
+            Date date=new Date();
+            seconds = (main_item.getEnds().getTime() - date.getTime())/1000;
+            RequestContext requestContext = RequestContext.getCurrentInstance();  
+            requestContext.execute("setsecs('"+seconds+"')");
+        }
         
         //Get rellated items
         relateditems.clear();

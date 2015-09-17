@@ -181,15 +181,29 @@ public class ItemsDAO {
                e.printStackTrace();
             }
         }else{
-        
-            String hql =   " select DISTINCT(i) "
-                       +   " from Beans.Itemsbean i, Beans.Item_has_categorybean ihc, Beans.Categoriesbean c "
-                       +   " where i.name LIKE :itemname "
-                       +   " and c.category LIKE :catname "
-                       +   " and c.categoryId = ihc.categoryId "
-                       +   " and ihc.itemId = i.itemId "
-                       +   " and 0 < Timestampdiff(second,NOW(),i.ends)";
-            Transaction tx = null;    
+            String hql;
+            Transaction tx;
+            if(cat.equals("Collectibles & art")||cat.equals("Electronics")||cat.equals("Entertainment")
+                                               ||cat.equals("Fashion")||cat.equals("Home & garden")||cat.equals("Motors")
+                                               ||cat.equals("Sporting goods")||cat.equals("Toys & hobbies")){
+                           hql =   " select DISTINCT(i) "
+                               +   " from Beans.Itemsbean i, Beans.Item_has_categorybean ihc, Beans.Categoriesbean c "
+                               +   " where i.name LIKE :itemname "
+                               +   " and c.parent_category LIKE :catname "
+                               +   " and c.categoryId = ihc.categoryId "
+                               +   " and ihc.itemId = i.itemId "
+                               +   " and 0 < Timestampdiff(second,NOW(),i.ends)";
+                           tx = null;
+            }else{
+                           hql =   " select DISTINCT(i) "
+                               +   " from Beans.Itemsbean i, Beans.Item_has_categorybean ihc, Beans.Categoriesbean c "
+                               +   " where i.name LIKE :itemname "
+                               +   " and c.category LIKE :catname "
+                               +   " and c.categoryId = ihc.categoryId "
+                               +   " and ihc.itemId = i.itemId "
+                               +   " and 0 < Timestampdiff(second,NOW(),i.ends)";
+                           tx = null;
+            }
             try{
                session = helper.getSessionFactory().openSession();
                tx=session.beginTransaction();
@@ -239,14 +253,29 @@ public class ItemsDAO {
                e.printStackTrace();
             }
         }else{
-            String hql =   " select DISTINCT(i) "
-                       +   " from Beans.Itemsbean i, Beans.Item_has_categorybean ihc, Beans.Categoriesbean c "
-                       +   " where i.name LIKE :itemname "
-                       +   " and c.category LIKE :catname "
-                       +   " and c.categoryId = ihc.categoryId "
-                       +   " and ihc.itemId = i.itemId "
-                       +   " and 0 < Timestampdiff(second,NOW(),i.ends)";
-            Transaction tx = null;    
+             String hql;
+            Transaction tx;
+            if(cat.equals("Collectibles & art")||cat.equals("Electronics")||cat.equals("Entertainment")
+                                               ||cat.equals("Fashion")||cat.equals("Home & garden")||cat.equals("Motors")
+                                               ||cat.equals("Sporting goods")||cat.equals("Toys & hobbies")){
+                           hql =   " select DISTINCT(i) "
+                               +   " from Beans.Itemsbean i, Beans.Item_has_categorybean ihc, Beans.Categoriesbean c "
+                               +   " where i.name LIKE :itemname "
+                               +   " and c.parent_category LIKE :catname "
+                               +   " and c.categoryId = ihc.categoryId "
+                               +   " and ihc.itemId = i.itemId "
+                               +   " and 0 < Timestampdiff(second,NOW(),i.ends)";
+                           tx = null;
+            }else{
+                           hql =   " select DISTINCT(i) "
+                               +   " from Beans.Itemsbean i, Beans.Item_has_categorybean ihc, Beans.Categoriesbean c "
+                               +   " where i.name LIKE :itemname "
+                               +   " and c.category LIKE :catname "
+                               +   " and c.categoryId = ihc.categoryId "
+                               +   " and ihc.itemId = i.itemId "
+                               +   " and 0 < Timestampdiff(second,NOW(),i.ends)";
+                           tx = null;
+            }
             try{
                session = helper.getSessionFactory().openSession();
                tx=session.beginTransaction();
@@ -268,6 +297,65 @@ public class ItemsDAO {
         return rowsNum;
 
     }
+    
+    
+    public List getbiditems (String username,int firstRow, int rowCount){
+        List <Itemsbean> items=null;
+  
+        String hql =   " select DISTINCT(i) "
+                   +   " from Beans.Itemsbean i, Beans.Bidsbean bids "
+                   +   " where bids.bid_itemid=i.itemId "
+                   +   " and bids.bidder LIKE :qusername";
+        Transaction tx = null;    
+        try{
+           session = helper.getSessionFactory().openSession();
+           tx=session.beginTransaction();
+           items = session.createQuery(hql)
+                   .setParameter("qusername", "%" + username + "%")
+                   .setFirstResult(firstRow)
+                   .setMaxResults(rowCount).list();
+           session.close(); 
+        }catch (HibernateException e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace(); 
+           session.close(); 
+        }catch (ExceptionInInitializerError e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace();
+        }
+        return items;
+    }
+    
+    public int getResultNumber_of_bid (String username){
+        int rowsNum = 0;
+        String hql =   " select DISTINCT(i) "
+                   +   " from Beans.Itemsbean i, Beans.Bidsbean bids "
+                   +   " where bids.bid_itemid=i.itemId "
+                   +   " and bids.bidder LIKE :qusername";
+        Transaction tx = null;    
+        try{
+           session = helper.getSessionFactory().openSession();
+           tx=session.beginTransaction();
+           rowsNum = session.createQuery(hql)
+                   .setParameter("qusername", "%" + username + "%").list().size();
+           session.close(); 
+        }catch (HibernateException e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace(); 
+           session.close(); 
+        }catch (ExceptionInInitializerError e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace();
+        }
+        
+        return rowsNum;
+
+    }
+    
     
     public boolean addbid(int itemid,int bid,String bider_username){
         

@@ -27,6 +27,7 @@
     <f:viewParam name="searchCAT" value="#{index.searchCAT}"/>
 </f:metadata>
 <f:event listener="#{index.searchItems()}" type="preRenderView" />
+<f:event listener="#{index.setFirstRow(0)}" type="preRenderView" />
 <h:body>
 
 <ui:include src="include/header.xhtml"/>

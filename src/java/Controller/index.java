@@ -152,6 +152,7 @@ public class index implements Serializable{
     
     public List<Index_items > searchItems()
     {
+        out.println("sahkjshdksdhkjsdchks  "+firstRow);
         ItemsDAO bean=new ItemsDAO();
         if (rowsPerPage==0)
             rowsPerPage = 2;
@@ -160,50 +161,50 @@ public class index implements Serializable{
             searchSTR="";
         if(searchCAT.equals("All Categories"))
             searchCAT="";
-            pageItems = bean.getitemsByCategory (searchCAT, searchSTR, firstRow, rowsPerPage);
-            if(pageItems==null)
-                return null;
-            
-            totalRows = bean.getResultNumber(searchCAT, searchSTR);
-            
-         
-            // Set currentPage, totalPages and pages.
-            currentPage = (totalRows / rowsPerPage) - ((totalRows - firstRow) / rowsPerPage) + 1;
-            totalPages = (totalRows / rowsPerPage) + ((totalRows % rowsPerPage != 0) ? 1 : 0);
-            int pagesLength = Math.min(pageRange, totalPages);
-            pages = new Integer[pagesLength];
-            
-            // firstPage must be greater than 0 and lesser than totalPages-pageLength.
-            int firstPage = Math.min(Math.max(0, currentPage - (pageRange / 2)), totalPages - pagesLength);
+        pageItems = bean.getitemsByCategory (searchCAT, searchSTR, firstRow, rowsPerPage);
+        if(pageItems==null)
+            return null;
 
-            // Create pages (page numbers for page links).
-            for (int i = 0; i < pagesLength; i++) {
-                pages[i] = ++firstPage;
-            }
-            
-            Item_has_imageDAO ihi=new Item_has_imageDAO();
-            index_pageItems.clear();
-            for (Itemsbean it : pageItems) {
-                Index_items in_item=new Index_items();
-                in_item.setItem(it);
-                
-                byte[] image;
-                image=ihi.getimage(it.getItemId());
-                if(image!=null)
-                {
-                    in_item.setHas_image(true);
-                    try{
-                        FileOutputStream fos = new FileOutputStream("/Users/George/Desktop/TED/e-auction-2015/web/search_images/"+it.getItemId()+".jpg"); 
-                        fos.write(image);
-                        fos.close();
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
-                }else
-                    in_item.setHas_image(false);
-                
-                index_pageItems.add(in_item);
-            }
+        totalRows = bean.getResultNumber(searchCAT, searchSTR);
+
+
+        // Set currentPage, totalPages and pages.
+        currentPage = (totalRows / rowsPerPage) - ((totalRows - firstRow) / rowsPerPage) + 1;
+        totalPages = (totalRows / rowsPerPage) + ((totalRows % rowsPerPage != 0) ? 1 : 0);
+        int pagesLength = Math.min(pageRange, totalPages);
+        pages = new Integer[pagesLength];
+
+        // firstPage must be greater than 0 and lesser than totalPages-pageLength.
+        int firstPage = Math.min(Math.max(0, currentPage - (pageRange / 2)), totalPages - pagesLength);
+
+        // Create pages (page numbers for page links).
+        for (int i = 0; i < pagesLength; i++) {
+            pages[i] = ++firstPage;
+        }
+
+        Item_has_imageDAO ihi=new Item_has_imageDAO();
+        index_pageItems.clear();
+        for (Itemsbean it : pageItems) {
+            Index_items in_item=new Index_items();
+            in_item.setItem(it);
+
+            byte[] image;
+            image=ihi.getimage(it.getItemId());
+            if(image!=null)
+            {
+                in_item.setHas_image(true);
+                try{
+                    FileOutputStream fos = new FileOutputStream("/Users/George/Desktop/TED/e-auction-2015/web/search_images/"+it.getItemId()+".jpg"); 
+                    fos.write(image);
+                    fos.close();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }else
+                in_item.setHas_image(false);
+
+            index_pageItems.add(in_item);
+        }
                 return index_pageItems;
     }
     
