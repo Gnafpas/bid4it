@@ -46,6 +46,15 @@ public class mybids implements Serializable{
     private int pageRange;
     private Integer[] pages;
     private int currentPage;
+    private boolean no_items_toShow=false;
+
+    public boolean isNo_items_toShow() {
+        return no_items_toShow;
+    }
+
+    public void setNo_items_toShow(boolean no_items_toShow) {
+        this.no_items_toShow = no_items_toShow;
+    } 
 
     public List<Itemsbean> getPageItems() {
         return pageItems;
@@ -137,6 +146,7 @@ public class mybids implements Serializable{
     
     public List<Mybids_items > searchItems()
     {
+        no_items_toShow=false;
         ItemsDAO bean=new ItemsDAO();
         BidsDAO  bidsdao=new BidsDAO();
         if (rowsPerPage==0)
@@ -148,6 +158,10 @@ public class mybids implements Serializable{
             pageBids =bidsdao.getmybids(SessionBean.getUserName());
             if(pageItems==null || pageBids==null)
                 return null;
+            if(pageItems.isEmpty() || pageBids.isEmpty()){
+                no_items_toShow=true;
+                return null;
+            }
             
             totalRows = bean.getResultNumber_of_bid(SessionBean.getUserName());
             

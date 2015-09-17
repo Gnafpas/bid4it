@@ -48,6 +48,15 @@ public class selling {
     private String Completed_without_bought="Completed_without_bought";
     private String Not_Active="Not_Active";
     private Date expiry_date=new Date();
+    private boolean no_items_toShow=false;
+
+    public boolean isNo_items_toShow() {
+        return no_items_toShow;
+    }
+
+    public void setNo_items_toShow(boolean no_items_toShow) {
+        this.no_items_toShow = no_items_toShow;
+    } 
 
     public Date getExpiry_date() {
         return expiry_date;
@@ -179,6 +188,7 @@ public class selling {
     
     public void searchmyItems()
     {
+        no_items_toShow=false;
         List <Itemsbean> pageItems_whithout_status = new ArrayList();
         ItemsDAO bean=new ItemsDAO();
         
@@ -193,6 +203,10 @@ public class selling {
         pageItems_whithout_status = bean.getitemsBySeller(seller, firstRow, rowsPerPage);
         if(pageItems_whithout_status==null)
             return;
+        if(pageItems_whithout_status.isEmpty()){
+            no_items_toShow=true;
+            return;
+        }
         totalRows = bean.getResultNumber_for_seller_items(seller);
         // Set currentPage, totalPages and pages.
         currentPage = (totalRows / rowsPerPage) - ((totalRows - firstRow) / rowsPerPage) + 1;

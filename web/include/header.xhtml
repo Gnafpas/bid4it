@@ -101,7 +101,7 @@
                 </ul>
              </td>
             </ui:fragment>  
-            <ui:fragment rendered="#{messages.newmessages()==false}"> 
+            <ui:fragment rendered="#{messages.newmessages()==false }"> 
              <td width="60"  height="41" >
                <ul id="nav">
 	               <li id="my-bid4it" style="width:30px; height:20px;">
@@ -117,7 +117,7 @@
                 </ul>
              </td>
             </ui:fragment>
-            <ui:fragment rendered="#{messages.newmessages()==true}"> 
+            <ui:fragment rendered="#{messages.newmessages()==true &amp;&amp; headerbean.loggedin_user()==true}"> 
              <td width="60"  height="41" >
                <ul id="nav">
 	               <li id="my-bid4it" style="width:30px; height:20px;">

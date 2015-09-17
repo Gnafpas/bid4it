@@ -28,9 +28,11 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.event.ComponentSystemEvent;
 import org.primefaces.context.RequestContext;
 import helpers.Relateditems;
+import java.io.IOException;
 import static java.lang.System.out;
 import java.util.Date;
 import java.util.Properties;
+import javax.faces.context.FacesContext;
 
 
 /**
@@ -415,8 +417,8 @@ public class item implements Serializable{
        
     }
     
-    public String redirection(){
-        return "item";
+    public void redirection()throws IOException{
+        FacesContext.getCurrentInstance().getExternalContext().redirect("/e-auction-2015/faces/searchSTR:%20_searchCAT:All%20Categories");
     }
     
 }

@@ -42,7 +42,8 @@
              <td style="border-top: 1px solid  #ccc;" height="1px">
              </td>
            </tr>
-          <ui:repeat value="#{mybids.mybids_pageItems}" var="currentitem" >  
+         <ui:fragment rendered="#{!mybids.no_items_toShow}" > 
+         <ui:repeat value="#{mybids.mybids_pageItems}" var="currentitem" >  
            <tr>
             <ui:fragment rendered="#{currentitem.completed &amp;&amp; currentitem.iwin}">  
             <td width="235px" height="175px" style="border-bottom:  1px solid  #ccc; ;" align="left" >
@@ -180,6 +181,14 @@
             </ui:fragment> 
            </tr>
           </ui:repeat>
+          </ui:fragment>
+          <ui:fragment rendered="#{mybids.no_items_toShow}" >
+           <tr>
+             <td align="center">
+                <img src="img/no_results.jpg" width="400" height="200" style="margin-left: 50px;" />
+             </td>
+           </tr>
+          </ui:fragment>
            <tr>
              <td style=" border-bottom: 1px solid  #999; " height="60px">
              </td>
