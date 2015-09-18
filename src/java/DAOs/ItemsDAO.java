@@ -200,7 +200,7 @@ public class ItemsDAO {
         return rowsNum;
     }
     
-    public List getitemsByCategory (String cat, String name, int firstRow, int rowCount){
+    public List getitemsByCategory (String cat, String name){
         List <Itemsbean> items=null;
         if(cat.equals("")){
             String hql =   " select DISTINCT(i) "
@@ -212,9 +212,7 @@ public class ItemsDAO {
                session = helper.getSessionFactory().openSession();
                tx=session.beginTransaction();
                items = session.createQuery(hql)
-                       .setParameter("itemname", "%" + name + "%")
-                       .setFirstResult(firstRow)
-                       .setMaxResults(rowCount).list();
+                       .setParameter("itemname", "%" + name + "%").list();
                session.close(); 
             }catch (HibernateException e) {
                RequestContext context = RequestContext.getCurrentInstance();
@@ -255,9 +253,7 @@ public class ItemsDAO {
                tx=session.beginTransaction();
                items = session.createQuery(hql)
                        .setParameter("catname", "%" + cat + "%")
-                       .setParameter("itemname", "%" + name + "%")
-                       .setFirstResult(firstRow)
-                       .setMaxResults(rowCount).list();
+                       .setParameter("itemname", "%" + name + "%").list();
                session.close(); 
             }catch (HibernateException e) {
                RequestContext context = RequestContext.getCurrentInstance();

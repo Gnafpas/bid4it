@@ -1,9 +1,11 @@
 
 package Beans;
 
+import java.io.Serializable;
 
 
-public class Usersbean {
+
+public class Usersbean implements Serializable{
 
 
     private String username;

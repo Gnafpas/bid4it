@@ -5,15 +5,22 @@
  */
 package Controller;
 
+import Beans.Item_has_imagebean;
 import Beans.Itemsbean;
 import DAOs.Item_has_imageDAO;
 import DAOs.ItemsDAO;
 import helpers.Index_items;
+import helpers.Relateditems;
 import java.io.FileOutputStream;
 import java.io.Serializable;
+import static java.lang.System.out;
 import java.util.ArrayList;
+import java.util.Collections;
+import static java.util.Collections.list;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UICommand;
@@ -31,35 +38,53 @@ public class index implements Serializable{
     
     Itemsbean item = new Itemsbean();
     private List <Itemsbean> pageItems = new ArrayList();
+    private List <Itemsbean> allItems = new ArrayList();
     private List <Index_items> index_pageItems = new ArrayList();
     private String main_image="search_images/";
     private String searchSTR="";
     private String searchCAT="";
+    private String criteria="";
     private int totalRows;
     private int firstRow;
+    private int max_buy_price=-1;
     private int rowsPerPage;
     private int totalPages;
     private int pageRange;
     private Integer[] pages;
     private int currentPage;
-    private boolean no_items_toShow=false;
-
-    public boolean isNo_items_toShow() {
-        return no_items_toShow;
-    }
-
-    public void setNo_items_toShow(boolean no_items_toShow) {
-        this.no_items_toShow = no_items_toShow;
-    } 
 
     public List<Itemsbean> getPageItems() {
         return pageItems;
     }
 
+    public int getMax_buy_price() {
+        return max_buy_price;
+    }
+
+    public void setMax_buy_price(int max_buy_price) {
+        this.max_buy_price = max_buy_price;
+    }
+
     public void setPageItems(List<Itemsbean> pageItems) {
         this.pageItems = pageItems;
     }
+    
+    public List<Itemsbean> getAllItems() {
+        return allItems;
+    }
 
+    public void setAllItems(List<Itemsbean> allItems) {
+        this.allItems = allItems;
+    }
+
+    public String getCriteria() {
+        return criteria;
+    }
+
+    public void setCriteria(String criteria) {
+        this.criteria = criteria;
+    }
+    
     public List<Index_items> getIndex_pageItems() {
         return index_pageItems;
     }
@@ -158,66 +183,102 @@ public class index implements Serializable{
     
     public List<Index_items > searchItems()
     {
-        no_items_toShow=false;
+        System.out.println(max_buy_price);
         ItemsDAO bean=new ItemsDAO();
         if (rowsPerPage==0)
             rowsPerPage = 2;
         pageRange = 10; // Default page range (max amount of page links to be displayed at once).
-        if(searchSTR.equals(" "))
+        if(searchSTR.trim().isEmpty())
             searchSTR="";
         if(searchCAT.equals("All Categories"))
             searchCAT="";
-        pageItems = bean.getitemsByCategory (searchCAT, searchSTR, firstRow, rowsPerPage);
+        allItems = bean.getitemsByCategory (searchCAT, searchSTR);
         if(pageItems==null)
             return null;
-        if(!pageItems.isEmpty()){
-            totalRows = bean.getResultNumber(searchCAT, searchSTR);
-
-
-            // Set currentPage, totalPages and pages.
-            currentPage = (totalRows / rowsPerPage) - ((totalRows - firstRow) / rowsPerPage) + 1;
-            totalPages = (totalRows / rowsPerPage) + ((totalRows % rowsPerPage != 0) ? 1 : 0);
-            int pagesLength = Math.min(pageRange, totalPages);
-            pages = new Integer[pagesLength];
-
-            // firstPage must be greater than 0 and lesser than totalPages-pageLength.
-            int firstPage = Math.min(Math.max(0, currentPage - (pageRange / 2)), totalPages - pagesLength);
-
-            // Create pages (page numbers for page links).
-            for (int i = 0; i < pagesLength; i++) {
-                pages[i] = ++firstPage;
-            }
-
-            Item_has_imageDAO ihi=new Item_has_imageDAO();
-            index_pageItems.clear();
-            for (Itemsbean it : pageItems) {
-                Index_items in_item=new Index_items();
-                in_item.setItem(it);
-
-                byte[] image;
-                image=ihi.getimage(it.getItemId());
-                if(image!=null)
-                {
-                    in_item.setHas_image(true);
-                    try{
-                        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-                        Properties properties = new Properties();
-                        properties.load(classLoader.getResourceAsStream("config.properties"));
-                        FileOutputStream fos = new FileOutputStream(properties.getProperty("application_path")+"/e-auction-2015/web/search_images/"+it.getItemId()+".jpg"); 
-                        fos.write(image);
-                        fos.close();
-                    }catch(Exception e){
-                        e.printStackTrace();
+        if (criteria.equals("name") )
+        {
+            Collections.sort(allItems, new Comparator<Itemsbean>(){
+                @Override
+                public int compare(Itemsbean o1, Itemsbean o2){
+                  return o1.name.compareTo(o2.name);
+                }
+           });
+        }
+        else if (criteria.equals("currently") )
+        {
+            Collections.sort(allItems, new Comparator<Itemsbean>(){
+                public int compare(Itemsbean o1, Itemsbean o2){
+                    if(o1.currently == o2.currently)
+                        return 0;
+                    return o1.currently < o2.currently ? -1 : 1;
+                }
+           });
+        
+        }
+        else if (criteria.equals("buy_price") )
+        {
+            Collections.sort(allItems, new Comparator<Itemsbean>(){
+                public int compare(Itemsbean o1, Itemsbean o2){
+                    
+                    if(o1.buy_price == o2.buy_price)
+                        return 0;
+                    return o1.buy_price < o2.buy_price ? -1 : 1;
+                }
+           });
+        
+        }
+        if (max_buy_price!=-1)
+        {
+            for (Iterator<Itemsbean> iter = allItems.listIterator(); iter.hasNext(); ) {
+                    Itemsbean a = iter.next();
+                    if (a.getBuy_price() > max_buy_price) {
+                        iter.remove();
                     }
-                }else
-                    in_item.setHas_image(false);
+                }
+        
+        
+        }
+        //max_buy_price = -1;
+        pageItems = allItems.subList(firstRow, Math.min(allItems.size(),(firstRow + rowsPerPage)) );
+        totalRows = bean.getResultNumber(searchCAT, searchSTR);
 
-                index_pageItems.add(in_item);
-            }
-        }else
-           no_items_toShow=true;
-        
-        
+        // Set currentPage, totalPages and pages.
+        currentPage = (totalRows / rowsPerPage) - ((totalRows - firstRow) / rowsPerPage) + 1;
+        totalPages = (totalRows / rowsPerPage) + ((totalRows % rowsPerPage != 0) ? 1 : 0);
+        int pagesLength = Math.min(pageRange, totalPages);
+        pages = new Integer[pagesLength];
+
+        // firstPage must be greater than 0 and lesser than totalPages-pageLength.
+        int firstPage = Math.min(Math.max(0, currentPage - (pageRange / 2)), totalPages - pagesLength);
+
+        // Create pages (page numbers for page links).
+        for (int i = 0; i < pagesLength; i++) {
+            pages[i] = ++firstPage;
+        }
+
+        Item_has_imageDAO ihi=new Item_has_imageDAO();
+        index_pageItems.clear();
+        for (Itemsbean it : pageItems) {
+            Index_items in_item=new Index_items();
+            in_item.setItem(it);
+
+            byte[] image;
+            image=ihi.getimage(it.getItemId());
+            if(image!=null)
+            {
+                in_item.setHas_image(true);
+                try{
+                    FileOutputStream fos = new FileOutputStream("C:\\Users\\adonis\\Desktop\\e-auction-2015\\web\\search_images\\"+it.getItemId()+".jpg"); 
+                    fos.write(image);
+                    fos.close();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }else
+                in_item.setHas_image(false);
+
+            index_pageItems.add(in_item);
+        }
                 return index_pageItems;
     }
     

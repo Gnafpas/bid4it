@@ -2,9 +2,10 @@
 package Beans;
 
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Itemsbean {
+public class Itemsbean implements Serializable{
     
 
     private int itemId;

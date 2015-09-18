@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author George
  */
-public class Categoriesbean {
+public class Categoriesbean implements Serializable{
     
     private int categoryId;
     private String category;

@@ -5,11 +5,13 @@
  */
 package Beans;
 
+import java.io.Serializable;
+
 /**
  *
  * @author George
  */
-public class Item_has_imagebean {
+public class Item_has_imagebean implements Serializable{
     
     private int iditem_has_image;
     private int itemeid;
