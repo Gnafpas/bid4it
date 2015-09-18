@@ -6,16 +6,13 @@
 package Controller;
 
 import Beans.Bidsbean;
-import Beans.Item_has_imagebean;
 import Beans.Itemsbean;
 import DAOs.BidsDAO;
 import DAOs.Item_has_imageDAO;
 import DAOs.ItemsDAO;
 import helpers.Mybids_items;
-import helpers.Relateditems;
 import java.io.FileOutputStream;
 import java.io.Serializable;
-import static java.lang.System.out;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

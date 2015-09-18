@@ -11,10 +11,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import DAOs.MessagesDAO;
 import java.io.Serializable;
-import static java.lang.System.out;
 import java.util.ArrayList;
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ViewScoped;
 import org.primefaces.context.RequestContext;
 
 /**

@@ -7,10 +7,7 @@ package Controller;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.servlet.http.HttpSession;
 import java.io.Serializable;
-import static java.lang.System.out;
-import org.primefaces.context.RequestContext;
 
 /**
  *

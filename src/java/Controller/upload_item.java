@@ -5,25 +5,20 @@
  */
 package Controller;
 
-import Beans.Categoriesbean;
 import Beans.Item_has_categorybean;
 import Beans.Item_has_imagebean;
 import Beans.Itemsbean;
-import Beans.Messagesbean;
 import DAOs.CategoriesDAO;
 import DAOs.Item_has_categoryDAO;
 import DAOs.Item_has_imageDAO;
 import DAOs.ItemsDAO;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.Serializable;
-import static java.lang.System.out;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.UploadedFile;
 

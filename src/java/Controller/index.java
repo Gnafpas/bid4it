@@ -5,17 +5,13 @@
  */
 package Controller;
 
-import Beans.Item_has_imagebean;
 import Beans.Itemsbean;
 import DAOs.Item_has_imageDAO;
 import DAOs.ItemsDAO;
 import helpers.Index_items;
-import helpers.Relateditems;
 import java.io.FileOutputStream;
 import java.io.Serializable;
-import static java.lang.System.out;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import javax.faces.bean.ManagedBean;

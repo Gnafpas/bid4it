@@ -8,10 +8,9 @@ package Controller;
 import Beans.Itemsbean;
 import DAOs.Item_has_imageDAO;
 import DAOs.ItemsDAO;
-import helpers.Custom_date;
 import helpers.Seller_items;
 import java.io.FileOutputStream;
-import static java.lang.System.out;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,7 +28,7 @@ import org.primefaces.context.RequestContext;
 
 @ManagedBean (name = "selling")
 @SessionScoped
-public class selling {
+public class selling implements Serializable{
     
     
     Itemsbean item = new Itemsbean();

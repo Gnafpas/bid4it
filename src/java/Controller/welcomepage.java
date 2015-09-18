@@ -10,7 +10,6 @@ import helpers.EmailValidator;
 import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 import java.io.Serializable;
-import static java.lang.System.out;
 
 
 

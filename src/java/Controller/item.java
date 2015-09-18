@@ -29,7 +29,6 @@ import javax.faces.event.ComponentSystemEvent;
 import org.primefaces.context.RequestContext;
 import helpers.Relateditems;
 import java.io.IOException;
-import static java.lang.System.out;
 import java.util.Date;
 import java.util.Properties;
 import javax.faces.context.FacesContext;
