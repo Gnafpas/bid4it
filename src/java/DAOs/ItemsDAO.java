@@ -127,6 +127,8 @@ public class ItemsDAO {
         else
             return items.get(0);
     }
+    
+    
      
     public List getitems(int itemid){
         List <Itemsbean> items=null;
@@ -137,6 +139,29 @@ public class ItemsDAO {
            tx=session.beginTransaction();
            Criteria cr  = session.createCriteria(Itemsbean.class);
            cr.add(Restrictions.eq("itemId", itemid));
+           items=cr.list();
+           session.close(); 
+        }catch (HibernateException e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace(); 
+           session.close(); 
+        }catch (ExceptionInInitializerError e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace();
+        }
+        return items;
+    }
+    
+    public List getallitems(){
+        List <Itemsbean> items=null;
+      
+        Transaction tx = null;    
+        try{
+           session = helper.getSessionFactory().openSession();
+           tx=session.beginTransaction();
+           Criteria cr  = session.createCriteria(Itemsbean.class);
            items=cr.list();
            session.close(); 
         }catch (HibernateException e) {
@@ -618,7 +643,7 @@ public class ItemsDAO {
             return false;
         MessagesDAO messagedao=new MessagesDAO();
         messagedao.savemessage(items.get(0).getSeller(), username, "Hello, I just  win the auction for your product with name " +items.get(0).getName()+ " for "+items.get(0).getCurrently()+" euros.Please contact with me for the next steps.");
-        messagedao.savemessage(username, items.get(0).getSeller(), "Congratulations!!! You won the auction for the item " +items.get(0).getName()+ " for "+items.get(0).getCurrently()+" euros.A message has been sent to inform the seller.");
+        messagedao.savemessage(username, username, "Congratulations!!! You won the auction for the item " +items.get(0).getName()+ " for "+items.get(0).getCurrently()+" euros.A message has been sent to inform the seller.");
         
         return true;
     }

@@ -59,6 +59,10 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
+                    <file>${file.reference.xstream-1.4.8.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
                     <file>${file.reference.batik-awt-util-1.6-1.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>

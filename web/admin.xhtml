@@ -138,10 +138,16 @@
                     <h:commandButton value="Send email to User" a:id="apButton" action="#{admin.sendEmail(admin.usr2.email)}" />
                 </td>     
               </tr>
-                
              </table> </h:form>
          </td>
      </tr>
+   </table>
+   <table align="center">
+       <tr>  
+         <td style="text-align:center;" width="204">
+            <h:form><h:commandButton value="Export Bid4It items to xml" a:id="Export_to_xml_Button" action="#{admin.exportToXml()}" /></h:form>
+         </td>  
+       </tr> 
    </table>
 <ui:include src="include/footer.xhtml"/> 
 <ui:include src="include/popups.xhtml"/>

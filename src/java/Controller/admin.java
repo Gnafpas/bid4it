@@ -5,8 +5,16 @@
  */
 package Controller;
 
+import Beans.Bidsbean;
+import Beans.Categoriesbean;
+import Beans.Item_has_categorybean;
+import Beans.Itemsbean;
 import DAOs.UsersDAO;
 import Beans.Usersbean;
+import DAOs.BidsDAO;
+import DAOs.CategoriesDAO;
+import DAOs.Item_has_categoryDAO;
+import DAOs.ItemsDAO;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -16,6 +24,17 @@ import javax.faces.bean.SessionScoped;
 import javax.mail.*;
 import javax.mail.internet.*;
 import org.primefaces.context.RequestContext;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+import helpers.Full_info_Item;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletResponse;
 
 @ManagedBean (name = "admin")
 @SessionScoped
@@ -157,4 +176,94 @@ public class admin implements Serializable{
          mex.printStackTrace();
       }
     }
+  
+/**
+ *
+ * Export items data to xml form.
+ */
+    
+    public void exportToXml() throws IOException  {
+    ItemsDAO itemdao=new ItemsDAO();
+    Item_has_categoryDAO ihcdao=new Item_has_categoryDAO();
+    CategoriesDAO catdao=new CategoriesDAO();
+    BidsDAO bidsdao=new BidsDAO();
+    List <Itemsbean> items=new ArrayList();
+   
+    List <Full_info_Item> full_info_items=new ArrayList();
+    List <Item_has_categorybean> ihc=new ArrayList();
+    List <Bidsbean> bids=new ArrayList();
+            
+    //Create the xml and store it for downloading-----------------------------------------------------
+    items=itemdao.getallitems();
+    for(Itemsbean it :items){
+        Full_info_Item  full_info_item=new Full_info_Item();
+        full_info_item.setItem(it);
+        ihc=ihcdao.getcategory_from_item(it.getItemId());
+        List <Categoriesbean> cat=new ArrayList();
+        for(Item_has_categorybean i:ihc){
+            cat.add(catdao.getCategory(i.getCategoryId()));
+        }
+        full_info_item.setCategory(cat);
+        bids=bidsdao.getitemsbids(it.getItemId());
+        full_info_item.setBid(bids);
+        
+        full_info_items.add(full_info_item);
+    }
+    
+    XStream xstream = new XStream(new DomDriver());
+    try  {
+      File file = new File("itemsexport.xml");
+      FileWriter xmlFile ;
+      xmlFile = new FileWriter(file);
+      String xml = xstream.toXML(full_info_items);
+      xmlFile.write("<?xml version=\"1.0\"?>\n" + xml);
+      xmlFile.close();
+    } catch (Exception ex)  {
+      System.out.println(ex.getMessage());
+    }
+    
+    
+    
+    //Send the xml to client-------------------------------------------------------------------------
+     
+    // Get the FacesContext
+    FacesContext facesContext = FacesContext.getCurrentInstance();
+
+    // Get HTTP response
+    HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+
+    // Set response headers
+    response.reset();   // Reset the response in the first place
+    response.setHeader("Content-Type", "application/xml");  // Set only the content type
+
+    // Open response output stream
+    OutputStream responseOutputStream = response.getOutputStream();
+
+    // Read PDF contents
+
+    InputStream pdfInputStream = new FileInputStream("itemsexport.xml");
+
+    // Read PDF contents and write them to the output
+    byte[] bytesBuffer = new byte[2048];
+    int bytesRead;
+    while ((bytesRead = pdfInputStream.read(bytesBuffer)) > 0) {
+        responseOutputStream.write(bytesBuffer, 0, bytesRead);
+    }
+
+    // Make sure that everything is out
+    responseOutputStream.flush();
+
+    // Close both streams
+    pdfInputStream.close();
+    responseOutputStream.close();
+
+    // JSF doc:
+    // Signal the JavaServer Faces implementation that the HTTP response for this request has already been generated
+    // (such as an HTTP redirect), and that the request processing lifecycle should be terminated
+    // as soon as the current phase is completed.
+    facesContext.responseComplete();
+
+
+   }
+ 
 }

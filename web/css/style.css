@@ -890,6 +890,23 @@ p1{
 	width: 150px;
 }
 
+#Export_to_xml_Button{
+	border-radius:4px;
+	background:#0db5ff;
+	border:0.5px solid #070e33;
+	font-size: 10px;
+	font-weight: bold;
+	height:50px;
+	color:white;
+	width: 350px;
+}
+
+#Export_to_xml_Button:hover{
+	border-radius:4px;
+	background:#07a3ff;
+	color:white;
+}
+
 #ap-userslist-buttons{
 	background:#fff;
 	border:1px solid #070e33;

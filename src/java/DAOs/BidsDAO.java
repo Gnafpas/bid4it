@@ -6,7 +6,6 @@
 package DAOs;
 
 import Beans.Bidsbean;
-import Beans.Itemsbean;
 import DB_Conn.HibernateUtil;
 import java.util.List;
 import org.hibernate.Criteria;
@@ -57,6 +56,30 @@ public class BidsDAO {
            tx=session.beginTransaction();
            Criteria cr  = session.createCriteria(Bidsbean.class);
            cr.add(Restrictions.eq("bidder", bidder));
+           bids=cr.list();
+           session.close(); 
+        }catch (HibernateException e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace(); 
+           session.close(); 
+        }catch (ExceptionInInitializerError e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace();
+        }
+        return bids;
+    }
+    
+    public List getitemsbids(int itemid){
+        List <Bidsbean> bids=null;
+      
+        Transaction tx = null;    
+        try{
+           session = helper.getSessionFactory().openSession();
+           tx=session.beginTransaction();
+           Criteria cr  = session.createCriteria(Bidsbean.class);
+           cr.add(Restrictions.eq("bid_itemid", itemid));
            bids=cr.list();
            session.close(); 
         }catch (HibernateException e) {
