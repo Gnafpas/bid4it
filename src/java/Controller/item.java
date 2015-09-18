@@ -339,7 +339,10 @@ public class item implements Serializable{
         for(int j=0;j<5;j++){
           if(!images_paths[j].equals("img/no_image.png")){
             try{
-    		File file = new File("/Users/George/Desktop/TED/e-auction-2015/web/"+images_paths[j]);
+    		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+                Properties properties = new Properties();
+                properties.load(classLoader.getResourceAsStream("config.properties"));
+                File file = new File(properties.getProperty("application_path")+"/e-auction-2015/web/"+images_paths[j]);
         	if(file.delete()){
     			System.out.println(file.getName() + " is deleted!");
     		}else{

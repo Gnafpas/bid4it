@@ -207,7 +207,7 @@ public class index implements Serializable{
                 Collections.sort(allItems, new Comparator<Itemsbean>(){
                     @Override
                     public int compare(Itemsbean o1, Itemsbean o2){
-                      return o1.name.compareTo(o2.name);
+                      return o1.name.compareToIgnoreCase(o2.name);
                     }
                });
             }

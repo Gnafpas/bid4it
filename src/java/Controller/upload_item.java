@@ -18,7 +18,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.UploadedFile;
 
@@ -28,7 +28,7 @@ import org.primefaces.model.UploadedFile;
  */
 
 @ManagedBean (name = "upload_item")
-@SessionScoped
+@ViewScoped
 public class upload_item implements Serializable{
     
     private Itemsbean item=new Itemsbean();
