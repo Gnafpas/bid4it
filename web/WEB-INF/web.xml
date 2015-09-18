@@ -72,7 +72,7 @@
        <dispatcher>REQUEST</dispatcher> 
        <dispatcher>ERROR</dispatcher>
     </filter-mapping>
-    <!--<security-constraint>
+    <security-constraint>
         <web-resource-collection>
             <web-resource-name>bid4itSECURED</web-resource-name>
             <url-pattern>/*</url-pattern>
@@ -80,5 +80,5 @@
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
-    </security-constraint>-->
+    </security-constraint>
 </web-app>
