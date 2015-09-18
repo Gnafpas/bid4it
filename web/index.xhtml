@@ -32,6 +32,21 @@
 
 <ui:include src="include/header.xhtml"/>
    <div style="width: 100%;min-width:1200px;position: absolute;text-align: center;">
+      <h:form >
+          <table id="index_ptable" align="center" style="margin-bottom: -197px;">
+              <tr>
+               <td >Order by
+                    <h:selectOneMenu a:id="Order_by " value="#{index.criteria}">
+                       <f:selectItem itemValue="name" itemLabel="Name" />
+                       <f:selectItem itemValue="currently" itemLabel="Bid Price" />
+                       <f:selectItem itemValue="buy_price" itemLabel="Buy Price" />
+                    </h:selectOneMenu></td>
+                   <td >Max buy price <h:inputText value="#{index.max_buy_price}"/>
+                </td>
+               <td ><h:commandButton a:id="index_paging_arrow_btns"  action="#{index.searchItems()}"  image="img/rightarrow.png"/></td>
+           </tr>
+          </table>
+      </h:form>
      <table id="index_ptable" align="center">
       <tr>
        <td >

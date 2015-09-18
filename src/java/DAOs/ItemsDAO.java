@@ -7,8 +7,6 @@ package DAOs;
 
 import Beans.Itemsbean;
 import DB_Conn.HibernateUtil;
-import static java.lang.System.out;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.Criteria;
@@ -31,7 +29,8 @@ public class ItemsDAO {
         
         int itemid=-999;
         Transaction tx = null; 
-        boolean err=false;    
+        boolean err=false;   
+        item.setPubliced_win(false);
         try{
            session = helper.getSessionFactory().openSession();
            tx=session.beginTransaction();
@@ -55,7 +54,8 @@ public class ItemsDAO {
     public boolean updateitem(Itemsbean item){
         
         Transaction tx = null; 
-        boolean err=false;    
+        boolean err=false;   
+        item.setPubliced_win(false);
         try{
            session = helper.getSessionFactory().openSession();
            tx=session.beginTransaction();
@@ -200,7 +200,7 @@ public class ItemsDAO {
         return rowsNum;
     }
     
-    public List getitemsByCategory (String cat, String name, int firstRow, int rowCount){
+     public List getitemsByCategory (String cat, String name){
         List <Itemsbean> items=null;
         if(cat.equals("")){
             String hql =   " select DISTINCT(i) "
@@ -212,9 +212,7 @@ public class ItemsDAO {
                session = helper.getSessionFactory().openSession();
                tx=session.beginTransaction();
                items = session.createQuery(hql)
-                       .setParameter("itemname", "%" + name + "%")
-                       .setFirstResult(firstRow)
-                       .setMaxResults(rowCount).list();
+                       .setParameter("itemname", "%" + name + "%").list();
                session.close(); 
             }catch (HibernateException e) {
                RequestContext context = RequestContext.getCurrentInstance();
@@ -255,9 +253,7 @@ public class ItemsDAO {
                tx=session.beginTransaction();
                items = session.createQuery(hql)
                        .setParameter("catname", "%" + cat + "%")
-                       .setParameter("itemname", "%" + name + "%")
-                       .setFirstResult(firstRow)
-                       .setMaxResults(rowCount).list();
+                       .setParameter("itemname", "%" + name + "%").list();
                session.close(); 
             }catch (HibernateException e) {
                RequestContext context = RequestContext.getCurrentInstance();
@@ -507,8 +503,6 @@ public class ItemsDAO {
            e.printStackTrace();
         }
         
-        MessagesDAO messagedao=new MessagesDAO();
-        messagedao.savemessage(items.get(0).getSeller(), buyer_username, "Hello, I just  bought your product with name " +items.get(0).getName()+ " for "+items.get(0).getBuy_price()+" euros.Please contact with me for the next steps.");
         
         return true;
     }
@@ -542,6 +536,7 @@ public class ItemsDAO {
             
         items.get(0).setStarted(start_date);
         items.get(0).setEnds(expiry_date);
+        items.get(0).setPubliced_win(false);
         
         
         try{
@@ -565,6 +560,67 @@ public class ItemsDAO {
         
         return err;
         
+    }
+    
+    
+     public boolean publice_win (String username){
+        List <Itemsbean> items=null;
+        boolean err=false;
+        String hql =   " select DISTINCT(i) "
+                   +   " from Beans.Itemsbean i"
+                   +   " where i.publiced_win = 0"
+                   +   " and i.winner LIKE :qusername"
+                   +   " and 0 > Timestampdiff(second,NOW(),i.ends)";
+        Transaction tx = null;    
+        try{
+           session = helper.getSessionFactory().openSession();
+           tx=session.beginTransaction();
+           items = session.createQuery(hql)
+                   .setParameter("qusername", "%" + username + "%").list();
+           session.close(); 
+        }catch (HibernateException e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace();
+           err=true;
+           session.close(); 
+        }catch (ExceptionInInitializerError e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           err=true;
+           e.printStackTrace();
+        }
+        
+
+        if(items==null || items.isEmpty())
+            return false;
+        items.get(0).setPubliced_win(true);
+        
+        try{
+           session = helper.getSessionFactory().openSession();
+           tx=session.beginTransaction();
+           session.update(items.get(0));
+           tx.commit();
+           session.close(); 
+        }catch (HibernateException e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace();
+           err=true;
+           session.close(); 
+        }catch (ExceptionInInitializerError e) {
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('server_error').show();");
+           e.printStackTrace();
+           err=true;
+        }
+        if(err)
+            return false;
+        MessagesDAO messagedao=new MessagesDAO();
+        messagedao.savemessage(items.get(0).getSeller(), username, "Hello, I just  win the auction for your product with name " +items.get(0).getName()+ " for "+items.get(0).getCurrently()+" euros.Please contact with me for the next steps.");
+        messagedao.savemessage(username, items.get(0).getSeller(), "Congratulations!!! You won the auction for the item " +items.get(0).getName()+ " for "+items.get(0).getCurrently()+" euros.A message has been sent to inform the seller.");
+        
+        return true;
     }
     
 }

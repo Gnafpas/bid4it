@@ -2,16 +2,17 @@
 package Beans;
 
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Itemsbean {
+public class Itemsbean implements Serializable{
     
 
     private int itemId;
-    private String name;
+    public String name;
     private String seller;
     private String winner;
-    private int currently;
+    public int currently;
     private int first_bid;
     private int number_of_bids;
     private String country;
@@ -21,11 +22,12 @@ public class Itemsbean {
     private Date started;
     private Date ends;
     private String description;
-    private int buy_price;
+    public int buy_price;
+    private boolean publiced_win;
     
     
     
-    public Itemsbean (String name,String seller,String winner,int currently,int first_bid,int number_of_bids,String country,String postcode,String latitude,String longtitude,Date started,Date ends,String description,int buy_price) {
+    public Itemsbean (String name,String seller,String winner,int currently,int first_bid,int number_of_bids,String country,String postcode,String latitude,String longtitude,Date started,Date ends,String description,int buy_price,boolean publiced_win) {
       
       this.name=name;
       this.seller=seller;
@@ -41,8 +43,16 @@ public class Itemsbean {
       this.ends=ends;
       this.description=description;
       this.buy_price=buy_price;
+      this.publiced_win=publiced_win;
     }
-    
+
+    public boolean isPubliced_win() {
+        return publiced_win;
+    }
+
+    public void setPubliced_win(boolean publiced_win) {
+        this.publiced_win = publiced_win;
+    }
     
     public Itemsbean () {
       

@@ -12,6 +12,9 @@ import helpers.Index_items;
 import java.io.FileOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import javax.faces.bean.ManagedBean;
@@ -32,6 +35,9 @@ public class index implements Serializable{
     Itemsbean item = new Itemsbean();
     private List <Itemsbean> pageItems = new ArrayList();
     private List <Index_items> index_pageItems = new ArrayList();
+    private List <Itemsbean> allItems = new ArrayList();
+    private String criteria="";
+    private int max_buy_price=-1;
     private String main_image="search_images/";
     private String searchSTR="";
     private String searchCAT="";
@@ -43,6 +49,31 @@ public class index implements Serializable{
     private Integer[] pages;
     private int currentPage;
     private boolean no_items_toShow=false;
+
+    public List<Itemsbean> getAllItems() {
+        return allItems;
+    }
+
+    public void setAllItems(List<Itemsbean> allItems) {
+        this.allItems = allItems;
+    }
+
+    public String getCriteria() {
+        return criteria;
+    }
+
+    public void setCriteria(String criteria) {
+        this.criteria = criteria;
+    }
+
+    public int getMax_buy_price() {
+        return max_buy_price;
+    }
+
+    public void setMax_buy_price(int max_buy_price) {
+        this.max_buy_price = max_buy_price;
+    }
+    
 
     public boolean isNo_items_toShow() {
         return no_items_toShow;
@@ -163,16 +194,60 @@ public class index implements Serializable{
         if (rowsPerPage==0)
             rowsPerPage = 2;
         pageRange = 10; // Default page range (max amount of page links to be displayed at once).
-        if(searchSTR.equals(" "))
+        if(searchSTR.trim().isEmpty())
             searchSTR="";
         if(searchCAT.equals("All Categories"))
             searchCAT="";
-        pageItems = bean.getitemsByCategory (searchCAT, searchSTR, firstRow, rowsPerPage);
-        if(pageItems==null)
+        allItems = bean.getitemsByCategory (searchCAT, searchSTR);
+        if(allItems==null)
             return null;
-        if(!pageItems.isEmpty()){
-            totalRows = bean.getResultNumber(searchCAT, searchSTR);
+        if(!allItems.isEmpty()){
+            if (criteria.equals("name") )
+            {
+                Collections.sort(allItems, new Comparator<Itemsbean>(){
+                    @Override
+                    public int compare(Itemsbean o1, Itemsbean o2){
+                      return o1.name.compareTo(o2.name);
+                    }
+               });
+            }
+            else if (criteria.equals("currently") )
+            {
+                Collections.sort(allItems, new Comparator<Itemsbean>(){
+                    public int compare(Itemsbean o1, Itemsbean o2){
+                        if(o1.currently == o2.currently)
+                            return 0;
+                        return o1.currently < o2.currently ? -1 : 1;
+                    }
+               });
 
+            }
+            else if (criteria.equals("buy_price") )
+            {
+                Collections.sort(allItems, new Comparator<Itemsbean>(){
+                    public int compare(Itemsbean o1, Itemsbean o2){
+
+                        if(o1.buy_price == o2.buy_price)
+                            return 0;
+                        return o1.buy_price < o2.buy_price ? -1 : 1;
+                    }
+               });
+
+            }
+            if (max_buy_price!=-1)
+            {
+                for (Iterator<Itemsbean> iter = allItems.listIterator(); iter.hasNext(); ) {
+                        Itemsbean a = iter.next();
+                        if (a.getBuy_price() > max_buy_price) {
+                            iter.remove();
+                        }
+                    }
+
+
+            }
+            //max_buy_price = -1;
+            pageItems = allItems.subList(firstRow, Math.min(allItems.size(),(firstRow + rowsPerPage)) );
+            totalRows = bean.getResultNumber(searchCAT, searchSTR);
 
             // Set currentPage, totalPages and pages.
             currentPage = (totalRows / rowsPerPage) - ((totalRows - firstRow) / rowsPerPage) + 1;

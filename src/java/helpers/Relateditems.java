@@ -6,12 +6,13 @@
 package helpers;
 
 import Beans.Itemsbean;
+import java.io.Serializable;
 
 /**
  *
  * @author George
  */
-public class Relateditems {
+public class Relateditems implements Serializable{
     
     private Itemsbean item;
     private String  imagepath;

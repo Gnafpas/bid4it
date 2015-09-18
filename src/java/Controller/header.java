@@ -10,9 +10,14 @@ import javax.faces.bean.SessionScoped;
 import javax.servlet.http.HttpSession;
 import DAOs.UsersDAO;
 import Beans.Usersbean;
+import DAOs.ItemsDAO;
 import java.io.IOException;
 import java.io.Serializable;
 import javax.faces.context.FacesContext;
+import java.util.Timer;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -22,11 +27,13 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 
 public class header implements Serializable{
-    
+    private Timer timer = new Timer();
     Usersbean  user=null;
     String searchSTR;
     String searchCAT;
-   
+    private ItemsDAO it= new ItemsDAO();
+    final ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+    
     public void setSearchSTR(String searchSTR) {
         this.searchSTR = searchSTR;
     }
@@ -55,6 +62,17 @@ public class header implements Serializable{
         else{
             UsersDAO bean=new UsersDAO();
             user= bean.getUser(usrname);
+            //Timer for seeing if user won any auction every 30 seconds.If he won sends notification mail to himself and to seller.
+            service.scheduleWithFixedDelay(new Runnable()
+              {
+                @Override
+                public void run()
+                {
+                // out.println(new Date());
+                 it.publice_win(user.getUsername());
+                }
+              }, 0, 30, TimeUnit.SECONDS);
+      
             return  true;
        }
     }
@@ -62,6 +80,7 @@ public class header implements Serializable{
     public String logout(){
         HttpSession session = SessionBean.getSession();
         try{
+            service.shutdown();
             session.removeAttribute("username");
             session.removeAttribute("adm");
             session.invalidate();

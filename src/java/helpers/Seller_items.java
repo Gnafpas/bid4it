@@ -6,12 +6,13 @@
 package helpers;
 
 import Beans.Itemsbean;
+import java.io.Serializable;
 
 /**
  *
  * @author George
  */
-public class Seller_items {
+public class Seller_items implements Serializable{
     
     private Itemsbean item;
     private String status;

@@ -91,7 +91,7 @@
                                 </ui:fragment> 
                                 <ui:fragment rendered="#{currentitem.status.equals(selling.completed_and_bought)}" >  
                                   <td valign="top" align="right" width="400px"> 
-                                    <h:outputLabel style="color:#999; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;" a:value="Completed and bought"/><br></br>
+                                      <h:outputLabel style="color:#999; font-family:Tahoma, Geneva, sans-serif;font-size: 14px;" a:value="Completed and bought by #{currentitem.item.winner} for #{currentitem.item.currently} euros."/><br></br>
                                     <h:form><h:commandButton   action="#{selling.remove(currentitem.item)}" a:id="buy_button" value="Remove"/></h:form>
                                   </td>
                                 </ui:fragment> 

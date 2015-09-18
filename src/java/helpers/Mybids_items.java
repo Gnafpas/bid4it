@@ -7,12 +7,13 @@ package helpers;
 
 import Beans.Bidsbean;
 import Beans.Itemsbean;
+import java.io.Serializable;
 
 /**
  *
  * @author George
  */
-public class Mybids_items {
+public class Mybids_items implements Serializable{
     
     private Itemsbean item;
     private Bidsbean bids;
