@@ -3,18 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/George/Desktop/TED/e-auction-2015/src/java/helpers/Item_weight.java</file>
-            <file>file:/Users/George/Desktop/TED/e-auction-2015/src/java/DAOs/UsersDAO.java</file>
+            <file>file:/Users/George/Desktop/TED/e-auction-2015/web/read_msg.xhtml</file>
             <file>file:/Users/George/Desktop/TED/e-auction-2015/src/java/Controller/header.java</file>
             <file>file:/Users/George/Desktop/TED/e-auction-2015/web/admin.xhtml</file>
-            <file>file:/Users/George/Desktop/TED/e-auction-2015/src/java/helpers/Bidder_weight.java</file>
             <file>file:/Users/George/Desktop/TED/e-auction-2015/src/java/DAOs/ItemsDAO.java</file>
-            <file>file:/Users/George/Desktop/TED/e-auction-2015/src/java/helpers/Recomended_item.java</file>
             <file>file:/Users/George/Desktop/TED/e-auction-2015/src/java/Controller/index.java</file>
             <file>file:/Users/George/Desktop/TED/e-auction-2015/src/java/Controller/admin.java</file>
             <file>file:/Users/George/Desktop/TED/e-auction-2015/web/index.xhtml</file>
             <file>file:/Users/George/Desktop/TED/e-auction-2015/web/include/header.xhtml</file>
             <file>file:/Users/George/Desktop/TED/e-auction-2015/src/java/DAOs/BidsDAO.java</file>
+            <file>file:/Users/George/Desktop/TED/e-auction-2015/web/item.xhtml</file>
         </group>
     </open-files>
 </project-private>

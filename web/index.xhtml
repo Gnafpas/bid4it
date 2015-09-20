@@ -32,6 +32,7 @@
 
 <ui:include src="include/header.xhtml"/>
    <div style="width: 100%;min-width:1200px;position: absolute;text-align: center;">
+
       
           <table id="index_ptable" align="center" style="margin-bottom: -197px;">
               <tr>
@@ -63,15 +64,14 @@
                 </h:form>
               </tr>
           </table>
-      
+
      <table id="index_ptable" align="center">
       <tr>
        <td >
        </td>
       </tr>
       <tr>
-       <td>
-         
+       <td> 
          <table  align="center" id="index_table" cellspacing="0" cellpadding="0" >
            <tr>
              <td style="border-top: 1px solid  #ccc;" height="1px">
@@ -79,8 +79,7 @@
              <td style="border-top: 1px solid  #ccc;" height="1px">
              </td>
            </tr>
-         <ui:fragment rendered="#{!index.no_items_toShow}" >         
-         <ui:repeat value="#{index.index_pageItems}" var="currentitem" >  
+          <ui:repeat value="#{index.index_pageItems}" var="currentitem" >  
            <tr>
             <td width="235px" height="175px" style="border-bottom:  1px solid  #ccc;" align="left" >
                <ui:fragment rendered="#{currentitem.has_image}"> 
@@ -122,14 +121,6 @@
             </td>        
            </tr>
           </ui:repeat>
-          </ui:fragment>
-          <ui:fragment rendered="#{index.no_items_toShow}" >
-           <tr>
-             <td align="center">
-                <img src="img/no_results.jpg" width="400" height="200" style="margin-left: 50px;" />
-             </td>
-           </tr>
-          </ui:fragment>
            <tr>
              <td style=" border-bottom: 1px solid  #999; " height="60px">
              </td>

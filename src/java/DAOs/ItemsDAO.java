@@ -226,6 +226,7 @@ public class ItemsDAO {
         return rowsNum;
     }
     
+
      public List getitemsByCategory (String cat, String name){
         List <Itemsbean> items=null;
         

@@ -5,6 +5,7 @@
  */
 package Controller;
 
+
 import Beans.Bidsbean;
 import Beans.Itemsbean;
 import DAOs.BidsDAO;
@@ -42,6 +43,7 @@ public class index implements Serializable{
     
     Itemsbean item = new Itemsbean();
     private List <Itemsbean> pageItems = new ArrayList();
+    private List <Itemsbean> allItems = new ArrayList();
     private List <Index_items> index_pageItems = new ArrayList();
     private List <Itemsbean> allItems = new ArrayList();
     private List <Recomended_item> recomendeditems = new ArrayList();
@@ -50,14 +52,16 @@ public class index implements Serializable{
     private String main_image="search_images/";
     private String searchSTR="";
     private String searchCAT="";
+    private String criteria="";
     private int totalRows;
     private int firstRow;
+    private int max_buy_price=-1;
     private int rowsPerPage;
     private int totalPages;
     private int pageRange;
     private Integer[] pages;
     private int currentPage;
-    private boolean no_items_toShow=false;
+
 
     public List<Recomended_item> getRecomendeditems() {
         return recomendeditems;
@@ -96,18 +100,34 @@ public class index implements Serializable{
         return no_items_toShow;
     }
 
-    public void setNo_items_toShow(boolean no_items_toShow) {
-        this.no_items_toShow = no_items_toShow;
-    } 
+    public int getMax_buy_price() {
+        return max_buy_price;
+    }
 
-    public List<Itemsbean> getPageItems() {
-        return pageItems;
+    public void setMax_buy_price(int max_buy_price) {
+        this.max_buy_price = max_buy_price;
     }
 
     public void setPageItems(List<Itemsbean> pageItems) {
         this.pageItems = pageItems;
     }
+    
+    public List<Itemsbean> getAllItems() {
+        return allItems;
+    }
 
+    public void setAllItems(List<Itemsbean> allItems) {
+        this.allItems = allItems;
+    }
+
+    public String getCriteria() {
+        return criteria;
+    }
+
+    public void setCriteria(String criteria) {
+        this.criteria = criteria;
+    }
+    
     public List<Index_items> getIndex_pageItems() {
         return index_pageItems;
     }
@@ -208,7 +228,7 @@ public class index implements Serializable{
     
     public List<Index_items > searchItems()
     {
-        no_items_toShow=false;
+        System.out.println(max_buy_price);
         ItemsDAO bean=new ItemsDAO();
         if (rowsPerPage==0)
             rowsPerPage = 10;
@@ -218,6 +238,7 @@ public class index implements Serializable{
         if(searchCAT.equals("All Categories"))
             searchCAT="";
         allItems = bean.getitemsByCategory (searchCAT, searchSTR);
+
         if(allItems==null)
             return null;
         
