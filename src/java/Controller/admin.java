@@ -35,6 +35,18 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Random;
 
 @ManagedBean (name = "admin")
 @SessionScoped
@@ -43,6 +55,15 @@ public class admin implements Serializable{
     Usersbean usr2 = new Usersbean();
     private String msg ;
     private String subject ;
+    private String xmlpath;
+
+    public String getXmlpath() {
+        return xmlpath;
+    }
+
+    public void setXmlpath(String xmlpath) {
+        this.xmlpath = xmlpath;
+    }
 
     public String getSubject() {
         return subject;
@@ -265,5 +286,174 @@ public class admin implements Serializable{
 
 
    }
+    
+    
+   //--------------------------------------------------Function for importing data from xml files--------------------------------------------
+    
+//   public void importXmlTodb()   {
+//       xmlpath="xml";
+//        try {
+//
+//        ItemsDAO itemdao=new ItemsDAO();
+//        UsersDAO userdao=new UsersDAO();
+//        BidsDAO bidsdao=new BidsDAO();
+//	File fXmlFile = new File("/Users/George/Desktop/items-7.xml");
+//	DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+//	DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+//	Document doc = dBuilder.parse(fXmlFile);
+//			
+//
+//	doc.getDocumentElement().normalize();
+//
+//	System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+//			
+//	NodeList nList = doc.getElementsByTagName("Item");
+//			
+//	System.out.println("----------------------------");
+//
+//	for (int temp = 0; temp < nList.getLength(); temp++) {
+//
+//		Node nNode = nList.item(temp);
+//				
+//		System.out.println("\nCurrent Element :" + nNode.getNodeName());
+//				
+//		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+//
+//			Element eElement = (Element) nNode;
+//
+//                        Itemsbean item=new Itemsbean();
+//                        Usersbean user=new Usersbean();
+//                        
+//                        NodeList seller=eElement.getElementsByTagName("Seller");
+//                        System.out.println("Seller: " + seller.item(0).getAttributes().getNamedItem("UserID").getNodeValue());
+//                        user.setUsername(seller.item(0).getAttributes().getNamedItem("UserID").getNodeValue());
+//                        user.setPassword("hello");
+//                        user.setAdm(false);
+//                        user.setEmail("user@gmail.com");
+//                        user.setFirstname("User");
+//                        user.setLastname("Userlast");
+//                        user.setPhone("6970864146");
+//                        user.setAddress_info("Athens");
+//                        user.setPostcode("11744");
+//                        user.setVatnumber("176125327656");
+//                        userdao.addUser(user);
+//                        
+//                        
+//                        System.out.println("Country: " + eElement.getElementsByTagName("Country").item(0).getTextContent());
+//                        item.setCountry(eElement.getElementsByTagName("Country").item(0).getTextContent());
+//                        
+//                        System.out.println("Currently : " + eElement.getElementsByTagName("Currently").item(0).getTextContent().substring(1));
+//                        String[] tokens= eElement.getElementsByTagName("Currently").item(0).getTextContent().substring(1).toString().split(",");
+//                        String currently="";
+//                        for(int j=0;j<tokens.length;j++){
+//                            currently=currently+tokens[j];
+//                        }
+//                        item.setCurrently((int) Double.parseDouble(currently));
+//
+//                        
+//                        System.out.println("Description: " + eElement.getElementsByTagName("Description").item(0).getTextContent());
+//                        item.setDescription(eElement.getElementsByTagName("Description").item(0).getTextContent());
+//                        
+//
+//                        Date date=new Date();
+//                        Random rand = new Random();
+//                        int  random = rand.nextInt(7)+5;
+//                        date.setDate(date.getDate()+random);
+//                        random = rand.nextInt(60)+1;
+//                        date.setMinutes(date.getMinutes()+random);
+//                        random = rand.nextInt(23)+1;
+//                        date.setHours(date.getHours()+random);
+//                        System.out.println("Ends:  "+date);
+//                        item.setEnds(date);
+//                        
+//                        System.out.println("First_Bid: " + eElement.getElementsByTagName("First_Bid").item(0).getTextContent().substring(1));
+//                        
+//                        tokens= eElement.getElementsByTagName("First_Bid").item(0).getTextContent().substring(1).toString().split(",");
+//                        String first_bid="";
+//                        for(int j=0;j<tokens.length;j++){
+//                            first_bid=first_bid+tokens[j];
+//                        }
+//                        item.setFirst_bid((int) Double.parseDouble(first_bid));
+//                        
+//                        System.out.println("Name : " + eElement.getElementsByTagName("Name").item(0).getTextContent());
+//                        item.setName(eElement.getElementsByTagName("Name").item(0).getTextContent());
+//                        
+//                        System.out.println("Number_of_Bids: " + eElement.getElementsByTagName("Number_of_Bids").item(0).getTextContent());
+//                        item.setNumber_of_bids((int) Double.parseDouble(eElement.getElementsByTagName("Number_of_Bids").item(0).getTextContent()));
+//                        
+//                        
+//                        item.setPostcode("11744");
+//                        item.setPubliced_win(true);
+//                        item.setSeller(seller.item(0).getAttributes().getNamedItem("UserID").getNodeValue());
+//                        
+//
+//                        String target = eElement.getElementsByTagName("Started").item(0).getTextContent();
+//                        DateFormat df = new SimpleDateFormat("MMM-dd-yy kk:mm:ss", Locale.ENGLISH);
+//                        Date startdate =  df.parse(target);  
+//                        System.out.println("Started:   "+startdate);
+//                        item.setStarted(startdate);
+//                        
+//
+//			
+//			int itemid=0;
+//			itemid=itemdao.additem(item);
+//                        
+//                        NodeList bidslist = eElement.getElementsByTagName("Bids");
+//			System.out.println("-----------Bids-----------------");
+//                        if(bidslist.item(0).getChildNodes()!=null){
+//                    
+//                                
+//                                int length= bidslist.item(0).getChildNodes().getLength();
+//                                for (int t = 1; t < length-1  ; t=t+2) {
+//                                    
+//                                    System.out.println("-----------Bid-----------------");
+//                                    Bidsbean  bid=new Bidsbean();
+//                                    
+//                                    tokens= bidslist.item(0).getChildNodes().item(t).getChildNodes().item(5).getTextContent().substring(1).toString().split(",");
+//                                    String amount="";
+//                                    for(int j=0;j<tokens.length;j++){
+//                                        amount=amount+tokens[j];
+//                                    }
+//                                    bid.setAmount((int) Double.parseDouble(amount));
+//                                    System.out.println("Amount: " + amount);
+//                                    
+//                                    System.out.println("Bidder: " + bidslist.item(0).getChildNodes().item(t).getChildNodes().item(1).getAttributes().getNamedItem("UserID").getNodeValue());
+//                                    bid.setBidder(bidslist.item(0).getChildNodes().item(t).getChildNodes().item(1).getAttributes().getNamedItem("UserID").getNodeValue());
+//                                    
+//                                    
+//                                    String tim = bidslist.item(0).getChildNodes().item(t).getChildNodes().item(3).getTextContent();
+//                                    DateFormat dformat = new SimpleDateFormat("MMM-dd-yy kk:mm:ss", Locale.ENGLISH);
+//                                    Date Time =  dformat.parse(tim);  
+//                                    System.out.println("Time:   "+Time);
+//                                    bid.setTime(Time);
+//
+//                                    bid.setBid_itemid(itemid);
+//                                    
+//                                    
+//                                    user=new Usersbean();
+//                                    user.setUsername(bidslist.item(0).getChildNodes().item(t).getChildNodes().item(1).getAttributes().getNamedItem("UserID").getNodeValue());
+//                                    user.setPassword("hello");
+//                                    user.setAdm(false);
+//                                    user.setEmail("user@gmail.com");
+//                                    user.setFirstname("User");
+//                                    user.setLastname("Userlast");
+//                                    user.setPhone("6970864146");
+//                                    user.setAddress_info("Athens");
+//                                    user.setPostcode("11744");
+//                                    user.setVatnumber("176125327656");
+//                                    userdao.addUser(user);
+//                                    
+//                                    
+//                                    
+//                                    bidsdao.addbid(bid);
+//                                }
+//                        }    
+//
+//		}
+//	}
+//    } catch (Exception e) {
+//	e.printStackTrace();
+//    }
+//   }
  
 }

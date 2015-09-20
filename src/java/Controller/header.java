@@ -93,6 +93,7 @@ public class header implements Serializable{
    
     public void redirect () throws IOException
     {
+       
        if(!searchSTR.equals("") ) 
         FacesContext.getCurrentInstance().getExternalContext().redirect("/e-auction-2015/faces/searchSTR:"+searchSTR+"_searchCAT:"+searchCAT);
     }

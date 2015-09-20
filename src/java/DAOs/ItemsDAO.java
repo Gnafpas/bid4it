@@ -7,6 +7,7 @@ package DAOs;
 
 import Beans.Itemsbean;
 import DB_Conn.HibernateUtil;
+import static java.lang.System.out;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.Criteria;
@@ -151,7 +152,7 @@ public class ItemsDAO {
            context.execute("PF('server_error').show();");
            e.printStackTrace();
         }
-        return items;
+     return items;
     }
     
     public List getallitems(){
@@ -187,7 +188,7 @@ public class ItemsDAO {
            Criteria cr  = session.createCriteria(Itemsbean.class);
            cr.add(Restrictions.eq("seller", Seller))
                               .setFirstResult(firstRow)
-                              .setMaxResults(rowCount).list();;
+                              .setMaxResults(rowCount).list();
            items=cr.list();
            session.close(); 
         }catch (HibernateException e) {
@@ -227,6 +228,7 @@ public class ItemsDAO {
     
      public List getitemsByCategory (String cat, String name){
         List <Itemsbean> items=null;
+        
         if(cat.equals("")){
             String hql =   " select DISTINCT(i) "
                    +   " from Beans.Itemsbean i, Beans.Item_has_categorybean ihc, Beans.Categoriesbean c "

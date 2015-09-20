@@ -100,8 +100,10 @@
          <td>
             <table border="0" cellspacing="0" cellpadding="0" name="email" aria-required="true" placeholder=" Messages"   id="msg_table">
               <tr>                
-                <td valign="top">
-                   <h:outputText style="width:99%;height:99%;border: none; text-decoration: none;font-size:14px;font-weight: bold"  value="#{messages.message_to_read}" />
+                <td valign="top" width="500px">
+                   <div class="scrollable">
+                    <h:outputLabel style="height:99%;border: none;overflow: auto; text-decoration: none;font-size:10px;"  value="#{messages.message_to_read}" />
+                   </div>
                 </td>
               </tr>
             </table>

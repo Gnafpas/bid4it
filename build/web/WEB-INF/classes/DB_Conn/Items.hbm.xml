@@ -23,5 +23,6 @@
     </property>
     <property column="description" name="description" type="string"/>
     <property column="buy_price" name="buy_price" type="java.lang.Integer"/>
+    <property column="publiced_win" name="publiced_win" type="boolean"/>
   </class>
 </hibernate-mapping>

@@ -27,26 +27,43 @@
     <f:viewParam name="searchCAT" value="#{index.searchCAT}"/>
 </f:metadata>
 <f:event listener="#{index.searchItems()}" type="preRenderView" />
-<f:event listener="#{index.setFirstRow(0)}" type="preRenderView" />
+
 <h:body>
 
 <ui:include src="include/header.xhtml"/>
    <div style="width: 100%;min-width:1200px;position: absolute;text-align: center;">
-      <h:form >
+      
           <table id="index_ptable" align="center" style="margin-bottom: -197px;">
               <tr>
-               <td >Order by
-                    <h:selectOneMenu a:id="Order_by " value="#{index.criteria}">
-                       <f:selectItem itemValue="name" itemLabel="Name" />
-                       <f:selectItem itemValue="currently" itemLabel="Bid Price" />
-                       <f:selectItem itemValue="buy_price" itemLabel="Buy Price" />
-                    </h:selectOneMenu></td>
-                   <td >Max buy price <h:inputText value="#{index.max_buy_price}"/>
+                <td valign="center">
+                    <h:form>
+                        <a style="font-family:Tahoma, Geneva, sans-serif; font-size:12px; font-weight: bold; color:#333333 ;">Order by</a>
+                        <h:selectOneMenu a:id="Order_by " value="#{index.criteria}" >
+                           <f:selectItem itemValue="" itemLabel="-" />
+                           <f:selectItem itemValue="name" itemLabel="Name" />
+                           <f:selectItem itemValue="currently" itemLabel="Bid Price" />
+                           <f:selectItem itemValue="buy_price" itemLabel="Buy Price" />
+                        </h:selectOneMenu>
+                        <h:commandButton a:id="index_paging_arrow_btns"  style="margin-bottom:5px;background:none; border:1px solid #ccc; width:30px; height:20px;font-family:Tahoma, Geneva, sans-serif; font-size:10px;" action="#{index.searchItems()}"  value="Set"/>
+                    </h:form>
                 </td>
-               <td ><h:commandButton a:id="index_paging_arrow_btns"  action="#{index.searchItems()}"  image="img/rightarrow.png"/></td>
-           </tr>
+                <h:form >
+                  <td align="right">
+                      <a style="font-family:Tahoma, Geneva, sans-serif; font-size:12px; font-weight: bold; color:#333333 ;">Max price</a>&#160;&#160;
+                      <p:inputText value="#{index.max_buy_price}" style="width:50px;height:10px;font-size: 12px;"/>
+                  </td>
+                  <td valign="center" align="right" width="40px">
+                      <h:commandButton a:id="index_paging_arrow_btns"  action="#{index.searchItems()}" style="margin-bottom:5px;background:none; border:1px solid #ccc; width:30px; height:20px;font-family:Tahoma, Geneva, sans-serif; font-size:10px;" value="Set"/>
+                  </td>
+                </h:form>
+                <h:form>
+                  <td valign="center" align="left">
+                      <h:commandButton a:id="index_paging_arrow_btns"  action="#{index.setMax_buy_price(-1)}" style="margin-bottom:5px;background:none; border:1px solid #ccc; width:50px; height:20px;font-family:Tahoma, Geneva, sans-serif; font-size:10px;" value="Reset"/>
+                  </td>
+                </h:form>
+              </tr>
           </table>
-      </h:form>
+      
      <table id="index_ptable" align="center">
       <tr>
        <td >
@@ -163,7 +180,7 @@
                          <h:selectOneMenu value="#{index.rowsPerPage}" valueChangeListener="#{index.pageFirst}" onchange="submit()">
                                     <f:selectItem itemValue="1" itemLabel="1" />
                                     <f:selectItem itemValue="2" itemLabel="2" />
-                                    <f:selectItem itemValue="4" itemLabel="4" />
+                                    <f:selectItem itemValue="10" itemLabel="4" />
                                     <f:selectItem itemValue="20" itemLabel="20" />
                                     <f:selectItem itemValue="30" itemLabel="30" />
                                     <f:selectItem itemValue="40" itemLabel="40" />
@@ -175,6 +192,39 @@
          </table>
        </td>
       </tr>
+    <ui:fragment rendered="#{index.recomendeditems.size()>0}" > 
+      <tr>
+               <td align="left" style="border-top: 1px solid #ccc;">
+                   <a style="font-family:Tahoma, Geneva, sans-serif; font-size:16px; font-weight: bold; color:#333333 ;">Recommended Products for You</a><br></br>
+                   <table cellspacing="0" cellpadding="0" >
+                          <tr>
+                             <td width="1" align="center">
+                             </td>
+                              <ui:repeat value="#{index.recomendeditems}" var="recomendeditem">
+                             <td width="90" >
+                                 <table width="250px" height="120px" style="border:none;">
+                                   <tr>
+                                      <td width="120px">
+                                          <a style="width:120px; height:100px; " href="/e-auction-2015/faces/items_itemid=#{recomendeditem.item.itemId}"><img src="#{recomendeditem.imagepath}" width="118" height="98" /></a>
+                                      </td>
+                                      <td  align="left">
+                                          <div style="height:52px;width:130px; overflow:hidden !important;text-overflow: ellipsis;">
+                                              <a id="related_products_btn" href="/e-auction-2015/faces/items_itemid=#{recomendeditem.item.itemId}">#{recomendeditem.item.name}</a>
+                                          </div>
+                                          <a style="font-family:Tahoma, Geneva, sans-serif; font-size:10px; color:#333333 ;">Price:</a>
+                                          <h:outputLabel  value="EUR #{recomendeditem.item.buy_price}" style="font-family:Tahoma, Geneva, sans-serif; font-size:10px; color:#333333 ;font-weight: bold;"/><br></br>
+                                          <a style="font-family:Tahoma, Geneva, sans-serif; font-size:10px; color:#333333 ;">Current Bid:</a>
+                                          <h:outputLabel value="EUR #{recomendeditem.item.currently}" style="font-family:Tahoma, Geneva, sans-serif; font-size:10px; color:#333333 ;font-weight: bold;"/><br></br>
+                                      </td>
+                                   </tr>
+                                 </table>
+                             </td>
+                           </ui:repeat>
+                          </tr>
+                   </table>
+               </td>
+       </tr>
+     </ui:fragment >    
      </table>
     </div>
 <ui:include src="include/footer.xhtml"/> 
