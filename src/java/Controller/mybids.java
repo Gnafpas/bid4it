@@ -193,7 +193,10 @@ public class mybids implements Serializable{
                 {
                     in_item.setHas_image(true);
                     try{
-                        FileOutputStream fos = new FileOutputStream("/Users/George/Desktop/TED/e-auction-2015/web/search_images/"+it.getItemId()+".jpg"); 
+                        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+                        Properties properties = new Properties();
+                        properties.load(classLoader.getResourceAsStream("config.properties"));
+                        FileOutputStream fos = new FileOutputStream(properties.getProperty("application_path")+"/e-auction-2015/web/search_images/"+it.getItemId()+".jpg"); 
                         fos.write(image);
                         fos.close();
                     }catch(Exception e){
